@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Gym en Casa</string>
+
+    <!-- Common -->
+    <string name="action_continue">Continuar</string>
+    <string name="action_save">Guardar</string>
+    <string name="action_cancel">Cancelar</string>
+    <string name="action_delete">Borrar</string>
+    <string name="action_back">Atrás</string>
+    <string name="action_retry">Reintentar</string>
+    <string name="action_close">Cerrar</string>
+    <string name="seconds_short">%1$d s</string>
+    <string name="minutes_short">%1$d min</string>
+    <string name="sets_by_seconds">%1$d × %2$d s</string>
+    <string name="loading">Cargando…</string>
+
+    <!-- Tabs -->
+    <string name="tab_today">Hoy</string>
+    <string name="tab_library">Ejercicios</string>
+    <string name="tab_history">Historial</string>
+    <string name="tab_settings">Ajustes</string>
+
+    <!-- Auth -->
+    <string name="auth_tagline">Entrena en casa con lo que tienes</string>
+    <string name="auth_email">Email</string>
+    <string name="auth_password">Contraseña</string>
+    <string name="auth_sign_in">Entrar</string>
+    <string name="auth_sign_up">Crear cuenta</string>
+    <string name="auth_switch_to_sign_up">¿No tienes cuenta? Regístrate</string>
+    <string name="auth_switch_to_sign_in">¿Ya tienes cuenta? Entra</string>
+    <string name="auth_password_too_short">La contraseña debe tener al menos 6 caracteres</string>
+    <string name="auth_error">No se pudo entrar: %1$s</string>
+    <string name="auth_not_configured">Esta versión no tiene la nube configurada. Puedes usar la app solo en este móvil.</string>
+    <string name="auth_local_mode">Usar sin cuenta (solo en este móvil)</string>
+
+    <!-- Equipment -->
+    <string name="equipment_title">Tu material</string>
+    <string name="equipment_subtitle">Marca lo que tienes en casa. Solo verás ejercicios que puedas hacer.</string>
+    <string name="equipment_gym">Material de entrenamiento</string>
+    <string name="equipment_household">Material de casa</string>
+    <string name="equipment_none_note">Los ejercicios sin material siempre están disponibles.</string>
+    <string name="eq_ninguno">Sin material</string>
+    <string name="eq_gomas">Gomas elásticas</string>
+    <string name="eq_esterilla">Esterilla</string>
+    <string name="eq_mancuerna">Mancuerna (hasta 10 kg)</string>
+    <string name="eq_foam">Rodillo de foam</string>
+    <string name="eq_silla">Silla</string>
+    <string name="eq_pared">Pared</string>
+    <string name="eq_escalon">Escalón</string>
+    <string name="eq_sofa">Sofá</string>
+    <string name="eq_toalla">Toalla</string>
+    <string name="eq_mochila">Mochila</string>
+    <string name="eq_botellas">Botellas de agua</string>
+    <string name="onboarding_name">¿Cómo te llamas?</string>
+    <string name="onboarding_level">Tu nivel</string>
+
+    <!-- Levels / goals / focus -->
+    <string name="level_principiante">Principiante</string>
+    <string name="level_intermedio">Intermedio</string>
+    <string name="level_avanzado">Avanzado</string>
+    <string name="goal_fuerza">Fuerza</string>
+    <string name="goal_cardio">Quemar grasa</string>
+    <string name="goal_tonificar">Tonificar</string>
+    <string name="goal_movilidad">Movilidad</string>
+    <string name="focus_cuerpo_completo">Cuerpo completo</string>
+    <string name="focus_tren_superior">Tren superior</string>
+    <string name="focus_tren_inferior">Tren inferior</string>
+    <string name="focus_core">Core</string>
+    <string name="type_fuerza">Fuerza</string>
+    <string name="type_cardio">Cardio</string>
+    <string name="type_core">Core</string>
+    <string name="type_movilidad">Movilidad</string>
+    <string name="type_recuperacion">Recuperación</string>
+
+    <!-- Home -->
+    <string name="home_greeting">Hola, %1$s</string>
+    <string name="home_greeting_anon">¡A entrenar!</string>
+    <string name="home_how_long">¿Cuánto tiempo tienes hoy?</string>
+    <string name="home_custom_minutes">Otro</string>
+    <string name="home_custom_minutes_title">Minutos de entrenamiento</string>
+    <string name="home_goal">Objetivo</string>
+    <string name="home_focus">Zona</string>
+    <string name="home_generate_ai">Generar con IA</string>
+    <string name="home_generate_ai_desc">La IA elige los ejercicios según tu objetivo</string>
+    <string name="home_choose_manual">Elegir manualmente</string>
+    <string name="home_choose_manual_desc">Te sugerimos ejercicios y tú decides</string>
+    <string name="home_my_routines">Mis rutinas</string>
+    <string name="home_available_count">%1$d ejercicios disponibles con tu material</string>
+    <string name="home_ai_working">La IA está preparando tu sesión…</string>
+    <string name="home_ai_fallback">La IA no respondió; hemos preparado una sesión equilibrada automáticamente.</string>
+    <string name="home_no_exercises">No hay ejercicios disponibles con tu material.</string>
+    <string name="ai_title_default">Sesión de %1$s</string>
+
+    <!-- Manual selection -->
+    <string name="select_title">Elige tus ejercicios</string>
+    <string name="select_suggested">Sugeridos para %1$d min</string>
+    <string name="select_reshuffle">Otra propuesta</string>
+    <string name="select_add_more">Añadir de la biblioteca</string>
+    <string name="select_time_estimate">%1$d / %2$d min</string>
+    <string name="select_selected_count">%1$d seleccionados</string>
+    <string name="select_continue">Ver plan</string>
+    <string name="select_empty">Selecciona al menos un ejercicio</string>
+    <string name="manual_title">Sesión personalizada</string>
+
+    <!-- Library -->
+    <string name="library_title">Ejercicios</string>
+    <string name="library_search">Buscar ejercicio</string>
+    <string name="library_show_unavailable">Ver también no disponibles</string>
+    <string name="library_missing">Falta: %1$s</string>
+    <string name="library_all">Todos</string>
+    <string name="library_empty">No hay ejercicios con estos filtros</string>
+    <string name="exercise_muscles">Músculos: %1$s</string>
+    <string name="exercise_equipment">Material: %1$s</string>
+    <string name="exercise_unilateral">Unilateral: haz un lado y luego el otro</string>
+    <string name="exercise_difficulty">Dificultad %1$d/3</string>
+    <string name="video_unavailable">Vídeo no disponible</string>
+
+    <!-- Plan -->
+    <string name="plan_title">Plan del día</string>
+    <string name="plan_total">Duración estimada: %1$d min (objetivo %2$d)</string>
+    <string name="plan_rest">Descanso entre series: %1$d s</string>
+    <string name="plan_over_time">Te pasas %1$d min del tiempo elegido</string>
+    <string name="plan_start">Iniciar sesión</string>
+    <string name="plan_save_routine">Guardar como rutina</string>
+    <string name="plan_routine_name">Nombre de la rutina</string>
+    <string name="plan_routine_saved">Rutina guardada</string>
+    <string name="plan_sets">Series</string>
+    <string name="plan_seconds">Segundos</string>
+    <string name="plan_remove">Quitar</string>
+    <string name="plan_move_up">Subir</string>
+    <string name="plan_move_down">Bajar</string>
+    <string name="plan_empty">El plan está vacío</string>
+
+    <!-- Session -->
+    <string name="session_get_ready">Prepárate</string>
+    <string name="session_work">¡Dale!</string>
+    <string name="session_rest">Descanso</string>
+    <string name="session_set_of">Serie %1$d de %2$d</string>
+    <string name="session_next_set">Próxima: serie %1$d de %2$d</string>
+    <string name="session_exercise_of">Ejercicio %1$d de %2$d</string>
+    <string name="session_exercise_done">¡Ejercicio completado!</string>
+    <string name="session_next_up">Siguiente: %1$s</string>
+    <string name="session_start_next">Empezar siguiente ejercicio</string>
+    <string name="session_pause">Pausa</string>
+    <string name="session_resume">Seguir</string>
+    <string name="session_skip">Saltar</string>
+    <string name="session_paused">En pausa</string>
+    <string name="session_quit_title">¿Terminar la sesión?</string>
+    <string name="session_quit_text">Se guardarán las series que ya has completado.</string>
+    <string name="session_quit_confirm">Terminar</string>
+    <string name="session_keep_going">Seguir entrenando</string>
+
+    <!-- Summary -->
+    <string name="summary_title">¡Sesión terminada!</string>
+    <string name="summary_incomplete">Sesión guardada</string>
+    <string name="summary_stats">%1$d series · %2$d min</string>
+    <string name="summary_exercises">Ejercicios realizados</string>
+    <string name="summary_done">Volver al inicio</string>
+
+    <!-- History -->
+    <string name="history_title">Historial</string>
+    <string name="history_empty">Aún no has entrenado. ¡Hoy es un buen día!</string>
+    <plurals name="history_week">
+        <item quantity="one">%1$d sesión esta semana</item>
+        <item quantity="other">%1$d sesiones esta semana</item>
+    </plurals>
+    <string name="history_pending_sync">Pendiente de sincronizar</string>
+    <string name="history_mode_ai">IA</string>
+    <string name="history_mode_manual">Manual</string>
+
+    <!-- Routines -->
+    <string name="routines_title">Mis rutinas</string>
+    <string name="routines_empty">Guarda un plan como rutina para repetirlo cuando quieras.</string>
+    <string name="routines_use">Usar</string>
+    <string name="routines_exercises">%1$d ejercicios · %2$d min</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Ajustes</string>
+    <string name="settings_training">Entrenamiento</string>
+    <string name="settings_rest">Descanso entre series</string>
+    <string name="settings_rest_desc">Se aplica a todos tus entrenamientos</string>
+    <string name="settings_level">Nivel</string>
+    <string name="settings_equipment">Mi material</string>
+    <string name="settings_equipment_count">%1$d elementos</string>
+    <string name="settings_sound">Pitido al terminar cada serie</string>
+    <string name="settings_vibration">Vibración</string>
+    <string name="settings_appearance">Apariencia</string>
+    <string name="settings_dark_theme">Tema oscuro</string>
+    <string name="settings_account">Cuenta</string>
+    <string name="settings_name">Nombre</string>
+    <string name="settings_sign_out">Cerrar sesión</string>
+    <string name="settings_local_mode">Modo local (sin cuenta)</string>
+    <string name="settings_app">Aplicación</string>
+    <string name="settings_version">Versión %1$s</string>
+    <string name="settings_check_update">Buscar actualizaciones</string>
+    <string name="settings_up_to_date">Tienes la última versión</string>
+    <string name="settings_updates_not_configured">Actualizaciones no configuradas en esta versión</string>
+
+    <!-- Updates -->
+    <string name="update_available_title">Nueva versión %1$s</string>
+    <string name="update_available_text">Hay una actualización disponible. Se descargará e instalará encima, sin perder tus datos.</string>
+    <string name="update_now">Actualizar</string>
+    <string name="update_later">Más tarde</string>
+    <string name="update_downloading">Descargando… %1$d%%</string>
+    <string name="update_permission">Permite instalar apps desde Gym en Casa y vuelve a pulsar Actualizar.</string>
+    <string name="update_error">No se pudo descargar: %1$s</string>
+</resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Red dumbbell on the 108dp adaptive-icon canvas (safe zone: central 66dp). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- bar -->
+    <path android:fillColor="#E53935" android:pathData="M40,51h28v6h-28z" />
+    <!-- left plates -->
+    <path android:fillColor="#E53935" android:pathData="M33,40h7v28h-7z" />
+    <path android:fillColor="#B71C1C" android:pathData="M27,44h6v20h-6z" />
+    <!-- right plates -->
+    <path android:fillColor="#E53935" android:pathData="M68,40h7v28h-7z" />
+    <path android:fillColor="#B71C1C" android:pathData="M75,44h6v20h-6z" />
+</vector>

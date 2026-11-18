@@ -1,0 +1,1086 @@
+[
+ {
+  "slug": "sentadilla",
+  "name": "Sentadilla",
+  "description": "Pies a la anchura de los hombros. Baja llevando la cadera atrás como si te sentaras, con la espalda recta, y sube empujando el suelo.",
+  "muscle_groups": [
+   "piernas",
+   "gluteos"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "fuerza",
+  "difficulty": 1,
+  "unilateral": false,
+  "video_path": "videos/sentadilla.mp4",
+  "thumb_path": "thumbs/sentadilla.webp"
+ },
+ {
+  "slug": "zancada",
+  "name": "Zancada",
+  "description": "Da un paso al frente y baja hasta que ambas rodillas formen 90°. La rodilla delantera no pasa de la punta del pie. Vuelve y cambia de pierna.",
+  "muscle_groups": [
+   "piernas",
+   "gluteos"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "fuerza",
+  "difficulty": 1,
+  "unilateral": true,
+  "video_path": "videos/zancada.mp4",
+  "thumb_path": "thumbs/zancada.webp"
+ },
+ {
+  "slug": "sentadilla_salto",
+  "name": "Sentadilla con salto",
+  "description": "Baja a sentadilla y salta con fuerza estirando todo el cuerpo. Aterriza suave flexionando las rodillas.",
+  "muscle_groups": [
+   "piernas",
+   "gluteos"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "cardio",
+  "difficulty": 2,
+  "unilateral": false,
+  "video_path": "videos/sentadilla_salto.mp4",
+  "thumb_path": "thumbs/sentadilla_salto.webp"
+ },
+ {
+  "slug": "elevacion_talones",
+  "name": "Elevación de talones",
+  "description": "De pie, sube sobre las puntas de los pies apretando los gemelos y baja despacio.",
+  "muscle_groups": [
+   "gemelos"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "fuerza",
+  "difficulty": 1,
+  "unilateral": false,
+  "video_path": "videos/elevacion_talones.mp4",
+  "thumb_path": "thumbs/elevacion_talones.webp"
+ },
+ {
+  "slug": "flexiones",
+  "name": "Flexiones",
+  "description": "Manos bajo los hombros y cuerpo recto de cabeza a talones. Baja el pecho hacia el suelo y empuja para subir.",
+  "muscle_groups": [
+   "pecho",
+   "triceps",
+   "hombros"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "fuerza",
+  "difficulty": 2,
+  "unilateral": false,
+  "video_path": "videos/flexiones.mp4",
+  "thumb_path": "thumbs/flexiones.webp"
+ },
+ {
+  "slug": "flexiones_rodillas",
+  "name": "Flexiones con rodillas",
+  "description": "Como una flexión, pero con las rodillas apoyadas. Mantén la cadera alineada con el tronco.",
+  "muscle_groups": [
+   "pecho",
+   "triceps"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "fuerza",
+  "difficulty": 1,
+  "unilateral": false,
+  "video_path": "videos/flexiones_rodillas.mp4",
+  "thumb_path": "thumbs/flexiones_rodillas.webp"
+ },
+ {
+  "slug": "pike_pushup",
+  "name": "Flexión pica",
+  "description": "Cadera arriba formando una V invertida. Flexiona los codos llevando la cabeza hacia el suelo, delante de las manos.",
+  "muscle_groups": [
+   "hombros",
+   "triceps"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "fuerza",
+  "difficulty": 3,
+  "unilateral": false,
+  "video_path": "videos/pike_pushup.mp4",
+  "thumb_path": "thumbs/pike_pushup.webp"
+ },
+ {
+  "slug": "puente_gluteo",
+  "name": "Puente de glúteo",
+  "description": "Tumbado boca arriba con las rodillas flexionadas. Sube la cadera apretando los glúteos y baja controlando.",
+  "muscle_groups": [
+   "gluteos",
+   "isquios"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "fuerza",
+  "difficulty": 1,
+  "unilateral": false,
+  "video_path": "videos/puente_gluteo.mp4",
+  "thumb_path": "thumbs/puente_gluteo.webp"
+ },
+ {
+  "slug": "plancha",
+  "name": "Plancha",
+  "description": "Apoya antebrazos y puntas de los pies. Cuerpo recto, abdomen y glúteos apretados. Respira y aguanta.",
+  "muscle_groups": [
+   "core",
+   "hombros"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "core",
+  "difficulty": 1,
+  "unilateral": false,
+  "video_path": "videos/plancha.mp4",
+  "thumb_path": "thumbs/plancha.webp"
+ },
+ {
+  "slug": "plancha_lateral",
+  "name": "Plancha lateral",
+  "description": "De lado, apoya el antebrazo bajo el hombro y eleva la cadera hasta alinear el cuerpo. Baja y sube la cadera despacio.",
+  "muscle_groups": [
+   "oblicuos",
+   "core"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "core",
+  "difficulty": 2,
+  "unilateral": true,
+  "video_path": "videos/plancha_lateral.mp4",
+  "thumb_path": "thumbs/plancha_lateral.webp"
+ },
+ {
+  "slug": "crunch",
+  "name": "Crunch abdominal",
+  "description": "Tumbado con rodillas flexionadas y manos tras la cabeza. Despega los hombros del suelo contrayendo el abdomen, sin tirar del cuello.",
+  "muscle_groups": [
+   "abdominales",
+   "core"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "core",
+  "difficulty": 1,
+  "unilateral": false,
+  "video_path": "videos/crunch.mp4",
+  "thumb_path": "thumbs/crunch.webp"
+ },
+ {
+  "slug": "bicicleta",
+  "name": "Bicicleta abdominal",
+  "description": "Boca arriba con los hombros despegados. Lleva una rodilla al pecho mientras estiras la otra pierna, alternando como si pedalearas.",
+  "muscle_groups": [
+   "oblicuos",
+   "abdominales"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "core",
+  "difficulty": 2,
+  "unilateral": false,
+  "video_path": "videos/bicicleta.mp4",
+  "thumb_path": "thumbs/bicicleta.webp"
+ },
+ {
+  "slug": "dead_bug",
+  "name": "Bicho muerto",
+  "description": "Boca arriba, brazos al techo y rodillas a 90°. Estira un brazo hacia atrás y la pierna contraria hacia delante sin despegar la zona lumbar.",
+  "muscle_groups": [
+   "core",
+   "abdominales"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "core",
+  "difficulty": 1,
+  "unilateral": false,
+  "video_path": "videos/dead_bug.mp4",
+  "thumb_path": "thumbs/dead_bug.webp"
+ },
+ {
+  "slug": "bird_dog",
+  "name": "Bird dog",
+  "description": "A cuatro patas, estira un brazo al frente y la pierna contraria atrás, manteniendo la espalda plana. Alterna lados.",
+  "muscle_groups": [
+   "lumbar",
+   "core",
+   "gluteos"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "core",
+  "difficulty": 1,
+  "unilateral": false,
+  "video_path": "videos/bird_dog.mp4",
+  "thumb_path": "thumbs/bird_dog.webp"
+ },
+ {
+  "slug": "superman",
+  "name": "Superman",
+  "description": "Tumbado boca abajo con brazos estirados al frente. Eleva a la vez brazos, pecho y piernas, aguanta un instante y baja.",
+  "muscle_groups": [
+   "lumbar",
+   "gluteos"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "core",
+  "difficulty": 1,
+  "unilateral": false,
+  "video_path": "videos/superman.mp4",
+  "thumb_path": "thumbs/superman.webp"
+ },
+ {
+  "slug": "jumping_jacks",
+  "name": "Jumping jacks",
+  "description": "Salta abriendo piernas y subiendo los brazos por encima de la cabeza; vuelve a cerrar con otro salto. Ritmo constante.",
+  "muscle_groups": [
+   "cardio",
+   "cuerpo_completo"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "cardio",
+  "difficulty": 1,
+  "unilateral": false,
+  "video_path": "videos/jumping_jacks.mp4",
+  "thumb_path": "thumbs/jumping_jacks.webp"
+ },
+ {
+  "slug": "mountain_climbers",
+  "name": "Escaladores",
+  "description": "En plancha alta, lleva las rodillas al pecho alternando rápido, como si corrieras sin despegar las manos del suelo.",
+  "muscle_groups": [
+   "cardio",
+   "core"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "cardio",
+  "difficulty": 2,
+  "unilateral": false,
+  "video_path": "videos/mountain_climbers.mp4",
+  "thumb_path": "thumbs/mountain_climbers.webp"
+ },
+ {
+  "slug": "burpee",
+  "name": "Burpee",
+  "description": "Agáchate, apoya las manos, lanza los pies atrás a plancha, recógelos y salta con los brazos arriba.",
+  "muscle_groups": [
+   "cardio",
+   "cuerpo_completo"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "cardio",
+  "difficulty": 3,
+  "unilateral": false,
+  "video_path": "videos/burpee.mp4",
+  "thumb_path": "thumbs/burpee.webp"
+ },
+ {
+  "slug": "rodillas_al_pecho",
+  "name": "Rodillas arriba",
+  "description": "Corre en el sitio subiendo las rodillas a la altura de la cadera y moviendo los brazos.",
+  "muscle_groups": [
+   "cardio",
+   "piernas"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "cardio",
+  "difficulty": 1,
+  "unilateral": false,
+  "video_path": "videos/rodillas_al_pecho.mp4",
+  "thumb_path": "thumbs/rodillas_al_pecho.webp"
+ },
+ {
+  "slug": "skater",
+  "name": "Saltos de patinador",
+  "description": "Salta lateralmente de una pierna a la otra, cruzando la pierna libre por detrás y balanceando los brazos.",
+  "muscle_groups": [
+   "cardio",
+   "piernas",
+   "gluteos"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "cardio",
+  "difficulty": 2,
+  "unilateral": false,
+  "video_path": "videos/skater.mp4",
+  "thumb_path": "thumbs/skater.webp"
+ },
+ {
+  "slug": "boxeo_sombra",
+  "name": "Boxeo de sombra",
+  "description": "En guardia, con las rodillas algo flexionadas, lanza golpes rectos alternando brazos y vuelve rápido a la guardia.",
+  "muscle_groups": [
+   "cardio",
+   "hombros",
+   "brazos"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "cardio",
+  "difficulty": 1,
+  "unilateral": false,
+  "video_path": "videos/boxeo_sombra.mp4",
+  "thumb_path": "thumbs/boxeo_sombra.webp"
+ },
+ {
+  "slug": "gato_camello",
+  "name": "Gato-camello",
+  "description": "A cuatro patas, redondea la espalda hacia el techo metiendo la barbilla y luego húndela mirando al frente. Movimiento lento.",
+  "muscle_groups": [
+   "espalda",
+   "lumbar"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "movilidad",
+  "difficulty": 1,
+  "unilateral": false,
+  "video_path": "videos/gato_camello.mp4",
+  "thumb_path": "thumbs/gato_camello.webp"
+ },
+ {
+  "slug": "estiramiento_isquios",
+  "name": "Estiramiento de isquios",
+  "description": "De pie, inclina el tronco hacia delante con la espalda larga y deja caer los brazos hacia los pies. Respira y suelta.",
+  "muscle_groups": [
+   "isquios",
+   "lumbar"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "movilidad",
+  "difficulty": 1,
+  "unilateral": false,
+  "video_path": "videos/estiramiento_isquios.mp4",
+  "thumb_path": "thumbs/estiramiento_isquios.webp"
+ },
+ {
+  "slug": "circulos_brazos",
+  "name": "Círculos de brazos",
+  "description": "De pie, dibuja círculos amplios con los brazos estirados para movilizar los hombros.",
+  "muscle_groups": [
+   "hombros"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "movilidad",
+  "difficulty": 1,
+  "unilateral": false,
+  "video_path": "videos/circulos_brazos.mp4",
+  "thumb_path": "thumbs/circulos_brazos.webp"
+ },
+ {
+  "slug": "estocada_flexor",
+  "name": "Estiramiento de flexor de cadera",
+  "description": "Rodilla trasera en el suelo y pie delantero apoyado. Lleva la cadera suavemente hacia delante manteniendo el tronco erguido.",
+  "muscle_groups": [
+   "piernas",
+   "gluteos"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "movilidad",
+  "difficulty": 1,
+  "unilateral": true,
+  "video_path": "videos/estocada_flexor.mp4",
+  "thumb_path": "thumbs/estocada_flexor.webp"
+ },
+ {
+  "slug": "postura_nino",
+  "name": "Postura del niño",
+  "description": "De rodillas, siéntate sobre los talones e inclina el tronco hacia delante estirando los brazos en el suelo. Respira hondo.",
+  "muscle_groups": [
+   "espalda",
+   "lumbar"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "movilidad",
+  "difficulty": 1,
+  "unilateral": false,
+  "video_path": "videos/postura_nino.mp4",
+  "thumb_path": "thumbs/postura_nino.webp"
+ },
+ {
+  "slug": "fondos_silla",
+  "name": "Fondos de tríceps en silla",
+  "description": "Manos en el borde de la silla detrás de ti. Baja flexionando los codos hacia atrás y sube estirando los brazos.",
+  "muscle_groups": [
+   "triceps",
+   "hombros"
+  ],
+  "equipment": [
+   "silla"
+  ],
+  "type": "fuerza",
+  "difficulty": 2,
+  "unilateral": false,
+  "video_path": "videos/fondos_silla.mp4",
+  "thumb_path": "thumbs/fondos_silla.webp"
+ },
+ {
+  "slug": "sentadilla_bulgara",
+  "name": "Sentadilla búlgara",
+  "description": "Apoya el empeine del pie trasero en una silla. Baja la rodilla trasera hacia el suelo con el tronco firme y sube con la pierna delantera.",
+  "muscle_groups": [
+   "piernas",
+   "gluteos"
+  ],
+  "equipment": [
+   "silla"
+  ],
+  "type": "fuerza",
+  "difficulty": 3,
+  "unilateral": true,
+  "video_path": "videos/sentadilla_bulgara.mp4",
+  "thumb_path": "thumbs/sentadilla_bulgara.webp"
+ },
+ {
+  "slug": "flexiones_inclinadas",
+  "name": "Flexiones inclinadas en silla",
+  "description": "Manos en el asiento de una silla estable y cuerpo recto. Baja el pecho hacia el borde y empuja. Más fácil que en el suelo.",
+  "muscle_groups": [
+   "pecho",
+   "triceps"
+  ],
+  "equipment": [
+   "silla"
+  ],
+  "type": "fuerza",
+  "difficulty": 1,
+  "unilateral": false,
+  "video_path": "videos/flexiones_inclinadas.mp4",
+  "thumb_path": "thumbs/flexiones_inclinadas.webp"
+ },
+ {
+  "slug": "flexiones_declinadas",
+  "name": "Flexiones declinadas",
+  "description": "Pies sobre una silla y manos en el suelo. Cuerpo recto; baja el pecho y empuja. Trabaja más el pecho alto y los hombros.",
+  "muscle_groups": [
+   "pecho",
+   "hombros",
+   "triceps"
+  ],
+  "equipment": [
+   "silla"
+  ],
+  "type": "fuerza",
+  "difficulty": 3,
+  "unilateral": false,
+  "video_path": "videos/flexiones_declinadas.mp4",
+  "thumb_path": "thumbs/flexiones_declinadas.webp"
+ },
+ {
+  "slug": "sentadilla_silla",
+  "name": "Sentarse y levantarse de la silla",
+  "description": "Siéntate en la silla de forma controlada y levántate sin impulso, empujando con las piernas.",
+  "muscle_groups": [
+   "piernas",
+   "gluteos"
+  ],
+  "equipment": [
+   "silla"
+  ],
+  "type": "fuerza",
+  "difficulty": 1,
+  "unilateral": false,
+  "video_path": "videos/sentadilla_silla.mp4",
+  "thumb_path": "thumbs/sentadilla_silla.webp"
+ },
+ {
+  "slug": "sentadilla_pared",
+  "name": "Sentadilla isométrica en pared",
+  "description": "Espalda apoyada en la pared y rodillas a 90°, como sentado en una silla invisible. Aguanta respirando.",
+  "muscle_groups": [
+   "cuadriceps",
+   "gluteos"
+  ],
+  "equipment": [
+   "pared"
+  ],
+  "type": "fuerza",
+  "difficulty": 2,
+  "unilateral": false,
+  "video_path": "videos/sentadilla_pared.mp4",
+  "thumb_path": "thumbs/sentadilla_pared.webp"
+ },
+ {
+  "slug": "flexiones_pared",
+  "name": "Flexiones en pared",
+  "description": "De pie frente a la pared, manos a la altura del pecho. Inclínate hacia la pared flexionando los codos y empuja para volver.",
+  "muscle_groups": [
+   "pecho",
+   "triceps"
+  ],
+  "equipment": [
+   "pared"
+  ],
+  "type": "fuerza",
+  "difficulty": 1,
+  "unilateral": false,
+  "video_path": "videos/flexiones_pared.mp4",
+  "thumb_path": "thumbs/flexiones_pared.webp"
+ },
+ {
+  "slug": "step_up",
+  "name": "Subida al escalón",
+  "description": "Sube a un escalón o banco estable empujando con la pierna de arriba y eleva la rodilla contraria. Baja controlando.",
+  "muscle_groups": [
+   "piernas",
+   "gluteos"
+  ],
+  "equipment": [
+   "escalon"
+  ],
+  "type": "fuerza",
+  "difficulty": 1,
+  "unilateral": true,
+  "video_path": "videos/step_up.mp4",
+  "thumb_path": "thumbs/step_up.webp"
+ },
+ {
+  "slug": "elevacion_talones_escalon",
+  "name": "Elevación de talones en escalón",
+  "description": "Con la parte delantera de los pies en el borde de un escalón, deja bajar los talones y sube todo lo que puedas.",
+  "muscle_groups": [
+   "gemelos"
+  ],
+  "equipment": [
+   "escalon"
+  ],
+  "type": "fuerza",
+  "difficulty": 2,
+  "unilateral": false,
+  "video_path": "videos/elevacion_talones_escalon.mp4",
+  "thumb_path": "thumbs/elevacion_talones_escalon.webp"
+ },
+ {
+  "slug": "hip_thrust_sofa",
+  "name": "Hip thrust en sofá",
+  "description": "Apoya la parte alta de la espalda en el borde del sofá, pies en el suelo. Sube la cadera hasta alinear tronco y muslos y aprieta glúteos.",
+  "muscle_groups": [
+   "gluteos",
+   "isquios"
+  ],
+  "equipment": [
+   "sofa"
+  ],
+  "type": "fuerza",
+  "difficulty": 2,
+  "unilateral": false,
+  "video_path": "videos/hip_thrust_sofa.mp4",
+  "thumb_path": "thumbs/hip_thrust_sofa.webp"
+ },
+ {
+  "slug": "escaladores_toalla",
+  "name": "Escaladores deslizantes con toalla",
+  "description": "En plancha alta con los pies sobre una toalla en suelo liso. Desliza las rodillas al pecho alternando, sin levantar los pies.",
+  "muscle_groups": [
+   "core",
+   "cardio"
+  ],
+  "equipment": [
+   "toalla"
+  ],
+  "type": "cardio",
+  "difficulty": 2,
+  "unilateral": false,
+  "video_path": "videos/escaladores_toalla.mp4",
+  "thumb_path": "thumbs/escaladores_toalla.webp"
+ },
+ {
+  "slug": "good_morning_mochila",
+  "name": "Buenos días con mochila",
+  "description": "Mochila cargada a la espalda y manos tras la cabeza. Inclina el tronco llevando la cadera atrás con la espalda recta y vuelve.",
+  "muscle_groups": [
+   "isquios",
+   "lumbar",
+   "gluteos"
+  ],
+  "equipment": [
+   "mochila"
+  ],
+  "type": "fuerza",
+  "difficulty": 2,
+  "unilateral": false,
+  "video_path": "videos/good_morning_mochila.mp4",
+  "thumb_path": "thumbs/good_morning_mochila.webp"
+ },
+ {
+  "slug": "remo_mochila",
+  "name": "Remo con mochila",
+  "description": "Inclina el tronco con la espalda recta sujetando la mochila. Llévala hacia el abdomen juntando las escápulas y baja despacio.",
+  "muscle_groups": [
+   "espalda",
+   "biceps"
+  ],
+  "equipment": [
+   "mochila"
+  ],
+  "type": "fuerza",
+  "difficulty": 1,
+  "unilateral": false,
+  "video_path": "videos/remo_mochila.mp4",
+  "thumb_path": "thumbs/remo_mochila.webp"
+ },
+ {
+  "slug": "curl_botellas",
+  "name": "Curl de bíceps con botellas",
+  "description": "De pie con una botella en cada mano y codos pegados al cuerpo. Flexiona los codos subiendo las botellas y baja controlando.",
+  "muscle_groups": [
+   "biceps"
+  ],
+  "equipment": [
+   "botellas"
+  ],
+  "type": "fuerza",
+  "difficulty": 1,
+  "unilateral": false,
+  "video_path": "videos/curl_botellas.mp4",
+  "thumb_path": "thumbs/curl_botellas.webp"
+ },
+ {
+  "slug": "elevaciones_laterales_botellas",
+  "name": "Elevaciones laterales con botellas",
+  "description": "De pie, sube los brazos hacia los lados hasta la altura de los hombros con los codos ligeramente flexionados.",
+  "muscle_groups": [
+   "hombros"
+  ],
+  "equipment": [
+   "botellas"
+  ],
+  "type": "fuerza",
+  "difficulty": 1,
+  "unilateral": false,
+  "video_path": "videos/elevaciones_laterales_botellas.mp4",
+  "thumb_path": "thumbs/elevaciones_laterales_botellas.webp"
+ },
+ {
+  "slug": "remo_goma",
+  "name": "Remo sentado con goma",
+  "description": "Sentado con las piernas estiradas y la goma en los pies. Tira de ella llevando los codos atrás y juntando las escápulas.",
+  "muscle_groups": [
+   "espalda",
+   "biceps"
+  ],
+  "equipment": [
+   "gomas"
+  ],
+  "type": "fuerza",
+  "difficulty": 1,
+  "unilateral": false,
+  "video_path": "videos/remo_goma.mp4",
+  "thumb_path": "thumbs/remo_goma.webp"
+ },
+ {
+  "slug": "press_pecho_goma",
+  "name": "Press de pecho con goma",
+  "description": "Pasa la goma por la espalda a la altura de las axilas y empuja con ambas manos al frente hasta estirar los brazos.",
+  "muscle_groups": [
+   "pecho",
+   "triceps"
+  ],
+  "equipment": [
+   "gomas"
+  ],
+  "type": "fuerza",
+  "difficulty": 1,
+  "unilateral": false,
+  "video_path": "videos/press_pecho_goma.mp4",
+  "thumb_path": "thumbs/press_pecho_goma.webp"
+ },
+ {
+  "slug": "face_pull_goma",
+  "name": "Face pull con goma",
+  "description": "Goma anclada a la altura de la cara. Tira hacia tu frente separando las manos y con los codos altos.",
+  "muscle_groups": [
+   "hombros",
+   "espalda"
+  ],
+  "equipment": [
+   "gomas"
+  ],
+  "type": "fuerza",
+  "difficulty": 2,
+  "unilateral": false,
+  "video_path": "videos/face_pull_goma.mp4",
+  "thumb_path": "thumbs/face_pull_goma.webp"
+ },
+ {
+  "slug": "pull_apart_goma",
+  "name": "Aperturas con goma",
+  "description": "Brazos al frente sujetando la goma. Ábrelos hacia los lados estirando la goma hasta formar una T y vuelve despacio.",
+  "muscle_groups": [
+   "espalda",
+   "hombros"
+  ],
+  "equipment": [
+   "gomas"
+  ],
+  "type": "fuerza",
+  "difficulty": 1,
+  "unilateral": false,
+  "video_path": "videos/pull_apart_goma.mp4",
+  "thumb_path": "thumbs/pull_apart_goma.webp"
+ },
+ {
+  "slug": "curl_goma",
+  "name": "Curl de bíceps con goma",
+  "description": "Pisa la goma y sujeta los extremos. Flexiona los codos sin moverlos del costado y baja controlando la tensión.",
+  "muscle_groups": [
+   "biceps"
+  ],
+  "equipment": [
+   "gomas"
+  ],
+  "type": "fuerza",
+  "difficulty": 1,
+  "unilateral": false,
+  "video_path": "videos/curl_goma.mp4",
+  "thumb_path": "thumbs/curl_goma.webp"
+ },
+ {
+  "slug": "extension_triceps_goma",
+  "name": "Extensión de tríceps con goma",
+  "description": "Pisa la goma con el pie de atrás y sujétala detrás de la cabeza. Estira los brazos hacia el techo y baja doblando los codos.",
+  "muscle_groups": [
+   "triceps"
+  ],
+  "equipment": [
+   "gomas"
+  ],
+  "type": "fuerza",
+  "difficulty": 2,
+  "unilateral": false,
+  "video_path": "videos/extension_triceps_goma.mp4",
+  "thumb_path": "thumbs/extension_triceps_goma.webp"
+ },
+ {
+  "slug": "sentadilla_goma",
+  "name": "Sentadilla con goma",
+  "description": "Pisa la goma y sujétala a la altura de los hombros. Haz una sentadilla profunda manteniendo la tensión.",
+  "muscle_groups": [
+   "piernas",
+   "gluteos"
+  ],
+  "equipment": [
+   "gomas"
+  ],
+  "type": "fuerza",
+  "difficulty": 2,
+  "unilateral": false,
+  "video_path": "videos/sentadilla_goma.mp4",
+  "thumb_path": "thumbs/sentadilla_goma.webp"
+ },
+ {
+  "slug": "patada_gluteo_goma",
+  "name": "Patada de glúteo con goma",
+  "description": "A cuatro patas con la goma entre la mano y el pie. Empuja la pierna hacia atrás y arriba apretando el glúteo, sin arquear la espalda.",
+  "muscle_groups": [
+   "gluteos"
+  ],
+  "equipment": [
+   "gomas"
+  ],
+  "type": "fuerza",
+  "difficulty": 1,
+  "unilateral": true,
+  "video_path": "videos/patada_gluteo_goma.mp4",
+  "thumb_path": "thumbs/patada_gluteo_goma.webp"
+ },
+ {
+  "slug": "monster_walk_goma",
+  "name": "Pasos laterales con goma",
+  "description": "Goma alrededor de las rodillas y semisentadilla. Da pasos laterales cortos manteniendo la tensión y las rodillas hacia fuera.",
+  "muscle_groups": [
+   "gluteos",
+   "aductores"
+  ],
+  "equipment": [
+   "gomas"
+  ],
+  "type": "fuerza",
+  "difficulty": 1,
+  "unilateral": false,
+  "video_path": "videos/monster_walk_goma.mp4",
+  "thumb_path": "thumbs/monster_walk_goma.webp"
+ },
+ {
+  "slug": "goblet_squat",
+  "name": "Sentadilla goblet",
+  "description": "Sujeta la mancuerna vertical junto al pecho. Baja a sentadilla con los codos entre las rodillas y sube empujando con los talones.",
+  "muscle_groups": [
+   "piernas",
+   "gluteos"
+  ],
+  "equipment": [
+   "mancuerna"
+  ],
+  "type": "fuerza",
+  "difficulty": 2,
+  "unilateral": false,
+  "video_path": "videos/goblet_squat.mp4",
+  "thumb_path": "thumbs/goblet_squat.webp"
+ },
+ {
+  "slug": "peso_muerto_rumano",
+  "name": "Peso muerto rumano",
+  "description": "Mancuerna en las manos frente a los muslos. Lleva la cadera atrás bajando el peso pegado a las piernas, espalda recta, y sube apretando glúteos.",
+  "muscle_groups": [
+   "isquios",
+   "gluteos",
+   "lumbar"
+  ],
+  "equipment": [
+   "mancuerna"
+  ],
+  "type": "fuerza",
+  "difficulty": 2,
+  "unilateral": false,
+  "video_path": "videos/peso_muerto_rumano.mp4",
+  "thumb_path": "thumbs/peso_muerto_rumano.webp"
+ },
+ {
+  "slug": "remo_mancuerna",
+  "name": "Remo a una mano",
+  "description": "Pie atrás, mano libre apoyada en la rodilla delantera y espalda recta. Tira de la mancuerna hacia la cadera con el codo pegado.",
+  "muscle_groups": [
+   "espalda",
+   "biceps"
+  ],
+  "equipment": [
+   "mancuerna"
+  ],
+  "type": "fuerza",
+  "difficulty": 2,
+  "unilateral": true,
+  "video_path": "videos/remo_mancuerna.mp4",
+  "thumb_path": "thumbs/remo_mancuerna.webp"
+ },
+ {
+  "slug": "press_hombro_mancuerna",
+  "name": "Press de hombro a una mano",
+  "description": "De pie, mancuerna a la altura del hombro. Empújala hacia el techo hasta estirar el brazo sin arquear la espalda y baja controlando.",
+  "muscle_groups": [
+   "hombros",
+   "triceps"
+  ],
+  "equipment": [
+   "mancuerna"
+  ],
+  "type": "fuerza",
+  "difficulty": 2,
+  "unilateral": true,
+  "video_path": "videos/press_hombro_mancuerna.mp4",
+  "thumb_path": "thumbs/press_hombro_mancuerna.webp"
+ },
+ {
+  "slug": "swing_mancuerna",
+  "name": "Swing con mancuerna",
+  "description": "Sujeta la mancuerna con ambas manos. Lleva la cadera atrás y proyéctala adelante con fuerza para balancear el peso hasta el pecho.",
+  "muscle_groups": [
+   "gluteos",
+   "isquios",
+   "cardio"
+  ],
+  "equipment": [
+   "mancuerna"
+  ],
+  "type": "cardio",
+  "difficulty": 2,
+  "unilateral": false,
+  "video_path": "videos/swing_mancuerna.mp4",
+  "thumb_path": "thumbs/swing_mancuerna.webp"
+ },
+ {
+  "slug": "thruster_mancuerna",
+  "name": "Thruster con mancuerna",
+  "description": "Mancuerna a la altura del pecho. Haz una sentadilla y, al subir, empuja el peso por encima de la cabeza en un solo movimiento.",
+  "muscle_groups": [
+   "cuerpo_completo",
+   "piernas",
+   "hombros"
+  ],
+  "equipment": [
+   "mancuerna"
+  ],
+  "type": "fuerza",
+  "difficulty": 3,
+  "unilateral": false,
+  "video_path": "videos/thruster_mancuerna.mp4",
+  "thumb_path": "thumbs/thruster_mancuerna.webp"
+ },
+ {
+  "slug": "zancada_mancuerna",
+  "name": "Zancada con mancuerna",
+  "description": "Mancuerna vertical junto al pecho. Da un paso al frente y baja hasta 90° en ambas rodillas; vuelve empujando con la pierna delantera.",
+  "muscle_groups": [
+   "piernas",
+   "gluteos"
+  ],
+  "equipment": [
+   "mancuerna"
+  ],
+  "type": "fuerza",
+  "difficulty": 2,
+  "unilateral": true,
+  "video_path": "videos/zancada_mancuerna.mp4",
+  "thumb_path": "thumbs/zancada_mancuerna.webp"
+ },
+ {
+  "slug": "hollow_hold",
+  "name": "Hollow hold",
+  "description": "Boca arriba, despega hombros y piernas del suelo con los brazos estirados atrás. Lumbar pegada a la esterilla. Aguanta.",
+  "muscle_groups": [
+   "abdominales",
+   "core"
+  ],
+  "equipment": [
+   "esterilla"
+  ],
+  "type": "core",
+  "difficulty": 3,
+  "unilateral": false,
+  "video_path": "videos/hollow_hold.mp4",
+  "thumb_path": "thumbs/hollow_hold.webp"
+ },
+ {
+  "slug": "v_up",
+  "name": "V-up",
+  "description": "Tumbado con brazos estirados atrás. Sube a la vez tronco y piernas rectas intentando tocar los pies con las manos y baja controlando.",
+  "muscle_groups": [
+   "abdominales",
+   "core"
+  ],
+  "equipment": [
+   "esterilla"
+  ],
+  "type": "core",
+  "difficulty": 3,
+  "unilateral": false,
+  "video_path": "videos/v_up.mp4",
+  "thumb_path": "thumbs/v_up.webp"
+ },
+ {
+  "slug": "foam_cuadriceps",
+  "name": "Foam roller de cuádriceps",
+  "description": "Boca abajo apoyado en antebrazos con el rodillo bajo los muslos. Rueda despacio desde la cadera hasta encima de la rodilla.",
+  "muscle_groups": [
+   "cuadriceps"
+  ],
+  "equipment": [
+   "foam"
+  ],
+  "type": "recuperacion",
+  "difficulty": 1,
+  "unilateral": false,
+  "video_path": "videos/foam_cuadriceps.mp4",
+  "thumb_path": "thumbs/foam_cuadriceps.webp"
+ },
+ {
+  "slug": "foam_isquios",
+  "name": "Foam roller de isquiotibiales",
+  "description": "Sentado con las manos detrás y el rodillo bajo los muslos. Eleva la cadera y rueda despacio desde el glúteo hasta la rodilla.",
+  "muscle_groups": [
+   "isquios"
+  ],
+  "equipment": [
+   "foam"
+  ],
+  "type": "recuperacion",
+  "difficulty": 1,
+  "unilateral": false,
+  "video_path": "videos/foam_isquios.mp4",
+  "thumb_path": "thumbs/foam_isquios.webp"
+ },
+ {
+  "slug": "foam_gluteo",
+  "name": "Foam roller de glúteo",
+  "description": "Siéntate sobre el rodillo con las manos detrás y los pies en el suelo. Muévete adelante y atrás buscando las zonas cargadas.",
+  "muscle_groups": [
+   "gluteos"
+  ],
+  "equipment": [
+   "foam"
+  ],
+  "type": "recuperacion",
+  "difficulty": 1,
+  "unilateral": false,
+  "video_path": "videos/foam_gluteo.mp4",
+  "thumb_path": "thumbs/foam_gluteo.webp"
+ },
+ {
+  "slug": "foam_espalda",
+  "name": "Foam roller de espalda alta",
+  "description": "Rodillo bajo la parte alta de la espalda, rodillas flexionadas y manos tras la cabeza. Rueda despacio entre los omóplatos.",
+  "muscle_groups": [
+   "espalda"
+  ],
+  "equipment": [
+   "foam"
+  ],
+  "type": "recuperacion",
+  "difficulty": 1,
+  "unilateral": false,
+  "video_path": "videos/foam_espalda.mp4",
+  "thumb_path": "thumbs/foam_espalda.webp"
+ },
+ {
+  "slug": "foam_gemelos",
+  "name": "Foam roller de gemelos",
+  "description": "Sentado con las manos detrás y el rodillo bajo los gemelos. Levanta la cadera y rueda del tobillo a debajo de la rodilla.",
+  "muscle_groups": [
+   "gemelos"
+  ],
+  "equipment": [
+   "foam"
+  ],
+  "type": "recuperacion",
+  "difficulty": 1,
+  "unilateral": false,
+  "video_path": "videos/foam_gemelos.mp4",
+  "thumb_path": "thumbs/foam_gemelos.webp"
+ }
+]
