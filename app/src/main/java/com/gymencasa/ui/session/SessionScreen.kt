@@ -156,6 +156,16 @@ fun SessionScreen(nav: Navigator, vm: SessionViewModel = hiltViewModel()) {
     val ui by vm.ui.collectAsStateWithLifecycle()
     val state = ui.state ?: return
     var confirmQuit by remember { mutableStateOf(false) }
+    // The timer stops while the "end session?" dialog is open, and resumes if we paused it.
+    var pausedByDialog by remember { mutableStateOf(false) }
+    val askQuit = {
+        if (state.isTimed && !state.isPaused) { vm.togglePause(); pausedByDialog = true }
+        confirmQuit = true
+    }
+    val keepGoing = {
+        confirmQuit = false
+        if (pausedByDialog) { vm.togglePause(); pausedByDialog = false }
+    }
 
     // Keep the screen on for the whole session.
     val view = LocalView.current
@@ -164,7 +174,7 @@ fun SessionScreen(nav: Navigator, vm: SessionViewModel = hiltViewModel()) {
     LaunchedEffect(ui.savedWorkoutId) {
         ui.savedWorkoutId?.let { nav.resetTo(Route.Home, Route.Summary(it)) }
     }
-    BackHandler(enabled = state.phase != Phase.FINISHED) { confirmQuit = true }
+    BackHandler(enabled = state.phase != Phase.FINISHED) { askQuit() }
 
     val showing = if (state.phase == Phase.AWAIT_NEXT) state.next?.exercise ?: state.current.exercise else state.current.exercise
     val remainingMs = state.remainingMs(ui.nowMs)
@@ -181,7 +191,7 @@ fun SessionScreen(nav: Navigator, vm: SessionViewModel = hiltViewModel()) {
                 stringResource(R.string.session_exercise_of, state.exerciseIndex + 1, state.plan.items.size).uppercase(),
                 style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1f),
             )
-            IconButton(onClick = { confirmQuit = true }) { Icon(Icons.Filled.Close, stringResource(R.string.session_quit_confirm)) }
+            IconButton(onClick = { askQuit() }) { Icon(Icons.Filled.Close, stringResource(R.string.session_quit_confirm)) }
         }
         LinearProgressIndicator(
             progress = { (state.exerciseIndex + if (state.phase == Phase.AWAIT_NEXT) 1f else 0f) / state.plan.items.size },
@@ -258,11 +268,11 @@ fun SessionScreen(nav: Navigator, vm: SessionViewModel = hiltViewModel()) {
 
     if (confirmQuit) {
         AlertDialog(
-            onDismissRequest = { confirmQuit = false },
+            onDismissRequest = { keepGoing() },
             title = { Text(stringResource(R.string.session_quit_title)) },
             text = { Text(stringResource(R.string.session_quit_text)) },
             confirmButton = { TextButton(onClick = { confirmQuit = false; vm.quit() }) { Text(stringResource(R.string.session_quit_confirm)) } },
-            dismissButton = { TextButton(onClick = { confirmQuit = false }) { Text(stringResource(R.string.session_keep_going)) } },
+            dismissButton = { TextButton(onClick = { keepGoing() }) { Text(stringResource(R.string.session_keep_going)) } },
         )
     }
 }
