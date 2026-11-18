@@ -19,6 +19,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.filled.PregnantWoman
 import androidx.compose.material.icons.filled.TouchApp
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
@@ -54,7 +55,7 @@ import com.gymencasa.data.repository.AiRoutineRepository
 import com.gymencasa.data.repository.ExerciseRepository
 import com.gymencasa.data.repository.SettingsRepository
 import com.gymencasa.data.repository.WorkoutRepository
-import com.gymencasa.domain.EquipmentFilter
+import com.gymencasa.domain.ExerciseFilter
 import com.gymencasa.domain.PlanAlgorithm
 import com.gymencasa.domain.SuggestionEngine
 import com.gymencasa.domain.model.Focus
@@ -93,8 +94,22 @@ class HomeViewModel @Inject constructor(
     private val aiLoading = MutableStateFlow(false)
 
     val ui: StateFlow<HomeUi> = combine(settings.settings, draftStore.draft, exercises.exercises, aiLoading) { s, d, all, loading ->
-        HomeUi(s, d, EquipmentFilter.available(all, s.equipment).size, loading)
+        HomeUi(s, d, ExerciseFilter.available(all, s).size, loading)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), HomeUi())
+
+    init {
+        // Start from the profile goal; in pregnancy mode make sure the goal is one offered there.
+        viewModelScope.launch {
+            val s = settings.current()
+            draftStore.update { d ->
+                when {
+                    !d.goalSynced -> d.copy(goal = if (s.pregnant) Goal.PARTO else s.goal.takeIf { it != Goal.PARTO } ?: Goal.TONIFICAR, goalSynced = true)
+                    d.goal !in Goal.available(s.pregnant) -> d.copy(goal = Goal.available(s.pregnant).first())
+                    else -> d
+                }
+            }
+        }
+    }
 
     fun setDuration(min: Int) = draftStore.update { it.copy(durationMin = min) }
     fun setGoal(goal: Goal) = draftStore.update { it.copy(goal = goal) }
@@ -112,7 +127,7 @@ class HomeViewModel @Inject constructor(
             try {
                 val s = settings.current()
                 val d = draftStore.draft.value
-                val available = EquipmentFilter.available(exercises.all(), s.equipment)
+                val available = ExerciseFilter.available(exercises.all(), s)
                 if (available.isEmpty()) return@launch
                 val recent = workouts.lastWorkoutSlugs()
                 val bySlug = available.associateBy { it.slug }
@@ -120,15 +135,15 @@ class HomeViewModel @Inject constructor(
                 var title = defaultTitle
                 var fallback = false
                 val chosen = runCatching {
-                    ai.generate(d.goal, d.durationMin, d.focus, s.level, available.map { it.slug }, recent.toList())
+                    ai.generate(d.goal, d.durationMin, d.focus, s.level, available.map { it.slug }, recent.toList(), s.pregnant)
                 }.onFailure { Log.w("Home", "AI failed", it) }.getOrNull()?.let { resp ->
                     if (resp.title.isNotBlank()) title = resp.title
                     resp.exerciseSlugs.mapNotNull(bySlug::get)
                 }.orEmpty().ifEmpty {
                     fallback = true
-                    SuggestionEngine.suggest(available, d.goal, s.level, s.restBetweenSetsSeconds, d.durationMin, d.focus, recent)
+                    SuggestionEngine.suggest(available, d.goal, s.level, s.restBetweenSetsSeconds, d.durationMin, d.focus, recent, pregnant = s.pregnant)
                 }
-                val plan = PlanAlgorithm.build(chosen, d.goal, s.level, s.restBetweenSetsSeconds, d.durationMin, WorkoutMode.AI, title)
+                val plan = PlanAlgorithm.build(chosen, d.goal, s.level, s.restBetweenSetsSeconds, d.durationMin, WorkoutMode.AI, title, pregnant = s.pregnant)
                 draftStore.update { it.copy(plan = plan, usedFallback = fallback) }
                 onReady()
             } finally {
@@ -156,6 +171,18 @@ fun HomeScreen(nav: Navigator, vm: HomeViewModel = hiltViewModel()) {
             style = MaterialTheme.typography.headlineLarge,
         )
         Text(stringResource(R.string.home_available_count, ui.availableCount), color = MaterialTheme.colorScheme.onSurfaceVariant)
+        if (ui.settings.pregnant) {
+            Card(
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
+                modifier = Modifier.fillMaxWidth().padding(top = 12.dp),
+            ) {
+                Row(Modifier.padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Icon(Icons.Filled.PregnantWoman, null, tint = MaterialTheme.colorScheme.primary)
+                    Spacer(Modifier.size(10.dp))
+                    Text(stringResource(R.string.pregnancy_banner), style = MaterialTheme.typography.bodySmall)
+                }
+            }
+        }
 
         SectionTitle(stringResource(R.string.home_how_long))
         FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -171,7 +198,7 @@ fun HomeScreen(nav: Navigator, vm: HomeViewModel = hiltViewModel()) {
 
         SectionTitle(stringResource(R.string.home_goal))
         FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Goal.entries.forEach { g -> RedChip(ui.draft.goal == g, stringResource(g.labelRes)) { vm.setGoal(g) } }
+            Goal.available(ui.settings.pregnant).forEach { g -> RedChip(ui.draft.goal == g, stringResource(g.labelRes)) { vm.setGoal(g) } }
         }
 
         SectionTitle(stringResource(R.string.home_focus))

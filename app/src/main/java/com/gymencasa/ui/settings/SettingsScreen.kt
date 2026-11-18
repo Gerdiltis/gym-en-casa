@@ -44,7 +44,9 @@ import com.gymencasa.BuildConfig
 import com.gymencasa.R
 import com.gymencasa.data.repository.AuthRepository
 import com.gymencasa.data.repository.SettingsRepository
+import com.gymencasa.domain.model.Goal
 import com.gymencasa.domain.model.Level
+import com.gymencasa.ui.equipment.PregnancySwitch
 import com.gymencasa.domain.model.UserSettings
 import com.gymencasa.ui.components.ScreenHeader
 import com.gymencasa.ui.components.SectionTitle
@@ -66,12 +68,23 @@ import kotlin.math.roundToInt
 class SettingsViewModel @Inject constructor(
     private val settings: SettingsRepository,
     private val auth: AuthRepository,
+    private val draftStore: com.gymencasa.data.DayDraftStore,
 ) : ViewModel() {
     val current: StateFlow<UserSettings?> = settings.settings.stateIn(viewModelScope, SharingStarted.Eagerly, null)
     val dark: StateFlow<Boolean> = settings.darkTheme.stateIn(viewModelScope, SharingStarted.Eagerly, true)
     val email: String? get() = auth.email
 
     fun update(f: (UserSettings) -> UserSettings) { viewModelScope.launch { settings.update(f) } }
+    /** Pregnancy mode: labour preparation becomes the default goal; turning it off leaves that goal. */
+    fun setPregnant(v: Boolean) {
+        viewModelScope.launch {
+            settings.update { s ->
+                s.copy(pregnant = v, goal = if (v) Goal.PARTO else if (s.goal == Goal.PARTO) Goal.TONIFICAR else s.goal)
+            }
+            draftStore.update { it.copy(goalSynced = false, selectedSlugs = emptyList(), plan = null) }
+        }
+    }
+
     fun setDark(v: Boolean) { viewModelScope.launch { settings.setDarkTheme(v) } }
     fun signOut() { viewModelScope.launch { auth.signOut() } }
 }
@@ -106,6 +119,7 @@ fun SettingsScreen(nav: Navigator, vm: SettingsViewModel = hiltViewModel(), upda
             colors = SliderDefaults.colors(thumbColor = MaterialTheme.colorScheme.primary, activeTrackColor = MaterialTheme.colorScheme.primary),
         )
 
+        PregnancySwitch(settings.pregnant, vm::setPregnant)
         Spacer(Modifier.height(8.dp))
         Text(stringResource(R.string.settings_level), style = MaterialTheme.typography.titleMedium)
         LevelPicker(settings.level) { level: Level -> vm.update { it.copy(level = level) } }

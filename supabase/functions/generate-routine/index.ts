@@ -9,7 +9,7 @@ const CORS = {
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
-const GOALS = ["fuerza", "cardio", "tonificar", "movilidad"] as const;
+const GOALS = ["fuerza", "cardio", "tonificar", "movilidad", "parto"] as const;
 const FOCUS = ["cuerpo_completo", "tren_superior", "tren_inferior", "core"] as const;
 const DEFAULT_MODEL = "~z-ai/glm-flash-latest";
 
@@ -21,6 +21,7 @@ type Exercise = {
   type: string;
   difficulty: number;
   unilateral: boolean;
+  pregnancy: string | null;
 };
 
 type Body = {
@@ -30,6 +31,7 @@ type Body = {
   level?: string;
   available_slugs?: string[];
   recent_slugs?: string[];
+  pregnant?: boolean;
 };
 
 const PREFERRED_TYPES: Record<string, string[]> = {
@@ -37,6 +39,7 @@ const PREFERRED_TYPES: Record<string, string[]> = {
   cardio: ["cardio", "fuerza", "core"],
   tonificar: ["fuerza", "core", "cardio"],
   movilidad: ["movilidad", "recuperacion"],
+  parto: ["movilidad", "fuerza", "core"],
 };
 
 const FOCUS_GROUPS: Record<string, string[]> = {
@@ -54,9 +57,16 @@ export function targetCount(durationMin: number) {
   return Math.min(15, Math.max(2, Math.round(durationMin / 3.5)));
 }
 
-export function candidates(all: Exercise[], owned: Set<string>, body: Body): Exercise[] {
+/** A requirement may list alternatives: "gomas|bandas_largas" is met by either. */
+function meets(requirement: string, owned: Set<string>) {
+  return requirement.split("|").some((q) => owned.has(q.trim()));
+}
+
+export function candidates(all: Exercise[], owned: Set<string>, body: Body, pregnant = false): Exercise[] {
   owned.add("ninguno");
-  let pool = all.filter((e) => e.equipment.every((q) => owned.has(q)));
+  let pool = all.filter((e) => e.equipment.every((q) => meets(q, owned)));
+  // Pregnancy mode: only exercises marked safe or labour-prep.
+  if (pregnant) pool = pool.filter((e) => e.pregnancy === "apto" || e.pregnancy === "parto");
   if (body.available_slugs?.length) {
     const allowed = new Set(body.available_slugs);
     pool = pool.filter((e) => allowed.has(e.slug));
@@ -92,11 +102,14 @@ export function fallbackPick(pool: Exercise[], count: number, recent: string[] =
   return out;
 }
 
-async function askModel(pool: Exercise[], body: Body, count: number): Promise<{ title: string; slugs: string[] }> {
+async function askModel(pool: Exercise[], body: Body, count: number, pregnant: boolean): Promise<{ title: string; slugs: string[] }> {
   const key = Deno.env.get("OPENROUTER_API_KEY");
   if (!key) throw new Error("OPENROUTER_API_KEY not set");
   const model = Deno.env.get("OPENROUTER_MODEL") || DEFAULT_MODEL;
-  const catalog = pool.map((e) => ({ slug: e.slug, nombre: e.name, musculos: e.muscle_groups, tipo: e.type, dificultad: e.difficulty }));
+  const catalog = pool.map((e) => ({
+    slug: e.slug, nombre: e.name, musculos: e.muscle_groups, tipo: e.type, dificultad: e.difficulty,
+    ...(pregnant ? { preparacion_parto: e.pregnancy === "parto" } : {}),
+  }));
   const system =
     "Eres un entrenador personal. Diseñas la sesión de hoy para entrenar en casa eligiendo SOLO ejercicios del catálogo dado. " +
     "Responde únicamente con JSON válido con la forma {\"title\": string, \"exercise_slugs\": string[]}.";
@@ -112,6 +125,9 @@ async function askModel(pool: Exercise[], body: Body, count: number): Promise<{ 
       "Ordénalos: primero los más exigentes o multiarticulares, al final core o movilidad.",
       "Equilibra grupos musculares y no repitas dos seguidos del mismo grupo.",
       "El título es corto (máx. 5 palabras), en español y motivador.",
+      ...(pregnant
+        ? ["La usuaria está embarazada: sesión suave y segura. Prioriza los ejercicios con preparacion_parto=true (al menos dos de cada tres) y no prometas efectos sobre el parto en el título."]
+        : []),
     ],
     catalogo: catalog,
   });
@@ -160,22 +176,24 @@ Deno.serve(async (req) => {
   if (!Number.isFinite(duration) || duration < 5 || duration > 120) return json({ error: "invalid duration_min" }, 400);
 
   const [{ data: profile }, { data: exercises, error: exError }] = await Promise.all([
-    supabase.from("profiles").select("equipment").eq("id", userData.user.id).maybeSingle(),
-    supabase.from("exercises").select("slug,name,muscle_groups,equipment,type,difficulty,unilateral"),
+    supabase.from("profiles").select("equipment,pregnant").eq("id", userData.user.id).maybeSingle(),
+    supabase.from("exercises").select("slug,name,muscle_groups,equipment,type,difficulty,unilateral,pregnancy"),
   ]);
   if (exError) return json({ error: "catalog unavailable" }, 500);
 
   const owned = new Set<string>(profile?.equipment ?? []);
   // The app already filtered by equipment; if the profile has not synced yet, trust its list.
   if (owned.size === 0 && body.available_slugs?.length) {
-    for (const e of exercises ?? []) if (body.available_slugs.includes(e.slug)) e.equipment.forEach((q: string) => owned.add(q));
+    for (const e of exercises ?? []) if (body.available_slugs.includes(e.slug)) e.equipment.forEach((q: string) => q.split("|").forEach((x) => owned.add(x)));
   }
-  const pool = candidates((exercises ?? []) as Exercise[], owned, body);
+  // Pregnancy mode from the profile, or from the app if the profile has not synced yet.
+  const pregnant = Boolean(profile?.pregnant || body.pregnant);
+  const pool = candidates((exercises ?? []) as Exercise[], owned, body, pregnant);
   if (!pool.length) return json({ title: "", exercise_slugs: [], source: "empty" });
   const count = Math.min(targetCount(duration), pool.length);
 
   try {
-    const { title, slugs } = await askModel(pool, body, count);
+    const { title, slugs } = await askModel(pool, body, count, pregnant);
     const valid = new Set(pool.map((e) => e.slug));
     const picked = [...new Set(slugs.filter((s) => valid.has(s)))].slice(0, count);
     // Top up if the model returned too few valid slugs.

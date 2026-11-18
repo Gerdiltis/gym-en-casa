@@ -8,6 +8,7 @@ import com.gymencasa.data.remote.ExerciseDto
 import com.gymencasa.data.remote.SupabaseProvider
 import com.gymencasa.domain.model.Exercise
 import com.gymencasa.domain.model.ExerciseType
+import com.gymencasa.domain.model.Pregnancy
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.github.jan.supabase.postgrest.from
 import kotlinx.coroutines.Dispatchers
@@ -49,8 +50,8 @@ class ExerciseRepository @Inject constructor(
         if ("${ex.slug}.webp" in bundledThumbs) "file:///android_asset/thumbs/${ex.slug}.webp"
         else ex.thumbPath?.let(supabase::publicMediaUrl)
 
+    /** Upserts the catalog bundled in this APK (new versions may add exercises), then the cloud refresh overrides it. */
     suspend fun ensureSeeded() = withContext(Dispatchers.IO) {
-        if (dao.count() > 0) return@withContext
         runCatching {
             val text = context.assets.open("catalog/exercises.json").bufferedReader().use { it.readText() }
             val items = json.decodeFromString<List<ExerciseDto>>(text)
@@ -67,12 +68,12 @@ class ExerciseRepository @Inject constructor(
 
     private fun ExerciseDto.toEntity() = ExerciseEntity(
         slug, name, description, muscleGroups, equipment.ifEmpty { listOf("ninguno") }, type, difficulty, unilateral,
-        videoPath ?: "videos/$slug.mp4", thumbPath ?: "thumbs/$slug.webp",
+        videoPath ?: "videos/$slug.mp4", thumbPath ?: "thumbs/$slug.webp", pregnancy,
     )
 
     private fun ExerciseEntity.toDomain() = Exercise(
         slug, name, description, muscleGroups, equipment.toSet(), ExerciseType.fromSlug(type), difficulty, unilateral,
-        videoPath, thumbPath,
+        videoPath, thumbPath, Pregnancy.fromSlug(pregnancy),
     )
 
     private companion object { const val TAG = "ExerciseRepository" }

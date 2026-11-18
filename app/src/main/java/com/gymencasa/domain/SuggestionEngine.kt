@@ -5,6 +5,7 @@ import com.gymencasa.domain.model.ExerciseType
 import com.gymencasa.domain.model.Focus
 import com.gymencasa.domain.model.Goal
 import com.gymencasa.domain.model.Level
+import com.gymencasa.domain.model.Pregnancy
 import kotlin.random.Random
 
 /**
@@ -19,6 +20,7 @@ object SuggestionEngine {
         Goal.CARDIO -> setOf(ExerciseType.CARDIO, ExerciseType.FUERZA, ExerciseType.CORE)
         Goal.TONIFICAR -> setOf(ExerciseType.FUERZA, ExerciseType.CORE, ExerciseType.CARDIO)
         Goal.MOVILIDAD -> setOf(ExerciseType.MOVILIDAD, ExerciseType.RECUPERACION)
+        Goal.PARTO -> setOf(ExerciseType.MOVILIDAD, ExerciseType.FUERZA, ExerciseType.CORE)
     }
 
     fun suggest(
@@ -30,6 +32,7 @@ object SuggestionEngine {
         focus: Focus = Focus.CUERPO_COMPLETO,
         recentSlugs: Set<String> = emptySet(),
         random: Random = Random.Default,
+        pregnant: Boolean = false,
     ): List<Exercise> {
         val budget = durationMin * 60
         val types = preferredTypes(goal)
@@ -46,17 +49,30 @@ object SuggestionEngine {
         val repeated = pool.filter { it.slug in recentSlugs }.shuffled(random)
 
         // Round-robin over primary muscle groups for balance.
-        val ordered = roundRobin(fresh) + roundRobin(repeated)
+        var ordered = roundRobin(fresh) + roundRobin(repeated)
+        // Labour preparation (and pregnancy mode in general): about 2 of every 3 picks are labour-prep exercises.
+        if (goal == Goal.PARTO || pregnant) ordered = prioritizeLabourPrep(ordered)
 
         val chosen = mutableListOf<Exercise>()
         for (ex in ordered) {
             val candidate = chosen + ex
-            val total = PlanAlgorithm.totalSeconds(candidate.map { PlanAlgorithm.assign(it, goal, level) }, restSeconds)
+            val total = PlanAlgorithm.totalSeconds(candidate.map { PlanAlgorithm.assign(it, goal, level, pregnant) }, restSeconds)
             if (total <= budget * 1.1) chosen += ex
             if (total >= budget * 0.9) break
         }
         if (chosen.isEmpty()) chosen += ordered.first()
         return chosen
+    }
+
+    private fun prioritizeLabourPrep(exercises: List<Exercise>): List<Exercise> {
+        val prep = ArrayDeque(exercises.filter { it.pregnancy == Pregnancy.PARTO })
+        val other = ArrayDeque(exercises.filter { it.pregnancy != Pregnancy.PARTO })
+        val out = mutableListOf<Exercise>()
+        while (prep.isNotEmpty() || other.isNotEmpty()) {
+            repeat(2) { prep.removeFirstOrNull()?.let(out::add) }
+            other.removeFirstOrNull()?.let(out::add)
+        }
+        return out
     }
 
     private fun roundRobin(exercises: List<Exercise>): List<Exercise> {

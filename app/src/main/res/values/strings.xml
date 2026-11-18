@@ -41,7 +41,7 @@
     <string name="equipment_household">Material de casa</string>
     <string name="equipment_none_note">Los ejercicios sin material siempre están disponibles.</string>
     <string name="eq_ninguno">Sin material</string>
-    <string name="eq_gomas">Gomas elásticas</string>
+    <string name="eq_gomas">Gomas finas / mini bands</string>
     <string name="eq_esterilla">Esterilla</string>
     <string name="eq_mancuerna">Mancuerna (hasta 10 kg)</string>
     <string name="eq_foam">Rodillo de foam</string>
@@ -52,6 +52,9 @@
     <string name="eq_toalla">Toalla</string>
     <string name="eq_mochila">Mochila</string>
     <string name="eq_botellas">Botellas de agua</string>
+    <string name="eq_pelota">Fitball (55–65 cm)</string>
+    <string name="eq_bandas_largas">Bandas largas (kit 10–40 kg)</string>
+    <string name="or_word">o</string>
     <string name="onboarding_name">¿Cómo te llamas?</string>
     <string name="onboarding_level">Tu nivel</string>
 
@@ -63,6 +66,43 @@
     <string name="goal_cardio">Quemar grasa</string>
     <string name="goal_tonificar">Tonificar</string>
     <string name="goal_movilidad">Movilidad</string>
+    <string name="goal_parto">Preparación al parto</string>
+
+    <!-- Muscles -->
+    <string name="muscle_pecho">Pecho</string>
+    <string name="muscle_espalda">Espalda</string>
+    <string name="muscle_hombros">Hombros</string>
+    <string name="muscle_brazos">Brazos</string>
+    <string name="muscle_biceps">Bíceps</string>
+    <string name="muscle_triceps">Tríceps</string>
+    <string name="muscle_piernas">Piernas</string>
+    <string name="muscle_cuadriceps">Cuádriceps</string>
+    <string name="muscle_isquios">Isquiotibiales</string>
+    <string name="muscle_gluteos">Glúteos</string>
+    <string name="muscle_gemelos">Gemelos</string>
+    <string name="muscle_aductores">Aductores</string>
+    <string name="muscle_core">Core</string>
+    <string name="muscle_abdominales">Abdominales</string>
+    <string name="muscle_oblicuos">Oblicuos</string>
+    <string name="muscle_lumbar">Lumbar</string>
+    <string name="muscle_cardio">Cardio</string>
+    <string name="muscle_cuerpo_completo">Cuerpo completo</string>
+    <string name="muscles_primary">Músculo principal</string>
+    <string name="muscles_secondary">También trabaja</string>
+
+    <!-- Pregnancy -->
+    <string name="pregnancy_switch">Estoy embarazada</string>
+    <string name="pregnancy_switch_desc">Solo verás ejercicios suaves y aptos, y el objetivo Preparación al parto</string>
+    <string name="pregnancy_dialog_title">Modo embarazo</string>
+    <string name="pregnancy_dialog_text">Antes de entrenar, consulta con tu matrona o ginecólogo, sobre todo si tu embarazo es de riesgo. La app ocultará saltos, impactos, ejercicios tumbada boca arriba o boca abajo y core intenso, y limitará las series. Para si notas dolor, sangrado, mareo, contracciones o falta de aire.</string>
+    <string name="pregnancy_dialog_accept">Activar</string>
+    <string name="pregnancy_banner">Modo embarazo · consulta con tu matrona antes de entrenar</string>
+    <string name="pregnancy_filter">Embarazo</string>
+    <string name="pregnancy_badge_parto">Prep. parto</string>
+    <string name="pregnancy_detail_apto">Apto en el embarazo</string>
+    <string name="pregnancy_detail_parto">Recomendado como preparación al parto</string>
+    <string name="pregnancy_detail_no">No recomendado durante el embarazo</string>
+    <string name="library_not_for_pregnancy">No recomendado en el embarazo</string>
     <string name="focus_cuerpo_completo">Cuerpo completo</string>
     <string name="focus_tren_superior">Tren superior</string>
     <string name="focus_tren_inferior">Tren inferior</string>

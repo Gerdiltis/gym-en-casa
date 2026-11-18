@@ -41,7 +41,7 @@ import com.gymencasa.data.DayDraftStore
 import com.gymencasa.data.repository.ExerciseRepository
 import com.gymencasa.data.repository.SettingsRepository
 import com.gymencasa.data.repository.WorkoutRepository
-import com.gymencasa.domain.EquipmentFilter
+import com.gymencasa.domain.ExerciseFilter
 import com.gymencasa.domain.PlanAlgorithm
 import com.gymencasa.domain.SuggestionEngine
 import com.gymencasa.domain.model.Exercise
@@ -77,7 +77,7 @@ class ManualSelectViewModel @Inject constructor(
     val ui: StateFlow<SelectUi> = combine(draftStore.draft, exercises.exercises, settings.settings) { d, all, s ->
         val bySlug = all.associateBy { it.slug }
         val selected = d.selectedSlugs.mapNotNull(bySlug::get)
-        val planned = selected.map { PlanAlgorithm.assign(it, d.goal, s.level) }
+        val planned = selected.map { PlanAlgorithm.assign(it, d.goal, s.level, s.pregnant) }
         SelectUi(
             selected = selected,
             durationMin = d.durationMin,
@@ -95,9 +95,9 @@ class ManualSelectViewModel @Inject constructor(
         viewModelScope.launch {
             val s = settings.current()
             val d = draftStore.draft.value
-            val available = EquipmentFilter.available(exercises.all(), s.equipment)
+            val available = ExerciseFilter.available(exercises.all(), s)
             val recent = workouts.lastWorkoutSlugs()
-            val picks = SuggestionEngine.suggest(available, d.goal, s.level, s.restBetweenSetsSeconds, d.durationMin, d.focus, recent)
+            val picks = SuggestionEngine.suggest(available, d.goal, s.level, s.restBetweenSetsSeconds, d.durationMin, d.focus, recent, pregnant = s.pregnant)
             draftStore.update { it.copy(selectedSlugs = picks.map(Exercise::slug)) }
         }
     }
@@ -111,7 +111,7 @@ class ManualSelectViewModel @Inject constructor(
             val bySlug = exercises.all().associateBy { it.slug }
             val picks = d.selectedSlugs.mapNotNull(bySlug::get)
             if (picks.isEmpty()) return@launch
-            val plan = PlanAlgorithm.build(picks, d.goal, s.level, s.restBetweenSetsSeconds, d.durationMin, WorkoutMode.MANUAL, title, allowDrop = false)
+            val plan = PlanAlgorithm.build(picks, d.goal, s.level, s.restBetweenSetsSeconds, d.durationMin, WorkoutMode.MANUAL, title, allowDrop = false, pregnant = s.pregnant)
             draftStore.update { it.copy(plan = plan, usedFallback = false) }
             onReady()
         }

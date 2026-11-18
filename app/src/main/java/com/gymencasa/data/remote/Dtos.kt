@@ -16,6 +16,7 @@ data class ExerciseDto(
     val unilateral: Boolean = false,
     @SerialName("video_path") val videoPath: String? = null,
     @SerialName("thumb_path") val thumbPath: String? = null,
+    val pregnancy: String? = null,
 )
 
 @Serializable
@@ -26,6 +27,7 @@ data class ProfileDto(
     val goal: String? = null,
     val equipment: List<String> = emptyList(),
     @SerialName("rest_between_sets_s") val restBetweenSetsSeconds: Int = 30,
+    val pregnant: Boolean = false,
 )
 
 @Serializable
@@ -80,6 +82,7 @@ data class GenerateRoutineRequest(
     /** Slugs the app considers available (already filtered by the user's equipment). */
     @SerialName("available_slugs") val availableSlugs: List<String>,
     @SerialName("recent_slugs") val recentSlugs: List<String> = emptyList(),
+    val pregnant: Boolean = false,
 )
 
 @Serializable

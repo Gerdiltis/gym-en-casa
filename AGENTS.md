@@ -23,7 +23,7 @@ Kotlin + Jetpack Compose (Material 3) · MVVM/UDF · Hilt · Navigation 3 · Roo
 app/src/main/java/com/gymencasa/
   domain/            Kotlin puro y testeado (sin Android)
     model/           Exercise, Equipment, Goal, Level, Focus, DayPlan, UserSettings
-    EquipmentFilter  ejercicio disponible solo si el usuario tiene TODO su material
+    ExerciseFilter   disponible si tiene TODO su material ("a|b" = alternativas) y, en modo embarazo, si es apto
     PlanAlgorithm    series × segundos por objetivo/nivel + ajuste a la duración
     SuggestionEngine propuesta equilibrada que cabe en la duración (y fallback de la IA)
     session/SessionStateMachine  PREVIEW → WORK → REST → … → AWAIT_NEXT → FINISHED
@@ -76,7 +76,14 @@ Configuración: `local.properties` (no versionado) o variables de entorno en CI:
   - La anon key sí puede ir en el APK: la protege RLS.
 - **RLS**: toda tabla nueva lleva RLS y políticas `user_id = (select auth.uid())`, o de solo lectura si es catálogo.
 - **Descanso**: el descanso entre series sale siempre de `UserSettings.restBetweenSetsSeconds`. No lo guardes por rutina ni lo decida la IA.
-- **Material**: todo ejercicio declara su `equipment[]` (lista completa) y solo se muestra o sugiere si el usuario lo tiene todo (`EquipmentFilter`). `ninguno` siempre está disponible.
+- **Material**: todo ejercicio declara su `equipment[]` (lista completa) y solo se muestra o sugiere si el usuario lo tiene todo (`ExerciseFilter`).
+  - `ninguno` siempre está disponible.
+  - Un elemento puede tener alternativas separadas por `|` (por ejemplo `gomas|bandas_largas`).
+- **Embarazo**: cada ejercicio tiene `pregnancy` = `apto`, `parto` (preparación al parto) o `null` (no recomendado).
+  - Con `UserSettings.pregnant`, la app, el `SuggestionEngine` y la Edge Function solo usan apto o parto, priorizan parto y limitan la dosis (`PlanAlgorithm`: 3 series y 45 s como máximo).
+  - Criterio conservador: sin saltos ni impactos, nada tumbado boca arriba o boca abajo, sin core intenso ni cargas lumbares.
+  - Muestra siempre el aviso de consultar con la matrona y no prometas efectos sobre el parto.
+- **Músculos**: `muscle_groups` va ordenado, con el principal primero; la UI lo muestra en rojo y el resto en gris.
 - **IA**: la IA solo elige y ordena slugs. Valida siempre la respuesta contra el catálogo disponible (en la función y en `AiRoutineRepository`). Si falla, usa `SuggestionEngine`.
 - **Textos**: todos los textos de UI en español, en `res/values/strings.xml`.
 - **Dominio**: la lógica de dominio va en Kotlin puro dentro de `domain/` y con tests en `app/src/test`.
@@ -85,8 +92,8 @@ Configuración: `local.properties` (no versionado) o variables de entorno en CI:
 - **Esquema**: no edites a mano `supabase/seed.sql` ni `assets/catalog/exercises.json`; se generan desde `tools/videogen/exercises.py`.
 
 ## Esquema de datos (resumen)
-- `equipment(slug, name)` y `exercises(slug, name, description, muscle_groups[], equipment[], type, difficulty, unilateral, video_path, thumb_path)`: catálogo de solo lectura.
-- `profiles(id = auth.uid, display_name, level, goal, equipment[], rest_between_sets_s)`. Se crea con un trigger al registrarse.
+- `equipment(slug, name)` y `exercises(slug, name, description, muscle_groups[], equipment[], type, difficulty, unilateral, video_path, thumb_path, pregnancy)`: catálogo de solo lectura.
+- `profiles(id = auth.uid, display_name, level, goal (incluye `parto`), equipment[], rest_between_sets_s, pregnant)`. Se crea con un trigger al registrarse.
 - `workout_sessions(id, user_id, title, mode ai|manual, goal, duration_target_min, started_at, finished_at, completed)` y `session_sets(session_id, position, exercise_slug, set_index, planned_s, skipped)`.
 - `routines(id, user_id, name, goal, duration_target_min)` y `routine_items(routine_id, position, exercise_slug, sets, work_s)`.
 
@@ -104,6 +111,8 @@ Para añadir un ejercicio:
 2. Revísalo con `sheet.py`.
 3. `render.py --to-app` y `upload.py` (más `--upload` si quieres el vídeo en Storage).
 4. `supabase db push --include-seed`.
+
+Material válido: `ninguno, gomas, bandas_largas, esterilla, mancuerna, foam, pelota, silla, pared, escalon, sofa, toalla, mochila, botellas`.
 
 Grupos musculares válidos (los usa el filtro por zona): `pecho, espalda, hombros, brazos, biceps, triceps, piernas, cuadriceps, isquios, gluteos, gemelos, aductores, core, abdominales, oblicuos, lumbar, cardio, cuerpo_completo`.
 

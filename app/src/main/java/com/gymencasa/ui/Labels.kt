@@ -15,7 +15,11 @@ import androidx.compose.material.icons.filled.Cable
 import androidx.compose.material.icons.filled.DryCleaning
 import androidx.compose.material.icons.filled.Crop75
 import androidx.compose.material.icons.filled.Straighten
+import androidx.compose.material.icons.filled.LinearScale
+import androidx.compose.material.icons.filled.SportsVolleyball
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import com.gymencasa.R
 import com.gymencasa.domain.model.Equipment
 import com.gymencasa.domain.model.ExerciseType
@@ -38,6 +42,8 @@ val Equipment.labelRes: Int
         Equipment.TOALLA -> R.string.eq_toalla
         Equipment.MOCHILA -> R.string.eq_mochila
         Equipment.BOTELLAS -> R.string.eq_botellas
+        Equipment.PELOTA -> R.string.eq_pelota
+        Equipment.BANDAS_LARGAS -> R.string.eq_bandas_largas
     }
 
 val Equipment.icon: ImageVector
@@ -54,11 +60,19 @@ val Equipment.icon: ImageVector
         Equipment.TOALLA -> Icons.Filled.DryCleaning
         Equipment.MOCHILA -> Icons.Filled.Backpack
         Equipment.BOTELLAS -> Icons.Filled.LocalDrink
+        Equipment.PELOTA -> Icons.Filled.SportsVolleyball
+        Equipment.BANDAS_LARGAS -> Icons.Filled.LinearScale
     }
 
 /** Label for an equipment slug coming from the catalog (unknown slugs fall back to the slug). */
 @StringRes
 fun equipmentLabelRes(slug: String): Int? = Equipment.fromSlug(slug)?.labelRes
+
+/** "gomas|bandas_largas" -> "Gomas elásticas o Bandas largas". */
+@Composable
+fun equipmentRequirementLabel(requirement: String): String =
+    requirement.split('|').map { s -> equipmentLabelRes(s)?.let { stringResource(it) } ?: s }
+        .joinToString(" ${stringResource(R.string.or_word)} ")
 
 val unknownIcon = Icons.Filled.Inventory2
 
@@ -69,6 +83,7 @@ val Goal.labelRes: Int
         Goal.CARDIO -> R.string.goal_cardio
         Goal.TONIFICAR -> R.string.goal_tonificar
         Goal.MOVILIDAD -> R.string.goal_movilidad
+        Goal.PARTO -> R.string.goal_parto
     }
 
 @get:StringRes
@@ -98,5 +113,31 @@ val ExerciseType.labelRes: Int
         ExerciseType.RECUPERACION -> R.string.type_recuperacion
     }
 
-/** Muscle group slugs → readable Spanish (catalog data, not UI chrome). */
-fun muscleLabel(slug: String): String = slug.replace('_', ' ').replaceFirstChar { it.uppercase() }
+private val muscleRes = mapOf(
+    "pecho" to R.string.muscle_pecho, "espalda" to R.string.muscle_espalda, "hombros" to R.string.muscle_hombros,
+    "brazos" to R.string.muscle_brazos, "biceps" to R.string.muscle_biceps, "triceps" to R.string.muscle_triceps,
+    "piernas" to R.string.muscle_piernas, "cuadriceps" to R.string.muscle_cuadriceps, "isquios" to R.string.muscle_isquios,
+    "gluteos" to R.string.muscle_gluteos, "gemelos" to R.string.muscle_gemelos, "aductores" to R.string.muscle_aductores,
+    "core" to R.string.muscle_core, "abdominales" to R.string.muscle_abdominales, "oblicuos" to R.string.muscle_oblicuos,
+    "lumbar" to R.string.muscle_lumbar, "cardio" to R.string.muscle_cardio, "cuerpo_completo" to R.string.muscle_cuerpo_completo,
+)
+
+/** Muscle group slug → Spanish label from strings.xml (unknown slugs are prettified). */
+@Composable
+fun muscleLabel(slug: String): String =
+    muscleRes[slug]?.let { stringResource(it) } ?: slug.replace('_', ' ').replaceFirstChar { it.uppercase() }
+
+@Composable
+fun muscleList(slugs: List<String>): String = slugs.map { muscleLabel(it) }.joinToString(" · ")
+
+/** Muscle filter chips in the library: label → slugs it matches. */
+enum class MuscleFilter(@param:StringRes val label: Int, val slugs: Set<String>) {
+    PECHO(R.string.muscle_pecho, setOf("pecho")),
+    ESPALDA(R.string.muscle_espalda, setOf("espalda", "lumbar")),
+    HOMBROS(R.string.muscle_hombros, setOf("hombros")),
+    BRAZOS(R.string.muscle_brazos, setOf("brazos", "biceps", "triceps")),
+    PIERNAS(R.string.muscle_piernas, setOf("piernas", "cuadriceps", "isquios", "gemelos", "aductores")),
+    GLUTEOS(R.string.muscle_gluteos, setOf("gluteos")),
+    CORE(R.string.muscle_core, setOf("core", "abdominales", "oblicuos")),
+    CARDIO(R.string.muscle_cardio, setOf("cardio", "cuerpo_completo")),
+}

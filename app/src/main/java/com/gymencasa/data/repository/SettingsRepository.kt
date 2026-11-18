@@ -41,6 +41,7 @@ class SettingsRepository @Inject constructor(
         val vibration = booleanPreferencesKey("vibration")
         val onboarded = booleanPreferencesKey("onboarded")
         val darkTheme = booleanPreferencesKey("dark_theme")
+        val pregnant = booleanPreferencesKey("pregnant")
     }
 
     val settings: Flow<UserSettings> = context.dataStore.data.map { it.toSettings() }
@@ -60,6 +61,7 @@ class SettingsRepository @Inject constructor(
             p[Keys.sound] = updated.soundEnabled
             p[Keys.vibration] = updated.vibrationEnabled
             p[Keys.onboarded] = updated.onboarded
+            p[Keys.pregnant] = updated.pregnant
         }
         pushProfile(updated)
     }
@@ -82,6 +84,7 @@ class SettingsRepository @Inject constructor(
                     p[Keys.goal] = Goal.fromSlug(remote.goal).slug
                     p[Keys.equipment] = remote.equipment.toSet()
                     p[Keys.rest] = remote.restBetweenSetsSeconds
+                    p[Keys.pregnant] = remote.pregnant
                     p[Keys.onboarded] = true
                 }
             }
@@ -93,7 +96,7 @@ class SettingsRepository @Inject constructor(
         val uid = auth.userId ?: return
         runCatching {
             client.from("profiles").upsert(
-                ProfileDto(uid, s.displayName, s.level.slug, s.goal.slug, s.equipment.toList(), s.restBetweenSetsSeconds),
+                ProfileDto(uid, s.displayName, s.level.slug, s.goal.slug, s.equipment.toList(), s.restBetweenSetsSeconds, s.pregnant),
             )
         }.onFailure { Log.w(TAG, "pushProfile failed", it) }
     }
@@ -107,6 +110,7 @@ class SettingsRepository @Inject constructor(
         soundEnabled = this[Keys.sound] ?: true,
         vibrationEnabled = this[Keys.vibration] ?: true,
         onboarded = this[Keys.onboarded] ?: false,
+        pregnant = this[Keys.pregnant] ?: false,
     )
 
     private companion object { const val TAG = "SettingsRepository" }

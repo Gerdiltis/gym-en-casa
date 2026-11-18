@@ -58,3 +58,22 @@ class SuggestionEngineTest {
         assertEquals(emptyList<Any>(), SuggestionEngine.suggest(emptyList(), Goal.FUERZA, Level.INTERMEDIO, 30, 15))
     }
 }
+
+class SuggestionEnginePregnancyTest {
+    private val pool = (1..30).map { i ->
+        ex("e$i", muscles = listOf(listOf("piernas", "gluteos", "espalda", "core", "aductores")[i % 5]),
+            type = if (i % 3 == 0) ExerciseType.MOVILIDAD else ExerciseType.FUERZA,
+            pregnancy = if (i % 2 == 0) com.gymencasa.domain.model.Pregnancy.PARTO else com.gymencasa.domain.model.Pregnancy.APTO)
+    }
+
+    @Test
+    fun `labour goal prioritizes labour-prep exercises and fits duration`() {
+        for (minutes in listOf(15, 20, 30)) {
+            val picks = SuggestionEngine.suggest(pool, Goal.PARTO, Level.INTERMEDIO, 30, minutes, random = Random(minutes), pregnant = true)
+            val prep = picks.count { it.pregnancy == com.gymencasa.domain.model.Pregnancy.PARTO }
+            assertTrue("$minutes min: $prep of ${picks.size}", prep * 3 >= picks.size * 2 - 1)
+            val total = PlanAlgorithm.totalSeconds(picks.map { PlanAlgorithm.assign(it, Goal.PARTO, Level.INTERMEDIO, true) }, 30)
+            assertTrue(total <= minutes * 60 * 1.1)
+        }
+    }
+}

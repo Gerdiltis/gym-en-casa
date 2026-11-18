@@ -9,9 +9,55 @@ CHAIR_SEAT = 78
 WOOD = (120, 120, 120)
 
 
+BALL = (200, 200, 200)
+BALL_EDGE = (130, 130, 130)
+BALL_SHINE = (228, 228, 228)
+
+
 def _pt(j, ref):
-    """ref = joint name or (x, y) world point."""
-    return j[ref] if isinstance(ref, str) else ref
+    """ref = joint name, (joint name, dx, dy) or (x, y) world point."""
+    if isinstance(ref, str):
+        return j[ref]
+    if isinstance(ref[0], str):
+        return add(j[ref[0]], (ref[1], ref[2]))
+    return ref
+
+
+def ball_geom(prop, j):
+    """("ball", x, r[, y]) static (resting on the floor unless y given) or
+    ("ball", joint, r, dx[, dy]) following a joint; dy None/omitted = resting on the floor."""
+    ref, r = prop[1], prop[2]
+    if isinstance(ref, str):
+        dx = prop[3] if len(prop) > 3 else 0
+        dy = prop[4] if len(prop) > 4 else None
+        base = j[ref]
+        return (base[0] + dx, r if dy is None else base[1] + dy), r
+    return (ref, prop[3] if len(prop) > 3 else r), r
+
+
+def dynamic_extent(prop, j):
+    """x-range of props that move with the figure (per frame), or None."""
+    if prop[0] == "ball" and isinstance(prop[1], str):
+        (x, _), r = ball_geom(prop, j)
+        return (x - r, x + r)
+    return None
+
+
+def draw_ball(cv, c, r):
+    cv.circle(c, r, BALL, outline=BALL_EDGE, owidth=2)
+    # red stripe through the centre; it turns as the ball rolls (rolling to +x = clockwise)
+    phi = math.radians(25) - c[0] / r
+    n = (math.cos(phi), math.sin(phi))
+    t = (-n[1], n[0])
+    w = r * 0.2
+    pts = []
+    for side in (1, -1):
+        for i in range(9):
+            b = (-w + 2 * w * i / 8) * side
+            a = math.sqrt(max(0.0, r * r - b * b)) * 0.96 * side
+            pts.append(add(c, add(mul(t, a), mul(n, b))))
+    cv.polygon(pts, RED)
+    cv.circle(add(c, (-0.38 * r, 0.42 * r)), 0.13 * r, BALL_SHINE)
 
 
 def static_extent(prop):
@@ -25,6 +71,8 @@ def static_extent(prop):
         return (prop[1] - prop[2], prop[1] + prop[2])
     if kind == "post":
         return (prop[1] - 6, prop[1] + 12)
+    if kind == "ball" and not isinstance(prop[1], str):
+        return (prop[1] - prop[2], prop[1] + prop[2])
     return None
 
 
@@ -57,6 +105,9 @@ def draw_back(cv, prop, j):
     elif kind == "post":
         cv.rect(prop[1], 0, prop[1] + 12, 420, (44, 44, 44))
         cv.circle((prop[1] + 2, prop[2]), 6, STEEL)
+    elif kind == "ball":
+        c, r = ball_geom(prop, j)
+        draw_ball(cv, c, r)
     elif kind == "foam":
         x, r = prop[1], prop[2]
         cv.circle((x, r), r, STEEL)
@@ -84,8 +135,8 @@ def draw_back(cv, prop, j):
 def draw_front_props(cv, prop, j):
     kind = prop[0]
     if kind == "band":
-        a, b = _pt(j, prop[1]), _pt(j, prop[2])
-        cv.seg(a, b, 4, RED)
+        # polyline through any number of refs
+        cv.poly([_pt(j, r) for r in prop[1:]], 4, RED)
     elif kind == "dumbbell":
         hand = j[prop[1]]
         orient = prop[2] if len(prop) > 2 else "h"

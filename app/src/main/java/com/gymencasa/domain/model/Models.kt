@@ -13,11 +13,13 @@ enum class Equipment(val slug: String) {
     SOFA("sofa"),
     TOALLA("toalla"),
     MOCHILA("mochila"),
-    BOTELLAS("botellas");
+    BOTELLAS("botellas"),
+    PELOTA("pelota"),
+    BANDAS_LARGAS("bandas_largas");
 
     companion object {
         /** Gym-style equipment, shown first in the picker. */
-        val gym = listOf(GOMAS, ESTERILLA, MANCUERNA, FOAM)
+        val gym = listOf(GOMAS, BANDAS_LARGAS, ESTERILLA, MANCUERNA, FOAM, PELOTA)
         val household = listOf(SILLA, PARED, ESCALON, SOFA, TOALLA, MOCHILA, BOTELLAS)
         fun fromSlug(slug: String): Equipment? = entries.firstOrNull { it.slug == slug }
     }
@@ -32,9 +34,14 @@ enum class ExerciseType(val slug: String) {
 }
 
 enum class Goal(val slug: String) {
-    FUERZA("fuerza"), CARDIO("cardio"), TONIFICAR("tonificar"), MOVILIDAD("movilidad");
+    FUERZA("fuerza"), CARDIO("cardio"), TONIFICAR("tonificar"), MOVILIDAD("movilidad"),
+
+    /** Labour preparation, only offered in pregnancy mode. */
+    PARTO("parto");
 
     companion object {
+        /** Goals offered on Home: PARTO only in pregnancy mode. */
+        fun available(pregnant: Boolean): List<Goal> = if (pregnant) listOf(PARTO, TONIFICAR, MOVILIDAD, FUERZA) else entries - PARTO
         fun fromSlug(slug: String?): Goal = entries.firstOrNull { it.slug == slug } ?: TONIFICAR
     }
 }
@@ -44,6 +51,15 @@ enum class Level(val slug: String) {
 
     companion object {
         fun fromSlug(slug: String?): Level = entries.firstOrNull { it.slug == slug } ?: INTERMEDIO
+    }
+}
+
+/** Suitability during pregnancy (conservative). NO = not shown in pregnancy mode. */
+enum class Pregnancy(val slug: String?) {
+    NO(null), APTO("apto"), PARTO("parto");
+
+    companion object {
+        fun fromSlug(slug: String?): Pregnancy = entries.firstOrNull { it.slug != null && it.slug == slug } ?: NO
     }
 }
 
@@ -67,6 +83,7 @@ data class Exercise(
     val unilateral: Boolean,
     val videoPath: String?,
     val thumbPath: String?,
+    val pregnancy: Pregnancy = Pregnancy.NO,
 )
 
 data class PlannedExercise(
@@ -97,6 +114,7 @@ data class UserSettings(
     val soundEnabled: Boolean = true,
     val vibrationEnabled: Boolean = true,
     val onboarded: Boolean = false,
+    val pregnant: Boolean = false,
 ) {
     companion object {
         const val DEFAULT_REST_SECONDS = 30

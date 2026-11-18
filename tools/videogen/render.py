@@ -24,7 +24,7 @@ from exercises import EXERCISES  # noqa: E402
 OUT = HERE / "out"
 APP_ASSETS = HERE.parent.parent / "app" / "src" / "main" / "assets"
 FPS = 24
-META_KEYS = ("slug", "name", "description", "muscle_groups", "equipment", "type", "difficulty", "unilateral")
+META_KEYS = ("slug", "name", "description", "muscle_groups", "equipment", "type", "difficulty", "unilateral", "pregnancy")
 
 
 def solve(exercise, u):
@@ -41,6 +41,10 @@ def layout(exercise, frames):
         for p in K.figure_points(j):
             xs.append(p[0]); ys.append(p[1])
         ys.append(j["head"][1] + K.L["head"])
+        for prop in exercise["props"]:
+            ext = P.dynamic_extent(prop, j)
+            if ext:
+                xs.extend(ext)
     for prop in exercise["props"]:
         ext = P.static_extent(prop)
         if ext and prop[0] != "mat":

@@ -26,9 +26,14 @@ object PlanAlgorithm {
         Goal.CARDIO -> Base(3, 30)
         Goal.TONIFICAR -> Base(3, 45)
         Goal.MOVILIDAD -> Base(2, 40)
+        Goal.PARTO -> Base(2, 40)
     }
 
-    fun assign(exercise: Exercise, goal: Goal, level: Level): PlannedExercise {
+    /** Pregnancy mode keeps the dose moderate whatever the goal. */
+    const val PREGNANCY_MAX_SETS = 3
+    const val PREGNANCY_MAX_WORK_SECONDS = 45
+
+    fun assign(exercise: Exercise, goal: Goal, level: Level, pregnant: Boolean = false): PlannedExercise {
         // Mobility / foam-roller work keeps its own gentle dose whatever the day's goal.
         val effectiveGoal = when (exercise.type) {
             ExerciseType.MOVILIDAD, ExerciseType.RECUPERACION -> Goal.MOVILIDAD
@@ -40,8 +45,12 @@ object PlanAlgorithm {
             Level.INTERMEDIO -> 0 to 0
             Level.AVANZADO -> 1 to 10
         }
-        val sets = (base.sets + setDelta).coerceIn(MIN_SETS, MAX_SETS)
+        var sets = (base.sets + setDelta).coerceIn(MIN_SETS, MAX_SETS)
         var work = (base.work + workDelta).coerceAtLeast(MIN_WORK_SECONDS)
+        if (pregnant) {
+            sets = sets.coerceAtMost(PREGNANCY_MAX_SETS)
+            work = work.coerceAtMost(PREGNANCY_MAX_WORK_SECONDS)
+        }
         if (exercise.unilateral) work *= 2
         return PlannedExercise(exercise, sets, work)
     }
@@ -66,8 +75,9 @@ object PlanAlgorithm {
         mode: WorkoutMode,
         title: String,
         allowDrop: Boolean = true,
+        pregnant: Boolean = false,
     ): DayPlan {
-        val items = exercises.map { assign(it, goal, level) }.toMutableList()
+        val items = exercises.map { assign(it, goal, level, pregnant) }.toMutableList()
         fit(items, restSeconds, durationMin * 60, allowDrop)
         return DayPlan(title, goal, mode, durationMin, restSeconds, items)
     }

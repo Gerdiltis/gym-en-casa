@@ -40,7 +40,15 @@ import androidx.lifecycle.viewModelScope
 import com.gymencasa.R
 import com.gymencasa.data.repository.SettingsRepository
 import com.gymencasa.domain.model.Equipment
+import com.gymencasa.domain.model.Goal
 import com.gymencasa.domain.model.Level
+import androidx.compose.foundation.layout.Row
+import androidx.compose.material.icons.filled.PregnantWoman
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
+import androidx.compose.material3.TextButton
+import androidx.compose.ui.Alignment
 import com.gymencasa.domain.model.UserSettings
 import com.gymencasa.ui.components.ScreenHeader
 import com.gymencasa.ui.components.SectionTitle
@@ -58,10 +66,15 @@ import javax.inject.Inject
 class EquipmentViewModel @Inject constructor(private val settings: SettingsRepository) : ViewModel() {
     val current: StateFlow<UserSettings?> = settings.settings.stateIn(viewModelScope, SharingStarted.Eagerly, null)
 
-    fun save(equipment: Set<String>, name: String? = null, level: Level? = null, finishOnboarding: Boolean = false, done: () -> Unit = {}) {
+    fun save(
+        equipment: Set<String>, name: String? = null, level: Level? = null, finishOnboarding: Boolean = false,
+        pregnant: Boolean? = null, done: () -> Unit = {},
+    ) {
         viewModelScope.launch {
             settings.update { s ->
                 s.copy(
+                    pregnant = pregnant ?: s.pregnant,
+                    goal = if (pregnant == true) Goal.PARTO else s.goal,
                     equipment = equipment,
                     displayName = name ?: s.displayName,
                     level = level ?: s.level,
@@ -128,8 +141,9 @@ fun OnboardingScreen(vm: EquipmentViewModel = hiltViewModel()) {
     var selected by rememberSaveable { mutableStateOf(setOf<String>()) }
     var name by rememberSaveable { mutableStateOf("") }
     var level by rememberSaveable { mutableStateOf(Level.INTERMEDIO) }
+    var pregnant by rememberSaveable { mutableStateOf(false) }
     LaunchedEffect(current != null) {
-        current?.let { selected = it.equipment; name = it.displayName; level = it.level }
+        current?.let { selected = it.equipment; name = it.displayName; level = it.level; pregnant = it.pregnant }
     }
     Column(Modifier.fillMaxSize().safeDrawingPadding()) {
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 20.dp)) {
@@ -138,11 +152,13 @@ fun OnboardingScreen(vm: EquipmentViewModel = hiltViewModel()) {
             OutlinedTextField(value = name, onValueChange = { name = it.take(30) }, singleLine = true, modifier = Modifier.fillMaxWidth())
             SectionTitle(stringResource(R.string.onboarding_level))
             LevelPicker(level) { level = it }
+            Spacer(Modifier.height(12.dp))
+            PregnancySwitch(pregnant) { pregnant = it }
             EquipmentPicker(selected) { slug -> selected = if (slug in selected) selected - slug else selected + slug }
             Spacer(Modifier.height(24.dp))
         }
         Button(
-            onClick = { vm.save(selected, name.trim(), level, finishOnboarding = true) },
+            onClick = { vm.save(selected, name.trim(), level, finishOnboarding = true, pregnant = pregnant) },
             modifier = Modifier.fillMaxWidth().padding(20.dp).height(56.dp),
         ) { Text(stringResource(R.string.action_continue).uppercase()) }
     }
@@ -162,5 +178,34 @@ fun EquipmentEditScreen(nav: Navigator, vm: EquipmentViewModel = hiltViewModel()
             onClick = { vm.save(selected) { nav.back() } },
             modifier = Modifier.fillMaxWidth().navigationBarsPadding().padding(20.dp).height(56.dp),
         ) { Text(stringResource(R.string.action_save).uppercase()) }
+    }
+}
+
+/** "Estoy embarazada" switch. Turning it on first shows the medical notice. */
+@Composable
+fun PregnancySwitch(checked: Boolean, onChange: (Boolean) -> Unit) {
+    var confirm by remember { mutableStateOf(false) }
+    Row(Modifier.fillMaxWidth().padding(vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
+        Icon(Icons.Filled.PregnantWoman, null, tint = MaterialTheme.colorScheme.primary)
+        Spacer(Modifier.size(12.dp))
+        Column(Modifier.weight(1f)) {
+            Text(stringResource(R.string.pregnancy_switch), style = MaterialTheme.typography.titleMedium)
+            Text(stringResource(R.string.pregnancy_switch_desc), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        }
+        Switch(
+            checked = checked,
+            onCheckedChange = { v -> if (v) confirm = true else onChange(false) },
+            colors = SwitchDefaults.colors(checkedTrackColor = MaterialTheme.colorScheme.primary),
+        )
+    }
+    if (confirm) {
+        AlertDialog(
+            onDismissRequest = { confirm = false },
+            icon = { Icon(Icons.Filled.PregnantWoman, null) },
+            title = { Text(stringResource(R.string.pregnancy_dialog_title)) },
+            text = { Text(stringResource(R.string.pregnancy_dialog_text)) },
+            confirmButton = { TextButton(onClick = { confirm = false; onChange(true) }) { Text(stringResource(R.string.pregnancy_dialog_accept)) } },
+            dismissButton = { TextButton(onClick = { confirm = false }) { Text(stringResource(R.string.action_cancel)) } },
+        )
     }
 }

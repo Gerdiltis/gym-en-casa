@@ -2,6 +2,7 @@ package com.gymencasa.domain
 
 import com.gymencasa.domain.model.Exercise
 import com.gymencasa.domain.model.ExerciseType
+import com.gymencasa.domain.model.Pregnancy
 
 fun ex(
     slug: String,
@@ -9,7 +10,8 @@ fun ex(
     type: ExerciseType = ExerciseType.FUERZA,
     muscles: List<String> = listOf("piernas"),
     unilateral: Boolean = false,
-) = Exercise(slug, slug, "", muscles, equipment, type, 1, unilateral, null, null)
+    pregnancy: Pregnancy = Pregnancy.NO,
+) = Exercise(slug, slug, "", muscles, equipment, type, 1, unilateral, null, null, pregnancy)
 
 val catalog = listOf(
     ex("sentadilla", muscles = listOf("piernas")),

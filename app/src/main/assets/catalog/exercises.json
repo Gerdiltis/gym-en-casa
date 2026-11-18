@@ -13,6 +13,7 @@
   "type": "fuerza",
   "difficulty": 1,
   "unilateral": false,
+  "pregnancy": "apto",
   "video_path": "videos/sentadilla.mp4",
   "thumb_path": "thumbs/sentadilla.webp"
  },
@@ -30,6 +31,7 @@
   "type": "fuerza",
   "difficulty": 1,
   "unilateral": true,
+  "pregnancy": "apto",
   "video_path": "videos/zancada.mp4",
   "thumb_path": "thumbs/zancada.webp"
  },
@@ -47,6 +49,7 @@
   "type": "cardio",
   "difficulty": 2,
   "unilateral": false,
+  "pregnancy": null,
   "video_path": "videos/sentadilla_salto.mp4",
   "thumb_path": "thumbs/sentadilla_salto.webp"
  },
@@ -63,6 +66,7 @@
   "type": "fuerza",
   "difficulty": 1,
   "unilateral": false,
+  "pregnancy": "apto",
   "video_path": "videos/elevacion_talones.mp4",
   "thumb_path": "thumbs/elevacion_talones.webp"
  },
@@ -81,6 +85,7 @@
   "type": "fuerza",
   "difficulty": 2,
   "unilateral": false,
+  "pregnancy": null,
   "video_path": "videos/flexiones.mp4",
   "thumb_path": "thumbs/flexiones.webp"
  },
@@ -98,6 +103,7 @@
   "type": "fuerza",
   "difficulty": 1,
   "unilateral": false,
+  "pregnancy": null,
   "video_path": "videos/flexiones_rodillas.mp4",
   "thumb_path": "thumbs/flexiones_rodillas.webp"
  },
@@ -115,6 +121,7 @@
   "type": "fuerza",
   "difficulty": 3,
   "unilateral": false,
+  "pregnancy": null,
   "video_path": "videos/pike_pushup.mp4",
   "thumb_path": "thumbs/pike_pushup.webp"
  },
@@ -132,6 +139,7 @@
   "type": "fuerza",
   "difficulty": 1,
   "unilateral": false,
+  "pregnancy": null,
   "video_path": "videos/puente_gluteo.mp4",
   "thumb_path": "thumbs/puente_gluteo.webp"
  },
@@ -149,6 +157,7 @@
   "type": "core",
   "difficulty": 1,
   "unilateral": false,
+  "pregnancy": null,
   "video_path": "videos/plancha.mp4",
   "thumb_path": "thumbs/plancha.webp"
  },
@@ -166,6 +175,7 @@
   "type": "core",
   "difficulty": 2,
   "unilateral": true,
+  "pregnancy": null,
   "video_path": "videos/plancha_lateral.mp4",
   "thumb_path": "thumbs/plancha_lateral.webp"
  },
@@ -183,6 +193,7 @@
   "type": "core",
   "difficulty": 1,
   "unilateral": false,
+  "pregnancy": null,
   "video_path": "videos/crunch.mp4",
   "thumb_path": "thumbs/crunch.webp"
  },
@@ -200,6 +211,7 @@
   "type": "core",
   "difficulty": 2,
   "unilateral": false,
+  "pregnancy": null,
   "video_path": "videos/bicicleta.mp4",
   "thumb_path": "thumbs/bicicleta.webp"
  },
@@ -217,6 +229,7 @@
   "type": "core",
   "difficulty": 1,
   "unilateral": false,
+  "pregnancy": null,
   "video_path": "videos/dead_bug.mp4",
   "thumb_path": "thumbs/dead_bug.webp"
  },
@@ -235,6 +248,7 @@
   "type": "core",
   "difficulty": 1,
   "unilateral": false,
+  "pregnancy": "apto",
   "video_path": "videos/bird_dog.mp4",
   "thumb_path": "thumbs/bird_dog.webp"
  },
@@ -252,6 +266,7 @@
   "type": "core",
   "difficulty": 1,
   "unilateral": false,
+  "pregnancy": null,
   "video_path": "videos/superman.mp4",
   "thumb_path": "thumbs/superman.webp"
  },
@@ -269,6 +284,7 @@
   "type": "cardio",
   "difficulty": 1,
   "unilateral": false,
+  "pregnancy": null,
   "video_path": "videos/jumping_jacks.mp4",
   "thumb_path": "thumbs/jumping_jacks.webp"
  },
@@ -286,6 +302,7 @@
   "type": "cardio",
   "difficulty": 2,
   "unilateral": false,
+  "pregnancy": null,
   "video_path": "videos/mountain_climbers.mp4",
   "thumb_path": "thumbs/mountain_climbers.webp"
  },
@@ -303,6 +320,7 @@
   "type": "cardio",
   "difficulty": 3,
   "unilateral": false,
+  "pregnancy": null,
   "video_path": "videos/burpee.mp4",
   "thumb_path": "thumbs/burpee.webp"
  },
@@ -320,6 +338,7 @@
   "type": "cardio",
   "difficulty": 1,
   "unilateral": false,
+  "pregnancy": null,
   "video_path": "videos/rodillas_al_pecho.mp4",
   "thumb_path": "thumbs/rodillas_al_pecho.webp"
  },
@@ -338,6 +357,7 @@
   "type": "cardio",
   "difficulty": 2,
   "unilateral": false,
+  "pregnancy": null,
   "video_path": "videos/skater.mp4",
   "thumb_path": "thumbs/skater.webp"
  },
@@ -356,6 +376,7 @@
   "type": "cardio",
   "difficulty": 1,
   "unilateral": false,
+  "pregnancy": "apto",
   "video_path": "videos/boxeo_sombra.mp4",
   "thumb_path": "thumbs/boxeo_sombra.webp"
  },
@@ -373,6 +394,7 @@
   "type": "movilidad",
   "difficulty": 1,
   "unilateral": false,
+  "pregnancy": "parto",
   "video_path": "videos/gato_camello.mp4",
   "thumb_path": "thumbs/gato_camello.webp"
  },
@@ -390,6 +412,7 @@
   "type": "movilidad",
   "difficulty": 1,
   "unilateral": false,
+  "pregnancy": "apto",
   "video_path": "videos/estiramiento_isquios.mp4",
   "thumb_path": "thumbs/estiramiento_isquios.webp"
  },
@@ -406,6 +429,7 @@
   "type": "movilidad",
   "difficulty": 1,
   "unilateral": false,
+  "pregnancy": "apto",
   "video_path": "videos/circulos_brazos.mp4",
   "thumb_path": "thumbs/circulos_brazos.webp"
  },
@@ -423,6 +447,7 @@
   "type": "movilidad",
   "difficulty": 1,
   "unilateral": true,
+  "pregnancy": "parto",
   "video_path": "videos/estocada_flexor.mp4",
   "thumb_path": "thumbs/estocada_flexor.webp"
  },
@@ -440,6 +465,7 @@
   "type": "movilidad",
   "difficulty": 1,
   "unilateral": false,
+  "pregnancy": "parto",
   "video_path": "videos/postura_nino.mp4",
   "thumb_path": "thumbs/postura_nino.webp"
  },
@@ -457,6 +483,7 @@
   "type": "fuerza",
   "difficulty": 2,
   "unilateral": false,
+  "pregnancy": "apto",
   "video_path": "videos/fondos_silla.mp4",
   "thumb_path": "thumbs/fondos_silla.webp"
  },
@@ -474,6 +501,7 @@
   "type": "fuerza",
   "difficulty": 3,
   "unilateral": true,
+  "pregnancy": null,
   "video_path": "videos/sentadilla_bulgara.mp4",
   "thumb_path": "thumbs/sentadilla_bulgara.webp"
  },
@@ -491,6 +519,7 @@
   "type": "fuerza",
   "difficulty": 1,
   "unilateral": false,
+  "pregnancy": "apto",
   "video_path": "videos/flexiones_inclinadas.mp4",
   "thumb_path": "thumbs/flexiones_inclinadas.webp"
  },
@@ -509,6 +538,7 @@
   "type": "fuerza",
   "difficulty": 3,
   "unilateral": false,
+  "pregnancy": null,
   "video_path": "videos/flexiones_declinadas.mp4",
   "thumb_path": "thumbs/flexiones_declinadas.webp"
  },
@@ -526,6 +556,7 @@
   "type": "fuerza",
   "difficulty": 1,
   "unilateral": false,
+  "pregnancy": "parto",
   "video_path": "videos/sentadilla_silla.mp4",
   "thumb_path": "thumbs/sentadilla_silla.webp"
  },
@@ -543,6 +574,7 @@
   "type": "fuerza",
   "difficulty": 2,
   "unilateral": false,
+  "pregnancy": "parto",
   "video_path": "videos/sentadilla_pared.mp4",
   "thumb_path": "thumbs/sentadilla_pared.webp"
  },
@@ -560,6 +592,7 @@
   "type": "fuerza",
   "difficulty": 1,
   "unilateral": false,
+  "pregnancy": "apto",
   "video_path": "videos/flexiones_pared.mp4",
   "thumb_path": "thumbs/flexiones_pared.webp"
  },
@@ -577,6 +610,7 @@
   "type": "fuerza",
   "difficulty": 1,
   "unilateral": true,
+  "pregnancy": "apto",
   "video_path": "videos/step_up.mp4",
   "thumb_path": "thumbs/step_up.webp"
  },
@@ -593,6 +627,7 @@
   "type": "fuerza",
   "difficulty": 2,
   "unilateral": false,
+  "pregnancy": "apto",
   "video_path": "videos/elevacion_talones_escalon.mp4",
   "thumb_path": "thumbs/elevacion_talones_escalon.webp"
  },
@@ -610,6 +645,7 @@
   "type": "fuerza",
   "difficulty": 2,
   "unilateral": false,
+  "pregnancy": "apto",
   "video_path": "videos/hip_thrust_sofa.mp4",
   "thumb_path": "thumbs/hip_thrust_sofa.webp"
  },
@@ -627,6 +663,7 @@
   "type": "cardio",
   "difficulty": 2,
   "unilateral": false,
+  "pregnancy": null,
   "video_path": "videos/escaladores_toalla.mp4",
   "thumb_path": "thumbs/escaladores_toalla.webp"
  },
@@ -645,6 +682,7 @@
   "type": "fuerza",
   "difficulty": 2,
   "unilateral": false,
+  "pregnancy": null,
   "video_path": "videos/good_morning_mochila.mp4",
   "thumb_path": "thumbs/good_morning_mochila.webp"
  },
@@ -662,6 +700,7 @@
   "type": "fuerza",
   "difficulty": 1,
   "unilateral": false,
+  "pregnancy": "apto",
   "video_path": "videos/remo_mochila.mp4",
   "thumb_path": "thumbs/remo_mochila.webp"
  },
@@ -678,6 +717,7 @@
   "type": "fuerza",
   "difficulty": 1,
   "unilateral": false,
+  "pregnancy": "apto",
   "video_path": "videos/curl_botellas.mp4",
   "thumb_path": "thumbs/curl_botellas.webp"
  },
@@ -694,6 +734,7 @@
   "type": "fuerza",
   "difficulty": 1,
   "unilateral": false,
+  "pregnancy": "apto",
   "video_path": "videos/elevaciones_laterales_botellas.mp4",
   "thumb_path": "thumbs/elevaciones_laterales_botellas.webp"
  },
@@ -706,11 +747,12 @@
    "biceps"
   ],
   "equipment": [
-   "gomas"
+   "gomas|bandas_largas"
   ],
   "type": "fuerza",
   "difficulty": 1,
   "unilateral": false,
+  "pregnancy": "apto",
   "video_path": "videos/remo_goma.mp4",
   "thumb_path": "thumbs/remo_goma.webp"
  },
@@ -723,11 +765,12 @@
    "triceps"
   ],
   "equipment": [
-   "gomas"
+   "gomas|bandas_largas"
   ],
   "type": "fuerza",
   "difficulty": 1,
   "unilateral": false,
+  "pregnancy": "apto",
   "video_path": "videos/press_pecho_goma.mp4",
   "thumb_path": "thumbs/press_pecho_goma.webp"
  },
@@ -740,11 +783,12 @@
    "espalda"
   ],
   "equipment": [
-   "gomas"
+   "gomas|bandas_largas"
   ],
   "type": "fuerza",
   "difficulty": 2,
   "unilateral": false,
+  "pregnancy": "apto",
   "video_path": "videos/face_pull_goma.mp4",
   "thumb_path": "thumbs/face_pull_goma.webp"
  },
@@ -757,11 +801,12 @@
    "hombros"
   ],
   "equipment": [
-   "gomas"
+   "gomas|bandas_largas"
   ],
   "type": "fuerza",
   "difficulty": 1,
   "unilateral": false,
+  "pregnancy": "apto",
   "video_path": "videos/pull_apart_goma.mp4",
   "thumb_path": "thumbs/pull_apart_goma.webp"
  },
@@ -773,11 +818,12 @@
    "biceps"
   ],
   "equipment": [
-   "gomas"
+   "gomas|bandas_largas"
   ],
   "type": "fuerza",
   "difficulty": 1,
   "unilateral": false,
+  "pregnancy": "apto",
   "video_path": "videos/curl_goma.mp4",
   "thumb_path": "thumbs/curl_goma.webp"
  },
@@ -789,11 +835,12 @@
    "triceps"
   ],
   "equipment": [
-   "gomas"
+   "gomas|bandas_largas"
   ],
   "type": "fuerza",
   "difficulty": 2,
   "unilateral": false,
+  "pregnancy": "apto",
   "video_path": "videos/extension_triceps_goma.mp4",
   "thumb_path": "thumbs/extension_triceps_goma.webp"
  },
@@ -806,11 +853,12 @@
    "gluteos"
   ],
   "equipment": [
-   "gomas"
+   "gomas|bandas_largas"
   ],
   "type": "fuerza",
   "difficulty": 2,
   "unilateral": false,
+  "pregnancy": "apto",
   "video_path": "videos/sentadilla_goma.mp4",
   "thumb_path": "thumbs/sentadilla_goma.webp"
  },
@@ -822,11 +870,12 @@
    "gluteos"
   ],
   "equipment": [
-   "gomas"
+   "gomas|bandas_largas"
   ],
   "type": "fuerza",
   "difficulty": 1,
   "unilateral": true,
+  "pregnancy": "apto",
   "video_path": "videos/patada_gluteo_goma.mp4",
   "thumb_path": "thumbs/patada_gluteo_goma.webp"
  },
@@ -839,11 +888,12 @@
    "aductores"
   ],
   "equipment": [
-   "gomas"
+   "gomas|bandas_largas"
   ],
   "type": "fuerza",
   "difficulty": 1,
   "unilateral": false,
+  "pregnancy": "apto",
   "video_path": "videos/monster_walk_goma.mp4",
   "thumb_path": "thumbs/monster_walk_goma.webp"
  },
@@ -861,6 +911,7 @@
   "type": "fuerza",
   "difficulty": 2,
   "unilateral": false,
+  "pregnancy": "apto",
   "video_path": "videos/goblet_squat.mp4",
   "thumb_path": "thumbs/goblet_squat.webp"
  },
@@ -879,6 +930,7 @@
   "type": "fuerza",
   "difficulty": 2,
   "unilateral": false,
+  "pregnancy": "apto",
   "video_path": "videos/peso_muerto_rumano.mp4",
   "thumb_path": "thumbs/peso_muerto_rumano.webp"
  },
@@ -896,6 +948,7 @@
   "type": "fuerza",
   "difficulty": 2,
   "unilateral": true,
+  "pregnancy": "apto",
   "video_path": "videos/remo_mancuerna.mp4",
   "thumb_path": "thumbs/remo_mancuerna.webp"
  },
@@ -913,6 +966,7 @@
   "type": "fuerza",
   "difficulty": 2,
   "unilateral": true,
+  "pregnancy": "apto",
   "video_path": "videos/press_hombro_mancuerna.mp4",
   "thumb_path": "thumbs/press_hombro_mancuerna.webp"
  },
@@ -931,6 +985,7 @@
   "type": "cardio",
   "difficulty": 2,
   "unilateral": false,
+  "pregnancy": null,
   "video_path": "videos/swing_mancuerna.mp4",
   "thumb_path": "thumbs/swing_mancuerna.webp"
  },
@@ -949,6 +1004,7 @@
   "type": "fuerza",
   "difficulty": 3,
   "unilateral": false,
+  "pregnancy": null,
   "video_path": "videos/thruster_mancuerna.mp4",
   "thumb_path": "thumbs/thruster_mancuerna.webp"
  },
@@ -966,6 +1022,7 @@
   "type": "fuerza",
   "difficulty": 2,
   "unilateral": true,
+  "pregnancy": "apto",
   "video_path": "videos/zancada_mancuerna.mp4",
   "thumb_path": "thumbs/zancada_mancuerna.webp"
  },
@@ -983,6 +1040,7 @@
   "type": "core",
   "difficulty": 3,
   "unilateral": false,
+  "pregnancy": null,
   "video_path": "videos/hollow_hold.mp4",
   "thumb_path": "thumbs/hollow_hold.webp"
  },
@@ -1000,6 +1058,7 @@
   "type": "core",
   "difficulty": 3,
   "unilateral": false,
+  "pregnancy": null,
   "video_path": "videos/v_up.mp4",
   "thumb_path": "thumbs/v_up.webp"
  },
@@ -1016,6 +1075,7 @@
   "type": "recuperacion",
   "difficulty": 1,
   "unilateral": false,
+  "pregnancy": null,
   "video_path": "videos/foam_cuadriceps.mp4",
   "thumb_path": "thumbs/foam_cuadriceps.webp"
  },
@@ -1032,6 +1092,7 @@
   "type": "recuperacion",
   "difficulty": 1,
   "unilateral": false,
+  "pregnancy": "apto",
   "video_path": "videos/foam_isquios.mp4",
   "thumb_path": "thumbs/foam_isquios.webp"
  },
@@ -1048,6 +1109,7 @@
   "type": "recuperacion",
   "difficulty": 1,
   "unilateral": false,
+  "pregnancy": "apto",
   "video_path": "videos/foam_gluteo.mp4",
   "thumb_path": "thumbs/foam_gluteo.webp"
  },
@@ -1064,6 +1126,7 @@
   "type": "recuperacion",
   "difficulty": 1,
   "unilateral": false,
+  "pregnancy": null,
   "video_path": "videos/foam_espalda.mp4",
   "thumb_path": "thumbs/foam_espalda.webp"
  },
@@ -1080,7 +1143,576 @@
   "type": "recuperacion",
   "difficulty": 1,
   "unilateral": false,
+  "pregnancy": "apto",
   "video_path": "videos/foam_gemelos.mp4",
   "thumb_path": "thumbs/foam_gemelos.webp"
+ },
+ {
+  "slug": "sentadilla_pared_pelota",
+  "name": "Sentadilla con fitball en la pared",
+  "description": "Coloca el fitball entre la zona lumbar y la pared, con los pies un poco adelantados. Baja dejando que la pelota ruede por la pared hasta donde estés cómoda y sube despacio.",
+  "muscle_groups": [
+   "cuadriceps",
+   "gluteos",
+   "piernas"
+  ],
+  "equipment": [
+   "pelota",
+   "pared"
+  ],
+  "type": "fuerza",
+  "difficulty": 1,
+  "unilateral": false,
+  "pregnancy": "parto",
+  "video_path": "videos/sentadilla_pared_pelota.mp4",
+  "thumb_path": "thumbs/sentadilla_pared_pelota.webp"
+ },
+ {
+  "slug": "circulos_cadera_pelota",
+  "name": "Círculos de cadera en fitball",
+  "description": "Sentada en el fitball con los pies bien apoyados y separados. Dibuja círculos amplios y lentos con la cadera, primero hacia un lado y luego hacia el otro, con el tronco tranquilo.",
+  "muscle_groups": [
+   "lumbar",
+   "gluteos",
+   "core"
+  ],
+  "equipment": [
+   "pelota"
+  ],
+  "type": "movilidad",
+  "difficulty": 1,
+  "unilateral": false,
+  "pregnancy": "parto",
+  "video_path": "videos/circulos_cadera_pelota.mp4",
+  "thumb_path": "thumbs/circulos_cadera_pelota.webp"
+ },
+ {
+  "slug": "basculacion_pelvica_pelota",
+  "name": "Basculación pélvica en fitball",
+  "description": "Sentada en el fitball, espalda larga y manos en las rodillas. Lleva la pelvis hacia delante y hacia atrás, haciendo rodar un poco la pelota. Movimiento suave y sin forzar.",
+  "muscle_groups": [
+   "lumbar",
+   "core"
+  ],
+  "equipment": [
+   "pelota"
+  ],
+  "type": "movilidad",
+  "difficulty": 1,
+  "unilateral": false,
+  "pregnancy": "parto",
+  "video_path": "videos/basculacion_pelvica_pelota.mp4",
+  "thumb_path": "thumbs/basculacion_pelvica_pelota.webp"
+ },
+ {
+  "slug": "cuatro_patas_pelota",
+  "name": "Balanceo de rodillas abrazando el fitball",
+  "description": "De rodillas sobre la esterilla, apoya el pecho y los brazos en el fitball. Balancéate despacio adelante y atrás dejando que la pelota ruede y la espalda se relaje.",
+  "muscle_groups": [
+   "lumbar",
+   "espalda"
+  ],
+  "equipment": [
+   "pelota"
+  ],
+  "type": "movilidad",
+  "difficulty": 1,
+  "unilateral": false,
+  "pregnancy": "parto",
+  "video_path": "videos/cuatro_patas_pelota.mp4",
+  "thumb_path": "thumbs/cuatro_patas_pelota.webp"
+ },
+ {
+  "slug": "respiracion_suelo_pelvico",
+  "name": "Respiración y suelo pélvico en fitball",
+  "description": "Sentada erguida en el fitball, manos sobre el abdomen. Inspira por la nariz soltando el suelo pélvico y, al espirar, actívalo suavemente como si lo elevaras. Sin apnea.",
+  "muscle_groups": [
+   "core",
+   "abdominales"
+  ],
+  "equipment": [
+   "pelota"
+  ],
+  "type": "movilidad",
+  "difficulty": 1,
+  "unilateral": false,
+  "pregnancy": "parto",
+  "video_path": "videos/respiracion_suelo_pelvico.mp4",
+  "thumb_path": "thumbs/respiracion_suelo_pelvico.webp"
+ },
+ {
+  "slug": "puente_pelota",
+  "name": "Puente de glúteo con fitball",
+  "description": "Tumbado boca arriba con los talones sobre el fitball. Sube la cadera apretando los glúteos hasta alinear hombros, cadera y rodillas, sin que la pelota se mueva, y baja despacio.",
+  "muscle_groups": [
+   "gluteos",
+   "isquios",
+   "core"
+  ],
+  "equipment": [
+   "pelota"
+  ],
+  "type": "fuerza",
+  "difficulty": 2,
+  "unilateral": false,
+  "pregnancy": null,
+  "video_path": "videos/puente_pelota.mp4",
+  "thumb_path": "thumbs/puente_pelota.webp"
+ },
+ {
+  "slug": "curl_isquios_pelota",
+  "name": "Curl de isquios con fitball",
+  "description": "Boca arriba con los talones en el fitball y la cadera elevada. Flexiona las rodillas acercando la pelota a los glúteos sin bajar la cadera y vuelve a estirar.",
+  "muscle_groups": [
+   "isquios",
+   "gluteos",
+   "core"
+  ],
+  "equipment": [
+   "pelota"
+  ],
+  "type": "fuerza",
+  "difficulty": 3,
+  "unilateral": false,
+  "pregnancy": null,
+  "video_path": "videos/curl_isquios_pelota.mp4",
+  "thumb_path": "thumbs/curl_isquios_pelota.webp"
+ },
+ {
+  "slug": "crunch_pelota",
+  "name": "Crunch en fitball",
+  "description": "Túmbate con la zona lumbar sobre el fitball y los pies firmes en el suelo. Con las manos tras la cabeza, sube el tronco contrayendo el abdomen y vuelve a estirarte sobre la pelota.",
+  "muscle_groups": [
+   "abdominales",
+   "core"
+  ],
+  "equipment": [
+   "pelota"
+  ],
+  "type": "core",
+  "difficulty": 2,
+  "unilateral": false,
+  "pregnancy": null,
+  "video_path": "videos/crunch_pelota.mp4",
+  "thumb_path": "thumbs/crunch_pelota.webp"
+ },
+ {
+  "slug": "plancha_pelota",
+  "name": "Plancha con antebrazos en fitball",
+  "description": "Apoya los antebrazos sobre el fitball y estira las piernas con las puntas en el suelo. Cuerpo recto, abdomen firme y sin hundir la cadera. Aguanta respirando.",
+  "muscle_groups": [
+   "core",
+   "abdominales",
+   "hombros"
+  ],
+  "equipment": [
+   "pelota"
+  ],
+  "type": "core",
+  "difficulty": 2,
+  "unilateral": false,
+  "pregnancy": null,
+  "video_path": "videos/plancha_pelota.mp4",
+  "thumb_path": "thumbs/plancha_pelota.webp"
+ },
+ {
+  "slug": "extension_lumbar_pelota",
+  "name": "Extensión lumbar en fitball",
+  "description": "Boca abajo con la cadera sobre el fitball y las puntas de los pies en el suelo. Con los brazos junto al cuerpo, deja caer el tronco sobre la pelota y súbelo hasta alinearlo con las piernas, sin pasarte.",
+  "muscle_groups": [
+   "lumbar",
+   "gluteos",
+   "espalda"
+  ],
+  "equipment": [
+   "pelota"
+  ],
+  "type": "core",
+  "difficulty": 2,
+  "unilateral": false,
+  "pregnancy": null,
+  "video_path": "videos/extension_lumbar_pelota.mp4",
+  "thumb_path": "thumbs/extension_lumbar_pelota.webp"
+ },
+ {
+  "slug": "mariposa",
+  "name": "Postura de mariposa",
+  "description": "Sentada en el suelo, junta las plantas de los pies y deja que las rodillas caigan hacia los lados. Espalda larga y hombros sueltos; mueve las rodillas suavemente arriba y abajo.",
+  "muscle_groups": [
+   "aductores",
+   "gluteos"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "movilidad",
+  "difficulty": 1,
+  "unilateral": false,
+  "pregnancy": "parto",
+  "video_path": "videos/mariposa.mp4",
+  "thumb_path": "thumbs/mariposa.webp"
+ },
+ {
+  "slug": "sentadilla_profunda_apoyada",
+  "name": "Sentadilla profunda apoyada en silla",
+  "description": "Sujétate al respaldo de una silla estable, pies algo más abiertos que la cadera. Baja despacio hasta una sentadilla profunda cómoda, respira ahí unos segundos y sube con ayuda de los brazos.",
+  "muscle_groups": [
+   "piernas",
+   "gluteos",
+   "aductores"
+  ],
+  "equipment": [
+   "silla"
+  ],
+  "type": "movilidad",
+  "difficulty": 1,
+  "unilateral": false,
+  "pregnancy": "parto",
+  "video_path": "videos/sentadilla_profunda_apoyada.mp4",
+  "thumb_path": "thumbs/sentadilla_profunda_apoyada.webp"
+ },
+ {
+  "slug": "marcha_en_sitio",
+  "name": "Marcha en el sitio",
+  "description": "Camina sin moverte del sitio levantando las rodillas a una altura cómoda y balanceando los brazos. Ritmo suave y constante, respirando con normalidad.",
+  "muscle_groups": [
+   "cardio",
+   "piernas"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "cardio",
+  "difficulty": 1,
+  "unilateral": false,
+  "pregnancy": "apto",
+  "video_path": "videos/marcha_en_sitio.mp4",
+  "thumb_path": "thumbs/marcha_en_sitio.webp"
+ },
+ {
+  "slug": "peso_muerto_banda",
+  "name": "Peso muerto con banda",
+  "description": "Pisa la banda con los pies a la anchura de la cadera y sujétala con los brazos estirados. Flexiona cadera y rodillas con la espalda recta y sube empujando el suelo. Usa la de 30 o 40 kg.",
+  "muscle_groups": [
+   "isquios",
+   "gluteos",
+   "lumbar"
+  ],
+  "equipment": [
+   "bandas_largas"
+  ],
+  "type": "fuerza",
+  "difficulty": 2,
+  "unilateral": false,
+  "pregnancy": null,
+  "video_path": "videos/peso_muerto_banda.mp4",
+  "thumb_path": "thumbs/peso_muerto_banda.webp"
+ },
+ {
+  "slug": "peso_muerto_rumano_banda",
+  "name": "Peso muerto rumano con banda",
+  "description": "Pisa la banda y sujétala delante de los muslos. Con las rodillas casi estiradas, lleva la cadera atrás hasta notar los isquios y sube apretando glúteos. Banda de 20 o 30 kg.",
+  "muscle_groups": [
+   "isquios",
+   "gluteos"
+  ],
+  "equipment": [
+   "bandas_largas"
+  ],
+  "type": "fuerza",
+  "difficulty": 2,
+  "unilateral": false,
+  "pregnancy": "apto",
+  "video_path": "videos/peso_muerto_rumano_banda.mp4",
+  "thumb_path": "thumbs/peso_muerto_rumano_banda.webp"
+ },
+ {
+  "slug": "remo_inclinado_banda",
+  "name": "Remo inclinado con banda",
+  "description": "Pisa la banda, inclina el tronco con la espalda recta y tira de ella hacia el abdomen juntando las escápulas. Baja controlando. Banda de 20 o 30 kg.",
+  "muscle_groups": [
+   "espalda",
+   "biceps"
+  ],
+  "equipment": [
+   "bandas_largas"
+  ],
+  "type": "fuerza",
+  "difficulty": 2,
+  "unilateral": false,
+  "pregnancy": "apto",
+  "video_path": "videos/remo_inclinado_banda.mp4",
+  "thumb_path": "thumbs/remo_inclinado_banda.webp"
+ },
+ {
+  "slug": "jalon_banda",
+  "name": "Jalón con banda en la puerta",
+  "description": "Ancla la banda en lo alto de una puerta cerrada y ponte de rodillas frente a ella. Tira hacia abajo llevando los codos a los costados y las manos al pecho. Banda de 20 o 30 kg.",
+  "muscle_groups": [
+   "espalda",
+   "biceps"
+  ],
+  "equipment": [
+   "bandas_largas"
+  ],
+  "type": "fuerza",
+  "difficulty": 2,
+  "unilateral": false,
+  "pregnancy": "apto",
+  "video_path": "videos/jalon_banda.mp4",
+  "thumb_path": "thumbs/jalon_banda.webp"
+ },
+ {
+  "slug": "press_militar_banda",
+  "name": "Press militar con banda",
+  "description": "Pisa la banda y sube los extremos a la altura de los hombros. Empuja hacia el techo hasta estirar los brazos sin arquear la espalda y baja despacio. Banda de 10 o 20 kg.",
+  "muscle_groups": [
+   "hombros",
+   "triceps"
+  ],
+  "equipment": [
+   "bandas_largas"
+  ],
+  "type": "fuerza",
+  "difficulty": 2,
+  "unilateral": false,
+  "pregnancy": "apto",
+  "video_path": "videos/press_militar_banda.mp4",
+  "thumb_path": "thumbs/press_militar_banda.webp"
+ },
+ {
+  "slug": "flexion_banda",
+  "name": "Flexión con banda",
+  "description": "Pasa la banda por la espalda, a la altura de los omóplatos, y sujeta un extremo bajo cada mano. Haz flexiones con el cuerpo recto; la banda añade resistencia al subir. Banda de 10 o 20 kg.",
+  "muscle_groups": [
+   "pecho",
+   "triceps",
+   "hombros"
+  ],
+  "equipment": [
+   "bandas_largas"
+  ],
+  "type": "fuerza",
+  "difficulty": 3,
+  "unilateral": false,
+  "pregnancy": null,
+  "video_path": "videos/flexion_banda.mp4",
+  "thumb_path": "thumbs/flexion_banda.webp"
+ },
+ {
+  "slug": "pallof_press_banda",
+  "name": "Press Pallof con banda",
+  "description": "Ancla la banda a un lado a la altura del pecho y colócate de perfil a ella. Lleva las manos del pecho al frente sin dejar que el tronco gire y vuelve despacio. Banda de 10 o 20 kg.",
+  "muscle_groups": [
+   "oblicuos",
+   "core"
+  ],
+  "equipment": [
+   "bandas_largas"
+  ],
+  "type": "core",
+  "difficulty": 2,
+  "unilateral": true,
+  "pregnancy": "apto",
+  "video_path": "videos/pallof_press_banda.mp4",
+  "thumb_path": "thumbs/pallof_press_banda.webp"
+ },
+ {
+  "slug": "lenador_banda",
+  "name": "Leñador con banda",
+  "description": "Ancla la banda abajo, a un lado. Con las dos manos, tira en diagonal desde la rodilla hasta por encima del hombro contrario girando el tronco y pivotando el pie de atrás. Banda de 10 o 20 kg.",
+  "muscle_groups": [
+   "oblicuos",
+   "core",
+   "hombros"
+  ],
+  "equipment": [
+   "bandas_largas"
+  ],
+  "type": "core",
+  "difficulty": 2,
+  "unilateral": true,
+  "pregnancy": null,
+  "video_path": "videos/lenador_banda.mp4",
+  "thumb_path": "thumbs/lenador_banda.webp"
+ },
+ {
+  "slug": "sentadilla_frontal_banda",
+  "name": "Sentadilla frontal con banda",
+  "description": "Pisa la banda y pásala por delante de los hombros, sujetándola con las manos. Haz una sentadilla profunda con el pecho alto y sube empujando con los talones. Banda de 30 o 40 kg.",
+  "muscle_groups": [
+   "piernas",
+   "gluteos"
+  ],
+  "equipment": [
+   "bandas_largas"
+  ],
+  "type": "fuerza",
+  "difficulty": 2,
+  "unilateral": false,
+  "pregnancy": "apto",
+  "video_path": "videos/sentadilla_frontal_banda.mp4",
+  "thumb_path": "thumbs/sentadilla_frontal_banda.webp"
+ },
+ {
+  "slug": "curl_banda_martillo",
+  "name": "Curl martillo con banda",
+  "description": "Pisa la banda y sujeta los extremos con las palmas mirándose. Flexiona los codos sin despegarlos del cuerpo y baja controlando. Banda de 10 kg.",
+  "muscle_groups": [
+   "biceps",
+   "brazos"
+  ],
+  "equipment": [
+   "bandas_largas"
+  ],
+  "type": "fuerza",
+  "difficulty": 1,
+  "unilateral": false,
+  "pregnancy": "apto",
+  "video_path": "videos/curl_banda_martillo.mp4",
+  "thumb_path": "thumbs/curl_banda_martillo.webp"
+ },
+ {
+  "slug": "extension_triceps_banda_puerta",
+  "name": "Extensión de tríceps en polea con banda",
+  "description": "Ancla la banda en lo alto de la puerta. Codos pegados al cuerpo, empuja las manos hacia abajo hasta estirar los brazos y sube despacio sin mover los codos. Banda de 10 o 20 kg.",
+  "muscle_groups": [
+   "triceps"
+  ],
+  "equipment": [
+   "bandas_largas"
+  ],
+  "type": "fuerza",
+  "difficulty": 1,
+  "unilateral": false,
+  "pregnancy": "apto",
+  "video_path": "videos/extension_triceps_banda_puerta.mp4",
+  "thumb_path": "thumbs/extension_triceps_banda_puerta.webp"
+ },
+ {
+  "slug": "curl_nordico_sofa",
+  "name": "Curl nórdico con sofá",
+  "description": "De rodillas sobre la esterilla con los tobillos enganchados bajo el sofá. Con el cuerpo recto de rodillas a cabeza, baja hacia delante lo más lento posible, frena con las manos y vuelve.",
+  "muscle_groups": [
+   "isquios"
+  ],
+  "equipment": [
+   "sofa"
+  ],
+  "type": "fuerza",
+  "difficulty": 3,
+  "unilateral": false,
+  "pregnancy": null,
+  "video_path": "videos/curl_nordico_sofa.mp4",
+  "thumb_path": "thumbs/curl_nordico_sofa.webp"
+ },
+ {
+  "slug": "plancha_toque_hombro",
+  "name": "Plancha con toque de hombro",
+  "description": "En plancha alta, con los pies algo separados, toca el hombro contrario con una mano y vuelve a apoyarla. Alterna sin balancear la cadera.",
+  "muscle_groups": [
+   "core",
+   "hombros"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "core",
+  "difficulty": 2,
+  "unilateral": false,
+  "pregnancy": null,
+  "video_path": "videos/plancha_toque_hombro.mp4",
+  "thumb_path": "thumbs/plancha_toque_hombro.webp"
+ },
+ {
+  "slug": "cien_pilates",
+  "name": "El cien (pilates)",
+  "description": "Boca arriba, despega cabeza y hombros y estira las piernas en diagonal. Con los brazos rectos junto al cuerpo, bombea arriba y abajo con golpes cortos mientras respiras: cinco inspirando y cinco espirando.",
+  "muscle_groups": [
+   "abdominales",
+   "core"
+  ],
+  "equipment": [
+   "esterilla"
+  ],
+  "type": "core",
+  "difficulty": 2,
+  "unilateral": false,
+  "pregnancy": null,
+  "video_path": "videos/cien_pilates.mp4",
+  "thumb_path": "thumbs/cien_pilates.webp"
+ },
+ {
+  "slug": "roll_up_pilates",
+  "name": "Roll up (pilates)",
+  "description": "Tumbado con las piernas estiradas y los brazos por encima de la cabeza. Sube enrollando la columna vértebra a vértebra hasta llegar hacia los pies y baja desenrollando despacio.",
+  "muscle_groups": [
+   "abdominales",
+   "lumbar"
+  ],
+  "equipment": [
+   "esterilla"
+  ],
+  "type": "core",
+  "difficulty": 2,
+  "unilateral": false,
+  "pregnancy": null,
+  "video_path": "videos/roll_up_pilates.mp4",
+  "thumb_path": "thumbs/roll_up_pilates.webp"
+ },
+ {
+  "slug": "estiramiento_pierna_pilates",
+  "name": "Estiramiento de una pierna (pilates)",
+  "description": "Boca arriba con cabeza y hombros despegados. Lleva una rodilla al pecho sujetándola con las manos mientras estiras la otra pierna en diagonal, y cambia de pierna con control.",
+  "muscle_groups": [
+   "abdominales",
+   "core"
+  ],
+  "equipment": [
+   "esterilla"
+  ],
+  "type": "core",
+  "difficulty": 2,
+  "unilateral": false,
+  "pregnancy": null,
+  "video_path": "videos/estiramiento_pierna_pilates.mp4",
+  "thumb_path": "thumbs/estiramiento_pierna_pilates.webp"
+ },
+ {
+  "slug": "sentadilla_sumo",
+  "name": "Sentadilla sumo",
+  "description": "Pies muy separados con las puntas hacia fuera. Baja con el tronco erguido llevando las rodillas en la dirección de los pies y sube apretando glúteos.",
+  "muscle_groups": [
+   "aductores",
+   "gluteos",
+   "piernas"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "fuerza",
+  "difficulty": 1,
+  "unilateral": false,
+  "pregnancy": "parto",
+  "video_path": "videos/sentadilla_sumo.mp4",
+  "thumb_path": "thumbs/sentadilla_sumo.webp"
+ },
+ {
+  "slug": "zancada_inversa",
+  "name": "Zancada inversa",
+  "description": "Da un paso largo hacia atrás y baja hasta que ambas rodillas formen 90°, con el peso en la pierna delantera. Vuelve empujando con el talón delantero y alterna.",
+  "muscle_groups": [
+   "piernas",
+   "gluteos"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "fuerza",
+  "difficulty": 1,
+  "unilateral": true,
+  "pregnancy": "apto",
+  "video_path": "videos/zancada_inversa.mp4",
+  "thumb_path": "thumbs/zancada_inversa.webp"
  }
 ]

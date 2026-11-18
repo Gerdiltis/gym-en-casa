@@ -58,6 +58,7 @@ import com.gymencasa.domain.model.DayPlan
 import com.gymencasa.domain.model.PlannedExercise
 import com.gymencasa.ui.components.ExerciseThumb
 import com.gymencasa.ui.components.ScreenHeader
+import com.gymencasa.ui.muscleList
 import com.gymencasa.ui.navigation.Navigator
 import com.gymencasa.ui.navigation.Route
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -176,7 +177,10 @@ private fun PlanItemCard(
                 Text("${index + 1}", style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.primary, modifier = Modifier.width(32.dp))
                 ExerciseThumb(thumb, size = 52.dp)
                 Spacer(Modifier.size(12.dp))
-                Text(item.exercise.name, style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
+                Column(Modifier.weight(1f)) {
+                    Text(item.exercise.name, style = MaterialTheme.typography.titleMedium)
+                    Text(muscleList(item.exercise.muscleGroups), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
                 IconButton(onClick = { onMove(-1) }, enabled = !isFirst) { Icon(Icons.Filled.KeyboardArrowUp, stringResource(R.string.plan_move_up)) }
                 IconButton(onClick = { onMove(1) }, enabled = !isLast) { Icon(Icons.Filled.KeyboardArrowDown, stringResource(R.string.plan_move_down)) }
                 IconButton(onClick = onRemove) { Icon(Icons.Filled.Close, stringResource(R.string.plan_remove)) }

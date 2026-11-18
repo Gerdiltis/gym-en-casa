@@ -48,13 +48,20 @@ import com.gymencasa.R
 import com.gymencasa.data.DayDraftStore
 import com.gymencasa.data.repository.ExerciseRepository
 import com.gymencasa.data.repository.SettingsRepository
-import com.gymencasa.domain.EquipmentFilter
+import com.gymencasa.domain.ExerciseFilter
 import com.gymencasa.domain.model.Exercise
 import com.gymencasa.domain.model.ExerciseType
 import com.gymencasa.ui.components.ExerciseThumb
 import com.gymencasa.ui.components.ExerciseVideo
 import com.gymencasa.ui.components.ScreenHeader
-import com.gymencasa.ui.equipmentLabelRes
+import com.gymencasa.ui.MuscleFilter
+import com.gymencasa.ui.equipmentRequirementLabel
+import com.gymencasa.ui.muscleList
+import com.gymencasa.domain.model.Pregnancy
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.material3.AssistChip
+import androidx.compose.material3.AssistChipDefaults
 import com.gymencasa.ui.home.RedChip
 import com.gymencasa.ui.labelRes
 import com.gymencasa.ui.muscleLabel
@@ -67,7 +74,8 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
-data class LibraryItem(val exercise: Exercise, val available: Boolean, val missing: Set<String>, val thumb: String?)
+/** [blockedByPregnancy]: the user has the equipment but is in pregnancy mode and the exercise is not suitable. */
+data class LibraryItem(val exercise: Exercise, val available: Boolean, val missing: Set<String>, val thumb: String?, val blockedByPregnancy: Boolean = false)
 
 data class LibraryUi(val items: List<LibraryItem> = emptyList(), val selected: Set<String> = emptySet())
 
@@ -80,8 +88,9 @@ class LibraryViewModel @Inject constructor(
     val ui: StateFlow<LibraryUi> = combine(exercises.exercises, settings.settings, draftStore.draft) { all, s, d ->
         LibraryUi(
             items = all.map { ex ->
-                val missing = EquipmentFilter.missing(ex, s.equipment)
-                LibraryItem(ex, missing.isEmpty(), missing, exercises.thumbUri(ex))
+                val missing = ExerciseFilter.missing(ex, s.equipment)
+                val blocked = s.pregnant && !ExerciseFilter.suitableForPregnancy(ex)
+                LibraryItem(ex, missing.isEmpty() && !blocked, missing, exercises.thumbUri(ex), blocked)
             },
             selected = d.selectedSlugs.toSet(),
         )
@@ -102,10 +111,14 @@ fun LibraryScreen(nav: Navigator, pickerMode: Boolean, vm: LibraryViewModel = hi
     var query by rememberSaveable { mutableStateOf("") }
     var type by rememberSaveable { mutableStateOf<ExerciseType?>(null) }
     var showUnavailable by rememberSaveable { mutableStateOf(false) }
+    var muscle by rememberSaveable { mutableStateOf<MuscleFilter?>(null) }
+    var pregnancyOnly by rememberSaveable { mutableStateOf(false) }
 
     val filtered = ui.items.filter { item ->
         (showUnavailable && !pickerMode || item.available) &&
             (type == null || item.exercise.type == type) &&
+            (muscle == null || item.exercise.muscleGroups.any { it in muscle!!.slugs }) &&
+            (!pregnancyOnly || ExerciseFilter.suitableForPregnancy(item.exercise)) &&
             (query.isBlank() || item.exercise.name.contains(query.trim(), ignoreCase = true))
     }.sortedBy { !it.available }
 
@@ -122,6 +135,10 @@ fun LibraryScreen(nav: Navigator, pickerMode: Boolean, vm: LibraryViewModel = hi
         LazyRow(contentPadding = PaddingValues(horizontal = 20.dp, vertical = 8.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             item { RedChip(type == null, stringResource(R.string.library_all)) { type = null } }
             items(ExerciseType.entries) { t -> RedChip(type == t, stringResource(t.labelRes)) { type = if (type == t) null else t } }
+            item { RedChip(pregnancyOnly, stringResource(R.string.pregnancy_filter)) { pregnancyOnly = !pregnancyOnly } }
+        }
+        LazyRow(contentPadding = PaddingValues(horizontal = 20.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            items(MuscleFilter.entries) { m -> RedChip(muscle == m, stringResource(m.label)) { muscle = if (muscle == m) null else m } }
         }
         if (!pickerMode) {
             Row(Modifier.fillMaxWidth().padding(horizontal = 20.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -140,11 +157,17 @@ fun LibraryScreen(nav: Navigator, pickerMode: Boolean, vm: LibraryViewModel = hi
                 ListItem(
                     headlineContent = { Text(ex.name) },
                     supportingContent = {
-                        if (!item.available) {
-                            val names = item.missing.map { slug -> equipmentLabelRes(slug)?.let { stringResource(it) } ?: slug }
-                            Text(stringResource(R.string.library_missing, names.joinToString()), color = MaterialTheme.colorScheme.error)
-                        } else {
-                            Text(ex.muscleGroups.joinToString { muscleLabel(it) })
+                        Column {
+                            Text(muscleList(ex.muscleGroups))
+                            when {
+                                item.missing.isNotEmpty() -> {
+                                    val names = item.missing.map { equipmentRequirementLabel(it) }
+                                    Text(stringResource(R.string.library_missing, names.joinToString()), color = MaterialTheme.colorScheme.error)
+                                }
+                                item.blockedByPregnancy -> Text(stringResource(R.string.library_not_for_pregnancy), color = MaterialTheme.colorScheme.error)
+                                ex.pregnancy == Pregnancy.PARTO -> Text(stringResource(R.string.pregnancy_badge_parto).uppercase(),
+                                    style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.primary)
+                            }
                         }
                     },
                     leadingContent = { ExerciseThumb(item.thumb) },
@@ -180,11 +203,43 @@ fun ExerciseDetailScreen(slug: String, nav: Navigator, vm: LibraryViewModel = hi
         Spacer(Modifier.height(16.dp))
         Text(ex.description, style = MaterialTheme.typography.bodyLarge)
         Spacer(Modifier.height(12.dp))
-        Text(stringResource(R.string.exercise_muscles, ex.muscleGroups.joinToString { muscleLabel(it) }), color = MaterialTheme.colorScheme.onSurfaceVariant)
-        val eq = ex.equipment.map { s -> equipmentLabelRes(s)?.let { stringResource(it) } ?: s }
+        MuscleChips(ex.muscleGroups)
+        Spacer(Modifier.height(8.dp))
+        val eq = ex.equipment.map { equipmentRequirementLabel(it) }
         Text(stringResource(R.string.exercise_equipment, eq.joinToString()), color = MaterialTheme.colorScheme.onSurfaceVariant)
         Text(stringResource(R.string.exercise_difficulty, ex.difficulty), color = MaterialTheme.colorScheme.onSurfaceVariant)
         if (ex.unilateral) Text(stringResource(R.string.exercise_unilateral), color = MaterialTheme.colorScheme.primary)
+        Text(
+            stringResource(when (ex.pregnancy) {
+                Pregnancy.PARTO -> R.string.pregnancy_detail_parto
+                Pregnancy.APTO -> R.string.pregnancy_detail_apto
+                Pregnancy.NO -> R.string.pregnancy_detail_no
+            }),
+            color = if (ex.pregnancy == Pregnancy.NO) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.primary,
+            style = MaterialTheme.typography.bodyMedium,
+        )
         Spacer(Modifier.height(24.dp).navigationBarsPadding())
+    }
+}
+
+/** Primary muscle in red, the rest in grey. */
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun MuscleChips(muscles: List<String>) {
+    if (muscles.isEmpty()) return
+    Text(stringResource(R.string.muscles_primary).uppercase(), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+    AssistChip(
+        onClick = {}, label = { Text(muscleLabel(muscles.first())) },
+        colors = AssistChipDefaults.assistChipColors(containerColor = MaterialTheme.colorScheme.primary, labelColor = MaterialTheme.colorScheme.onPrimary),
+        border = null,
+    )
+    if (muscles.size > 1) {
+        Text(stringResource(R.string.muscles_secondary).uppercase(), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            muscles.drop(1).forEach { m ->
+                AssistChip(onClick = {}, label = { Text(muscleLabel(m)) },
+                    colors = AssistChipDefaults.assistChipColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHigh))
+            }
+        }
     }
 }

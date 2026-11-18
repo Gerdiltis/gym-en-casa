@@ -15,9 +15,11 @@ import androidx.room.TypeConverters
 import androidx.room.Upsert
 import kotlinx.coroutines.flow.Flow
 
+/** Lists are stored as JSON: values may contain "|" (equipment alternatives such as "gomas|bandas_largas"). */
 class Converters {
-    @TypeConverter fun fromList(value: List<String>): String = value.joinToString("|")
-    @TypeConverter fun toList(value: String): List<String> = if (value.isEmpty()) emptyList() else value.split("|")
+    @TypeConverter fun fromList(value: List<String>): String = kotlinx.serialization.json.Json.encodeToString(value)
+    @TypeConverter fun toList(value: String): List<String> =
+        if (value.isEmpty()) emptyList() else kotlinx.serialization.json.Json.decodeFromString(value)
 }
 
 @Entity(tableName = "exercises")
@@ -32,6 +34,8 @@ data class ExerciseEntity(
     val unilateral: Boolean,
     val videoPath: String?,
     val thumbPath: String?,
+    /** "apto", "parto" or null (not suitable in pregnancy). */
+    val pregnancy: String? = null,
 )
 
 @Entity(tableName = "workouts")
@@ -168,11 +172,22 @@ interface RoutineDao {
 
 @Database(
     entities = [ExerciseEntity::class, WorkoutEntity::class, WorkoutSetEntity::class, RoutineEntity::class, RoutineItemEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = false,
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
+    companion object {
+        /** v2: pregnancy suitability per exercise. */
+        val MIGRATION_1_2 = object : androidx.room.migration.Migration(1, 2) {
+            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE exercises ADD COLUMN pregnancy TEXT")
+                // v1 stored lists joined with "|"; the catalog is reloaded from the APK / Supabase on start.
+                db.execSQL("DELETE FROM exercises")
+            }
+        }
+    }
+
     abstract fun exerciseDao(): ExerciseDao
     abstract fun workoutDao(): WorkoutDao
     abstract fun routineDao(): RoutineDao

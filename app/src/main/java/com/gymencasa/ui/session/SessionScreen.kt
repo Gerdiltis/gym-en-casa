@@ -70,6 +70,7 @@ import com.gymencasa.domain.session.Phase
 import com.gymencasa.domain.session.SessionState
 import com.gymencasa.domain.session.SessionStateMachine
 import com.gymencasa.ui.components.ExerciseVideo
+import com.gymencasa.ui.muscleList
 import com.gymencasa.ui.navigation.Navigator
 import com.gymencasa.ui.navigation.Route
 import com.gymencasa.ui.theme.TimerStyle
@@ -199,6 +200,7 @@ fun SessionScreen(nav: Navigator, vm: SessionViewModel = hiltViewModel()) {
         )
         Spacer(Modifier.height(12.dp))
         Text(showing.name.uppercase(), style = MaterialTheme.typography.headlineMedium, textAlign = TextAlign.Center)
+        Text(muscleList(showing.muscleGroups), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.primary, textAlign = TextAlign.Center)
         Spacer(Modifier.height(12.dp))
         ExerciseVideo(
             vm.videoUri(showing), vm.thumbUri(showing),

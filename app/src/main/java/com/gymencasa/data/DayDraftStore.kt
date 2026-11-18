@@ -18,6 +18,8 @@ data class DayDraft(
     val plan: DayPlan? = null,
     /** Set when the AI was unavailable and the local engine was used instead. */
     val usedFallback: Boolean = false,
+    /** True once the goal has been aligned with the user's profile (e.g. labour prep in pregnancy mode). */
+    val goalSynced: Boolean = false,
 )
 
 @Singleton

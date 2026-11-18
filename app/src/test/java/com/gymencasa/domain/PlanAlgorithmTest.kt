@@ -59,3 +59,18 @@ class PlanAlgorithmTest {
         assertTrue(plan.items.all { it.sets == PlanAlgorithm.MIN_SETS })
     }
 }
+
+class PlanAlgorithmPregnancyTest {
+    @Test
+    fun `pregnancy caps sets and seconds`() {
+        val p = PlanAlgorithm.assign(ex("sentadilla"), com.gymencasa.domain.model.Goal.FUERZA, com.gymencasa.domain.model.Level.AVANZADO, pregnant = true)
+        org.junit.Assert.assertTrue(p.sets <= PlanAlgorithm.PREGNANCY_MAX_SETS)
+        org.junit.Assert.assertTrue(p.workSeconds <= PlanAlgorithm.PREGNANCY_MAX_WORK_SECONDS)
+    }
+
+    @Test
+    fun `labour goal uses gentle dose`() {
+        val p = PlanAlgorithm.assign(ex("sentadilla"), com.gymencasa.domain.model.Goal.PARTO, com.gymencasa.domain.model.Level.INTERMEDIO)
+        org.junit.Assert.assertEquals(2 to 40, p.sets to p.workSeconds)
+    }
+}

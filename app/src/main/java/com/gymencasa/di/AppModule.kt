@@ -27,7 +27,9 @@ object AppModule {
 
     @Provides @Singleton
     fun database(@ApplicationContext context: Context): AppDatabase =
-        Room.databaseBuilder(context, AppDatabase::class.java, "gym.db").build()
+        Room.databaseBuilder(context, AppDatabase::class.java, "gym.db")
+            .addMigrations(AppDatabase.MIGRATION_1_2)
+            .build()
 
     @Provides fun exerciseDao(db: AppDatabase): ExerciseDao = db.exerciseDao()
     @Provides fun workoutDao(db: AppDatabase): WorkoutDao = db.workoutDao()
