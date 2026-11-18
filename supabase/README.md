@@ -21,8 +21,8 @@ Contenido:
 4. Clave de OpenRouter (créala en https://openrouter.ai/keys). Ejecútalo tú, no la pegues en ningún archivo:
    ```bash
    supabase secrets set OPENROUTER_API_KEY=sk-or-...
-   # opcional: otro modelo (los ":free" son gratuitos, pero cambian con el tiempo)
-   supabase secrets set OPENROUTER_MODEL=meta-llama/llama-3.3-70b-instruct:free
+   # modelo (actual: ~z-ai/glm-flash-latest, de pago pero ~0,0002 $ por rutina; los ":free" se saturan a menudo)
+   supabase secrets set "OPENROUTER_MODEL=~z-ai/glm-flash-latest"
    ```
 5. Despliega la función:
    ```bash

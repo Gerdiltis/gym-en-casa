@@ -11,7 +11,7 @@ const CORS = {
 
 const GOALS = ["fuerza", "cardio", "tonificar", "movilidad"] as const;
 const FOCUS = ["cuerpo_completo", "tren_superior", "tren_inferior", "core"] as const;
-const DEFAULT_MODEL = "meta-llama/llama-3.3-70b-instruct:free";
+const DEFAULT_MODEL = "~z-ai/glm-flash-latest";
 
 type Exercise = {
   slug: string;
@@ -184,7 +184,8 @@ Deno.serve(async (req) => {
     }
     return json({ title, exercise_slugs: picked, source: "ai" });
   } catch (e) {
-    console.error("AI failed, using fallback:", (e as Error).message);
-    return json({ title: "", exercise_slugs: fallbackPick(pool, count, body.recent_slugs), source: "fallback" });
+    const reason = (e as Error).message.slice(0, 300);
+    console.error("AI failed, using fallback:", reason);
+    return json({ title: "", exercise_slugs: fallbackPick(pool, count, body.recent_slugs), source: "fallback", reason });
   }
 });
