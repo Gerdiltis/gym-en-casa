@@ -36,6 +36,8 @@ data class ExerciseEntity(
     val thumbPath: String?,
     /** "apto", "parto" or null (not suitable in pregnancy). */
     val pregnancy: String? = null,
+    /** Free labels such as "calistenia" (JSON list). */
+    val tags: List<String> = emptyList(),
 )
 
 @Entity(tableName = "workouts")
@@ -172,7 +174,7 @@ interface RoutineDao {
 
 @Database(
     entities = [ExerciseEntity::class, WorkoutEntity::class, WorkoutSetEntity::class, RoutineEntity::class, RoutineItemEntity::class],
-    version = 2,
+    version = 3,
     exportSchema = false,
 )
 @TypeConverters(Converters::class)
@@ -183,6 +185,15 @@ abstract class AppDatabase : RoomDatabase() {
             override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
                 db.execSQL("ALTER TABLE exercises ADD COLUMN pregnancy TEXT")
                 // v1 stored lists joined with "|"; the catalog is reloaded from the APK / Supabase on start.
+                db.execSQL("DELETE FROM exercises")
+            }
+        }
+
+        /** v3: free tags per exercise (e.g. "calistenia"). */
+        val MIGRATION_2_3 = object : androidx.room.migration.Migration(2, 3) {
+            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE exercises ADD COLUMN tags TEXT NOT NULL DEFAULT '[]'")
+                // The catalog is reloaded from the APK / Supabase on start.
                 db.execSQL("DELETE FROM exercises")
             }
         }

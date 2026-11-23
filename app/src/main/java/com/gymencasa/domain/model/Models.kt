@@ -84,6 +84,8 @@ data class Exercise(
     val videoPath: String?,
     val thumbPath: String?,
     val pregnancy: Pregnancy = Pregnancy.NO,
+    /** Free labels such as "calistenia". */
+    val tags: Set<String> = emptySet(),
 )
 
 data class PlannedExercise(

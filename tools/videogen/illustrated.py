@@ -318,11 +318,13 @@ def draw_front(cv, j, muscle_groups, u):
                 cv.blend_poly(spindle(k, e, LEG_W[2], LEG_W[3], t0, t1, ccw(d2), -0.92, 0.92), RED, alpha * 0.8)
 
     # torso: shirt trapezoid + shorts
-    body = [add(hip, (-21, -4)), add(hip, (21, -4)), add(sh, (27, 2)), add(sh, (-27, 2))]
+    lean = math.radians(j.get("lean", 0.0))
+    side_v = (math.cos(lean), -math.sin(lean))
+    body = [add(hip, (-21, -4)), add(hip, (21, -4)), add(sh, mul(side_v, 27)), add(sh, mul(side_v, -27))]
     cv.polygon(body, NAVY, outline=ink, owidth=OUTLINE_W)
     cv.rect(hip[0] - 24, hip[1] - 16, hip[0] + 24, hip[1] + 8, NAVY_SHADE, radius=6)
-    cv.circle(add(sh, (25, -3)), 10, NAVY, outline=ink, owidth=OUTLINE_W)
-    cv.circle(add(sh, (-25, -3)), 10, NAVY, outline=ink, owidth=OUTLINE_W)
+    cv.circle(add(j["sh_r"], (1, 1)), 10, NAVY, outline=ink, owidth=OUTLINE_W)
+    cv.circle(add(j["sh_l"], (-1, 1)), 10, NAVY, outline=ink, owidth=OUTLINE_W)
     cv.polygon(body, NAVY, outline=False)
     cv.circle(add(sh, (12, -16)), 2.6, RED, outline=False)
     t_len = sh[1] - hip[1]
@@ -357,7 +359,8 @@ def draw_front(cv, j, muscle_groups, u):
     # neck + head
     capsule(cv, add(sh, (0, -2)), j["neck"], 13, 12, ink, OUTLINE_W)
     capsule(cv, add(sh, (0, -2)), j["neck"], 13, 12, SKIN)
-    paste_head(cv, "front", add(sh, (0, 6)), 0)
+    up_v = (math.sin(lean), math.cos(lean))
+    paste_head(cv, "front", add(sh, mul(up_v, 6)), math.degrees(lean))
 
     for n, anchor in (("al", "sh_l"), ("ar", "sh_r")):
         a, el, wr = j[anchor], j[n + "_mid"], j[n + "_end"]

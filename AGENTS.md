@@ -28,7 +28,7 @@ app/src/main/java/com/gymencasa/
     SuggestionEngine propuesta equilibrada que cabe en la duración (y fallback de la IA)
     session/SessionStateMachine  PREVIEW → WORK → REST → … → AWAIT_NEXT → FINISHED
   data/
-    local/           Room: exercises, workouts, workout_sets, routines, routine_items
+    local/           Room (v3, listas en JSON): exercises, workouts, workout_sets, routines, routine_items
     remote/          SupabaseProvider (cliente nulo si la build no tiene URL/key) + DTOs
     repository/      Auth, Settings (DataStore + profiles), Exercise, Workout, AiRoutine
     sync/SyncWorker  sube sesiones y rutinas pendientes (offline-first)
@@ -97,6 +97,7 @@ Estilo moderno, claro y redondeado, inspirado en apps de asistente. Paleta **roj
   - Con `UserSettings.pregnant`, la app, el `SuggestionEngine` y la Edge Function solo usan apto o parto, priorizan parto y limitan la dosis (`PlanAlgorithm`: 3 series y 45 s como máximo).
   - Criterio conservador: sin saltos ni impactos, nada tumbado boca arriba o boca abajo, sin core intenso ni cargas lumbares.
   - Muestra siempre el aviso de consultar con la matrona y no prometas efectos sobre el parto.
+- **Etiquetas**: `tags` es una lista libre en el catálogo (`exercises.tags`). `calistenia` se asigna automáticamente en `exercises.py` a todo ejercicio con `equipment == ["ninguno"]` y tipo fuerza, core o cardio. La biblioteca tiene el chip de filtro "Calistenia".
 - **Músculos**: `muscle_groups` va ordenado, con el principal primero; la UI lo muestra en rojo y el resto en gris.
 - **IA**: la IA solo elige y ordena slugs. Valida siempre la respuesta contra el catálogo disponible (en la función y en `AiRoutineRepository`). Si falla, usa `SuggestionEngine`.
 - **Textos**: todos los textos de UI en español, en `res/values/strings.xml`.
@@ -106,7 +107,7 @@ Estilo moderno, claro y redondeado, inspirado en apps de asistente. Paleta **roj
 - **Esquema**: no edites a mano `supabase/seed.sql` ni `assets/catalog/exercises.json`; se generan desde `tools/videogen/exercises.py`.
 
 ## Esquema de datos (resumen)
-- `equipment(slug, name)` y `exercises(slug, name, description, muscle_groups[], equipment[], type, difficulty, unilateral, video_path, thumb_path, pregnancy)`: catálogo de solo lectura.
+- `equipment(slug, name)` y `exercises(slug, name, description, muscle_groups[], equipment[], type, difficulty, unilateral, video_path, thumb_path, pregnancy, tags[])`: catálogo de solo lectura.
 - `profiles(id = auth.uid, display_name, level, goal (incluye `parto`), equipment[], rest_between_sets_s, pregnant)`. Se crea con un trigger al registrarse.
 - `workout_sessions(id, user_id, title, mode ai|manual, goal, duration_target_min, started_at, finished_at, completed)` y `session_sets(session_id, position, exercise_slug, set_index, planned_s, skipped)`.
 - `routines(id, user_id, name, goal, duration_target_min)` y `routine_items(routine_id, position, exercise_slug, sets, work_s)`.
@@ -128,7 +129,7 @@ Hay dos estilos en `render.py`:
 - **`--flat`**: el monigote original, en 480 px y CRF 30.
 
 Para añadir un ejercicio:
-1. Añade un `ex(...)` en `tools/videogen/exercises.py`: metadatos (slug, nombre, descripción, `muscle_groups` con el principal primero, `equipment`, `type`, dificultad, unilateral, `pregnancy`), keyframes y props (`chair`, `wall`, `step`, `sofa`, `mat`, `foam`, `ball`, `post`, `towel`, `backpack`, `dumbbell`, `bottle`, `band`).
+1. Añade un `ex(...)` en `tools/videogen/exercises.py`: metadatos (slug, nombre, descripción, `muscle_groups` con el principal primero, `equipment`, `type`, dificultad, unilateral, `pregnancy`, `tags`), keyframes y props (`chair`, `wall`, `step`, `sofa`, `mat`, `foam`, `ball`, `post`, `towel`, `backpack`, `dumbbell`, `bottle`, `band`).
 2. Revísalo con `sheet.py`.
 3. `render.py --to-app` y `upload.py` (más `--upload` si quieres el vídeo en Storage).
 4. `supabase db push --include-seed`.

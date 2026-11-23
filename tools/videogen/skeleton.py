@@ -93,7 +93,7 @@ SIDE_DEFAULTS = {
 }
 
 FRONT_DEFAULTS = {
-    "ar": ("fk", 8, 4), "al": ("fk", 8, 4), "lr": ("fk", 4, 4), "ll": ("fk", 4, 4), "head": 0.0,
+    "ar": ("fk", 8, 4), "al": ("fk", 8, 4), "lr": ("fk", 4, 4), "ll": ("fk", 4, 4), "head": 0.0, "lean": 0.0,
 }
 
 
@@ -121,11 +121,16 @@ def solve_side(p):
 def solve_front(p):
     p = {**FRONT_DEFAULTS, **p}
     hip = p["hip"]
-    sh = add(hip, (0, L["torso"] * 0.92))
-    neck = add(sh, (0, L["neck"]))
-    head = add(neck, (0, L["head"] + 2))
-    j = {"hip": hip, "shoulder": sh, "neck": neck, "head": head}
-    j["sh_r"], j["sh_l"] = add(sh, (24, -4)), add(sh, (-24, -4))
+    # lean: side bend of the torso in degrees (+ = towards the figure's right, i.e. screen right)
+    lr = math.radians(p["lean"])
+    up = (math.sin(lr), math.cos(lr))
+    side = (math.cos(lr), -math.sin(lr))
+    sh = add(hip, mul(up, L["torso"] * 0.92))
+    neck = add(sh, mul(up, L["neck"]))
+    head = add(neck, mul(up, L["head"] + 2))
+    j = {"hip": hip, "shoulder": sh, "neck": neck, "head": head, "lean": p["lean"]}
+    j["sh_r"] = add(add(sh, mul(side, 24)), mul(up, -4))
+    j["sh_l"] = add(add(sh, mul(side, -24)), mul(up, -4))
     j["hip_r"], j["hip_l"] = add(hip, (13, 0)), add(hip, (-13, 0))
     for name, anchor, l1, l2, sign, mirror in (
         ("lr", "hip_r", L["th"], L["sh"], 1, False), ("ll", "hip_l", L["th"], L["sh"], -1, True),

@@ -106,6 +106,9 @@ class LibraryViewModel @Inject constructor(
     fun thumbUri(ex: Exercise) = exercises.thumbUri(ex)
 }
 
+/** Catalog tag of calisthenics exercises. */
+private const val CALISTHENICS_TAG = "calistenia"
+
 @Composable
 fun LibraryScreen(nav: Navigator, pickerMode: Boolean, vm: LibraryViewModel = hiltViewModel()) {
     val ui by vm.ui.collectAsStateWithLifecycle()
@@ -114,12 +117,14 @@ fun LibraryScreen(nav: Navigator, pickerMode: Boolean, vm: LibraryViewModel = hi
     var showUnavailable by rememberSaveable { mutableStateOf(false) }
     var muscle by rememberSaveable { mutableStateOf<MuscleFilter?>(null) }
     var pregnancyOnly by rememberSaveable { mutableStateOf(false) }
+    var calisthenicsOnly by rememberSaveable { mutableStateOf(false) }
 
     val filtered = ui.items.filter { item ->
         (showUnavailable && !pickerMode || item.available) &&
             (type == null || item.exercise.type == type) &&
             (muscle == null || item.exercise.muscleGroups.any { it in muscle!!.slugs }) &&
             (!pregnancyOnly || ExerciseFilter.suitableForPregnancy(item.exercise)) &&
+            (!calisthenicsOnly || CALISTHENICS_TAG in item.exercise.tags) &&
             (query.isBlank() || item.exercise.name.contains(query.trim(), ignoreCase = true))
     }.sortedBy { !it.available }
 
@@ -143,6 +148,7 @@ fun LibraryScreen(nav: Navigator, pickerMode: Boolean, vm: LibraryViewModel = hi
             item { RedChip(type == null, stringResource(R.string.library_all)) { type = null } }
             items(ExerciseType.entries) { t -> RedChip(type == t, stringResource(t.labelRes)) { type = if (type == t) null else t } }
             item { RedChip(pregnancyOnly, stringResource(R.string.pregnancy_filter)) { pregnancyOnly = !pregnancyOnly } }
+            item { RedChip(calisthenicsOnly, stringResource(R.string.calisthenics_filter)) { calisthenicsOnly = !calisthenicsOnly } }
         }
         LazyRow(contentPadding = PaddingValues(horizontal = 20.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             items(MuscleFilter.entries) { m -> RedChip(muscle == m, stringResource(m.label)) { muscle = if (muscle == m) null else m } }
@@ -214,6 +220,16 @@ fun ExerciseDetailScreen(slug: String, nav: Navigator, vm: LibraryViewModel = hi
         Text(stringResource(R.string.exercise_equipment, eq.joinToString()), color = MaterialTheme.colorScheme.onSurfaceVariant)
         Text(stringResource(R.string.exercise_difficulty, ex.difficulty), color = MaterialTheme.colorScheme.onSurfaceVariant)
         if (ex.unilateral) Text(stringResource(R.string.exercise_unilateral), color = MaterialTheme.colorScheme.primary)
+        if (CALISTHENICS_TAG in ex.tags) {
+            androidx.compose.material3.Surface(
+                shape = androidx.compose.foundation.shape.RoundedCornerShape(50),
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.padding(vertical = 4.dp),
+            ) {
+                Text(stringResource(R.string.calisthenics_badge), style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onPrimary, modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp))
+            }
+        }
         Text(
             stringResource(when (ex.pregnancy) {
                 Pregnancy.PARTO -> R.string.pregnancy_detail_parto

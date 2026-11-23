@@ -68,12 +68,12 @@ class ExerciseRepository @Inject constructor(
 
     private fun ExerciseDto.toEntity() = ExerciseEntity(
         slug, name, description, muscleGroups, equipment.ifEmpty { listOf("ninguno") }, type, difficulty, unilateral,
-        videoPath ?: "videos/$slug.mp4", thumbPath ?: "thumbs/$slug.webp", pregnancy,
+        videoPath ?: "videos/$slug.mp4", thumbPath ?: "thumbs/$slug.webp", pregnancy, tags,
     )
 
     private fun ExerciseEntity.toDomain() = Exercise(
         slug, name, description, muscleGroups, equipment.toSet(), ExerciseType.fromSlug(type), difficulty, unilateral,
-        videoPath, thumbPath, Pregnancy.fromSlug(pregnancy),
+        videoPath, thumbPath, Pregnancy.fromSlug(pregnancy), tags.toSet(),
     )
 
     private companion object { const val TAG = "ExerciseRepository" }

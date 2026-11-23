@@ -99,6 +99,8 @@
     <string name="pregnancy_banner">Modo embarazo · consulta con tu matrona antes de entrenar</string>
     <string name="pregnancy_filter">Embarazo</string>
     <string name="pregnancy_badge_parto">Prep. parto</string>
+    <string name="calisthenics_filter">Calistenia</string>
+    <string name="calisthenics_badge">Calistenia</string>
     <string name="pregnancy_detail_apto">Apto en el embarazo</string>
     <string name="pregnancy_detail_parto">Recomendado como preparación al parto</string>
     <string name="pregnancy_detail_no">No recomendado durante el embarazo</string>

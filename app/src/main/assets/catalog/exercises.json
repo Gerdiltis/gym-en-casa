@@ -14,6 +14,9 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": "apto",
+  "tags": [
+   "calistenia"
+  ],
   "video_path": "videos/sentadilla.mp4",
   "thumb_path": "thumbs/sentadilla.webp"
  },
@@ -32,6 +35,9 @@
   "difficulty": 1,
   "unilateral": true,
   "pregnancy": "apto",
+  "tags": [
+   "calistenia"
+  ],
   "video_path": "videos/zancada.mp4",
   "thumb_path": "thumbs/zancada.webp"
  },
@@ -50,6 +56,9 @@
   "difficulty": 2,
   "unilateral": false,
   "pregnancy": null,
+  "tags": [
+   "calistenia"
+  ],
   "video_path": "videos/sentadilla_salto.mp4",
   "thumb_path": "thumbs/sentadilla_salto.webp"
  },
@@ -67,6 +76,9 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": "apto",
+  "tags": [
+   "calistenia"
+  ],
   "video_path": "videos/elevacion_talones.mp4",
   "thumb_path": "thumbs/elevacion_talones.webp"
  },
@@ -86,6 +98,9 @@
   "difficulty": 2,
   "unilateral": false,
   "pregnancy": null,
+  "tags": [
+   "calistenia"
+  ],
   "video_path": "videos/flexiones.mp4",
   "thumb_path": "thumbs/flexiones.webp"
  },
@@ -104,6 +119,9 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": null,
+  "tags": [
+   "calistenia"
+  ],
   "video_path": "videos/flexiones_rodillas.mp4",
   "thumb_path": "thumbs/flexiones_rodillas.webp"
  },
@@ -122,6 +140,9 @@
   "difficulty": 3,
   "unilateral": false,
   "pregnancy": null,
+  "tags": [
+   "calistenia"
+  ],
   "video_path": "videos/pike_pushup.mp4",
   "thumb_path": "thumbs/pike_pushup.webp"
  },
@@ -140,6 +161,9 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": null,
+  "tags": [
+   "calistenia"
+  ],
   "video_path": "videos/puente_gluteo.mp4",
   "thumb_path": "thumbs/puente_gluteo.webp"
  },
@@ -158,6 +182,9 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": null,
+  "tags": [
+   "calistenia"
+  ],
   "video_path": "videos/plancha.mp4",
   "thumb_path": "thumbs/plancha.webp"
  },
@@ -176,6 +203,9 @@
   "difficulty": 2,
   "unilateral": true,
   "pregnancy": null,
+  "tags": [
+   "calistenia"
+  ],
   "video_path": "videos/plancha_lateral.mp4",
   "thumb_path": "thumbs/plancha_lateral.webp"
  },
@@ -194,6 +224,9 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": null,
+  "tags": [
+   "calistenia"
+  ],
   "video_path": "videos/crunch.mp4",
   "thumb_path": "thumbs/crunch.webp"
  },
@@ -212,6 +245,9 @@
   "difficulty": 2,
   "unilateral": false,
   "pregnancy": null,
+  "tags": [
+   "calistenia"
+  ],
   "video_path": "videos/bicicleta.mp4",
   "thumb_path": "thumbs/bicicleta.webp"
  },
@@ -230,6 +266,9 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": null,
+  "tags": [
+   "calistenia"
+  ],
   "video_path": "videos/dead_bug.mp4",
   "thumb_path": "thumbs/dead_bug.webp"
  },
@@ -249,6 +288,9 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": "apto",
+  "tags": [
+   "calistenia"
+  ],
   "video_path": "videos/bird_dog.mp4",
   "thumb_path": "thumbs/bird_dog.webp"
  },
@@ -267,6 +309,9 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": null,
+  "tags": [
+   "calistenia"
+  ],
   "video_path": "videos/superman.mp4",
   "thumb_path": "thumbs/superman.webp"
  },
@@ -285,6 +330,9 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": null,
+  "tags": [
+   "calistenia"
+  ],
   "video_path": "videos/jumping_jacks.mp4",
   "thumb_path": "thumbs/jumping_jacks.webp"
  },
@@ -303,6 +351,9 @@
   "difficulty": 2,
   "unilateral": false,
   "pregnancy": null,
+  "tags": [
+   "calistenia"
+  ],
   "video_path": "videos/mountain_climbers.mp4",
   "thumb_path": "thumbs/mountain_climbers.webp"
  },
@@ -321,6 +372,9 @@
   "difficulty": 3,
   "unilateral": false,
   "pregnancy": null,
+  "tags": [
+   "calistenia"
+  ],
   "video_path": "videos/burpee.mp4",
   "thumb_path": "thumbs/burpee.webp"
  },
@@ -339,6 +393,9 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": null,
+  "tags": [
+   "calistenia"
+  ],
   "video_path": "videos/rodillas_al_pecho.mp4",
   "thumb_path": "thumbs/rodillas_al_pecho.webp"
  },
@@ -358,6 +415,9 @@
   "difficulty": 2,
   "unilateral": false,
   "pregnancy": null,
+  "tags": [
+   "calistenia"
+  ],
   "video_path": "videos/skater.mp4",
   "thumb_path": "thumbs/skater.webp"
  },
@@ -377,6 +437,9 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": "apto",
+  "tags": [
+   "calistenia"
+  ],
   "video_path": "videos/boxeo_sombra.mp4",
   "thumb_path": "thumbs/boxeo_sombra.webp"
  },
@@ -395,6 +458,7 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": "parto",
+  "tags": [],
   "video_path": "videos/gato_camello.mp4",
   "thumb_path": "thumbs/gato_camello.webp"
  },
@@ -413,6 +477,7 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": "apto",
+  "tags": [],
   "video_path": "videos/estiramiento_isquios.mp4",
   "thumb_path": "thumbs/estiramiento_isquios.webp"
  },
@@ -430,6 +495,7 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": "apto",
+  "tags": [],
   "video_path": "videos/circulos_brazos.mp4",
   "thumb_path": "thumbs/circulos_brazos.webp"
  },
@@ -448,6 +514,7 @@
   "difficulty": 1,
   "unilateral": true,
   "pregnancy": "parto",
+  "tags": [],
   "video_path": "videos/estocada_flexor.mp4",
   "thumb_path": "thumbs/estocada_flexor.webp"
  },
@@ -466,6 +533,7 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": "parto",
+  "tags": [],
   "video_path": "videos/postura_nino.mp4",
   "thumb_path": "thumbs/postura_nino.webp"
  },
@@ -484,6 +552,7 @@
   "difficulty": 2,
   "unilateral": false,
   "pregnancy": "apto",
+  "tags": [],
   "video_path": "videos/fondos_silla.mp4",
   "thumb_path": "thumbs/fondos_silla.webp"
  },
@@ -502,6 +571,7 @@
   "difficulty": 3,
   "unilateral": true,
   "pregnancy": null,
+  "tags": [],
   "video_path": "videos/sentadilla_bulgara.mp4",
   "thumb_path": "thumbs/sentadilla_bulgara.webp"
  },
@@ -520,6 +590,7 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": "apto",
+  "tags": [],
   "video_path": "videos/flexiones_inclinadas.mp4",
   "thumb_path": "thumbs/flexiones_inclinadas.webp"
  },
@@ -539,6 +610,7 @@
   "difficulty": 3,
   "unilateral": false,
   "pregnancy": null,
+  "tags": [],
   "video_path": "videos/flexiones_declinadas.mp4",
   "thumb_path": "thumbs/flexiones_declinadas.webp"
  },
@@ -557,6 +629,7 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": "parto",
+  "tags": [],
   "video_path": "videos/sentadilla_silla.mp4",
   "thumb_path": "thumbs/sentadilla_silla.webp"
  },
@@ -575,6 +648,7 @@
   "difficulty": 2,
   "unilateral": false,
   "pregnancy": "parto",
+  "tags": [],
   "video_path": "videos/sentadilla_pared.mp4",
   "thumb_path": "thumbs/sentadilla_pared.webp"
  },
@@ -593,6 +667,7 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": "apto",
+  "tags": [],
   "video_path": "videos/flexiones_pared.mp4",
   "thumb_path": "thumbs/flexiones_pared.webp"
  },
@@ -611,6 +686,7 @@
   "difficulty": 1,
   "unilateral": true,
   "pregnancy": "apto",
+  "tags": [],
   "video_path": "videos/step_up.mp4",
   "thumb_path": "thumbs/step_up.webp"
  },
@@ -628,6 +704,7 @@
   "difficulty": 2,
   "unilateral": false,
   "pregnancy": "apto",
+  "tags": [],
   "video_path": "videos/elevacion_talones_escalon.mp4",
   "thumb_path": "thumbs/elevacion_talones_escalon.webp"
  },
@@ -646,6 +723,7 @@
   "difficulty": 2,
   "unilateral": false,
   "pregnancy": "apto",
+  "tags": [],
   "video_path": "videos/hip_thrust_sofa.mp4",
   "thumb_path": "thumbs/hip_thrust_sofa.webp"
  },
@@ -664,6 +742,7 @@
   "difficulty": 2,
   "unilateral": false,
   "pregnancy": null,
+  "tags": [],
   "video_path": "videos/escaladores_toalla.mp4",
   "thumb_path": "thumbs/escaladores_toalla.webp"
  },
@@ -683,6 +762,7 @@
   "difficulty": 2,
   "unilateral": false,
   "pregnancy": null,
+  "tags": [],
   "video_path": "videos/good_morning_mochila.mp4",
   "thumb_path": "thumbs/good_morning_mochila.webp"
  },
@@ -701,6 +781,7 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": "apto",
+  "tags": [],
   "video_path": "videos/remo_mochila.mp4",
   "thumb_path": "thumbs/remo_mochila.webp"
  },
@@ -718,6 +799,7 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": "apto",
+  "tags": [],
   "video_path": "videos/curl_botellas.mp4",
   "thumb_path": "thumbs/curl_botellas.webp"
  },
@@ -735,6 +817,7 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": "apto",
+  "tags": [],
   "video_path": "videos/elevaciones_laterales_botellas.mp4",
   "thumb_path": "thumbs/elevaciones_laterales_botellas.webp"
  },
@@ -753,6 +836,7 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": "apto",
+  "tags": [],
   "video_path": "videos/remo_goma.mp4",
   "thumb_path": "thumbs/remo_goma.webp"
  },
@@ -771,6 +855,7 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": "apto",
+  "tags": [],
   "video_path": "videos/press_pecho_goma.mp4",
   "thumb_path": "thumbs/press_pecho_goma.webp"
  },
@@ -789,6 +874,7 @@
   "difficulty": 2,
   "unilateral": false,
   "pregnancy": "apto",
+  "tags": [],
   "video_path": "videos/face_pull_goma.mp4",
   "thumb_path": "thumbs/face_pull_goma.webp"
  },
@@ -807,6 +893,7 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": "apto",
+  "tags": [],
   "video_path": "videos/pull_apart_goma.mp4",
   "thumb_path": "thumbs/pull_apart_goma.webp"
  },
@@ -824,6 +911,7 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": "apto",
+  "tags": [],
   "video_path": "videos/curl_goma.mp4",
   "thumb_path": "thumbs/curl_goma.webp"
  },
@@ -841,6 +929,7 @@
   "difficulty": 2,
   "unilateral": false,
   "pregnancy": "apto",
+  "tags": [],
   "video_path": "videos/extension_triceps_goma.mp4",
   "thumb_path": "thumbs/extension_triceps_goma.webp"
  },
@@ -859,6 +948,7 @@
   "difficulty": 2,
   "unilateral": false,
   "pregnancy": "apto",
+  "tags": [],
   "video_path": "videos/sentadilla_goma.mp4",
   "thumb_path": "thumbs/sentadilla_goma.webp"
  },
@@ -876,6 +966,7 @@
   "difficulty": 1,
   "unilateral": true,
   "pregnancy": "apto",
+  "tags": [],
   "video_path": "videos/patada_gluteo_goma.mp4",
   "thumb_path": "thumbs/patada_gluteo_goma.webp"
  },
@@ -894,6 +985,7 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": "apto",
+  "tags": [],
   "video_path": "videos/monster_walk_goma.mp4",
   "thumb_path": "thumbs/monster_walk_goma.webp"
  },
@@ -912,6 +1004,7 @@
   "difficulty": 2,
   "unilateral": false,
   "pregnancy": "apto",
+  "tags": [],
   "video_path": "videos/goblet_squat.mp4",
   "thumb_path": "thumbs/goblet_squat.webp"
  },
@@ -931,6 +1024,7 @@
   "difficulty": 2,
   "unilateral": false,
   "pregnancy": "apto",
+  "tags": [],
   "video_path": "videos/peso_muerto_rumano.mp4",
   "thumb_path": "thumbs/peso_muerto_rumano.webp"
  },
@@ -949,6 +1043,7 @@
   "difficulty": 2,
   "unilateral": true,
   "pregnancy": "apto",
+  "tags": [],
   "video_path": "videos/remo_mancuerna.mp4",
   "thumb_path": "thumbs/remo_mancuerna.webp"
  },
@@ -967,6 +1062,7 @@
   "difficulty": 2,
   "unilateral": true,
   "pregnancy": "apto",
+  "tags": [],
   "video_path": "videos/press_hombro_mancuerna.mp4",
   "thumb_path": "thumbs/press_hombro_mancuerna.webp"
  },
@@ -986,6 +1082,7 @@
   "difficulty": 2,
   "unilateral": false,
   "pregnancy": null,
+  "tags": [],
   "video_path": "videos/swing_mancuerna.mp4",
   "thumb_path": "thumbs/swing_mancuerna.webp"
  },
@@ -1005,6 +1102,7 @@
   "difficulty": 3,
   "unilateral": false,
   "pregnancy": null,
+  "tags": [],
   "video_path": "videos/thruster_mancuerna.mp4",
   "thumb_path": "thumbs/thruster_mancuerna.webp"
  },
@@ -1023,6 +1121,7 @@
   "difficulty": 2,
   "unilateral": true,
   "pregnancy": "apto",
+  "tags": [],
   "video_path": "videos/zancada_mancuerna.mp4",
   "thumb_path": "thumbs/zancada_mancuerna.webp"
  },
@@ -1041,6 +1140,7 @@
   "difficulty": 3,
   "unilateral": false,
   "pregnancy": null,
+  "tags": [],
   "video_path": "videos/hollow_hold.mp4",
   "thumb_path": "thumbs/hollow_hold.webp"
  },
@@ -1059,6 +1159,7 @@
   "difficulty": 3,
   "unilateral": false,
   "pregnancy": null,
+  "tags": [],
   "video_path": "videos/v_up.mp4",
   "thumb_path": "thumbs/v_up.webp"
  },
@@ -1076,6 +1177,7 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": null,
+  "tags": [],
   "video_path": "videos/foam_cuadriceps.mp4",
   "thumb_path": "thumbs/foam_cuadriceps.webp"
  },
@@ -1093,6 +1195,7 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": "apto",
+  "tags": [],
   "video_path": "videos/foam_isquios.mp4",
   "thumb_path": "thumbs/foam_isquios.webp"
  },
@@ -1110,6 +1213,7 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": "apto",
+  "tags": [],
   "video_path": "videos/foam_gluteo.mp4",
   "thumb_path": "thumbs/foam_gluteo.webp"
  },
@@ -1127,6 +1231,7 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": null,
+  "tags": [],
   "video_path": "videos/foam_espalda.mp4",
   "thumb_path": "thumbs/foam_espalda.webp"
  },
@@ -1144,6 +1249,7 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": "apto",
+  "tags": [],
   "video_path": "videos/foam_gemelos.mp4",
   "thumb_path": "thumbs/foam_gemelos.webp"
  },
@@ -1164,6 +1270,7 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": "parto",
+  "tags": [],
   "video_path": "videos/sentadilla_pared_pelota.mp4",
   "thumb_path": "thumbs/sentadilla_pared_pelota.webp"
  },
@@ -1183,6 +1290,7 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": "parto",
+  "tags": [],
   "video_path": "videos/circulos_cadera_pelota.mp4",
   "thumb_path": "thumbs/circulos_cadera_pelota.webp"
  },
@@ -1201,6 +1309,7 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": "parto",
+  "tags": [],
   "video_path": "videos/basculacion_pelvica_pelota.mp4",
   "thumb_path": "thumbs/basculacion_pelvica_pelota.webp"
  },
@@ -1219,6 +1328,7 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": "parto",
+  "tags": [],
   "video_path": "videos/cuatro_patas_pelota.mp4",
   "thumb_path": "thumbs/cuatro_patas_pelota.webp"
  },
@@ -1237,6 +1347,7 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": "parto",
+  "tags": [],
   "video_path": "videos/respiracion_suelo_pelvico.mp4",
   "thumb_path": "thumbs/respiracion_suelo_pelvico.webp"
  },
@@ -1256,6 +1367,7 @@
   "difficulty": 2,
   "unilateral": false,
   "pregnancy": null,
+  "tags": [],
   "video_path": "videos/puente_pelota.mp4",
   "thumb_path": "thumbs/puente_pelota.webp"
  },
@@ -1275,6 +1387,7 @@
   "difficulty": 3,
   "unilateral": false,
   "pregnancy": null,
+  "tags": [],
   "video_path": "videos/curl_isquios_pelota.mp4",
   "thumb_path": "thumbs/curl_isquios_pelota.webp"
  },
@@ -1293,6 +1406,7 @@
   "difficulty": 2,
   "unilateral": false,
   "pregnancy": null,
+  "tags": [],
   "video_path": "videos/crunch_pelota.mp4",
   "thumb_path": "thumbs/crunch_pelota.webp"
  },
@@ -1312,6 +1426,7 @@
   "difficulty": 2,
   "unilateral": false,
   "pregnancy": null,
+  "tags": [],
   "video_path": "videos/plancha_pelota.mp4",
   "thumb_path": "thumbs/plancha_pelota.webp"
  },
@@ -1331,6 +1446,7 @@
   "difficulty": 2,
   "unilateral": false,
   "pregnancy": null,
+  "tags": [],
   "video_path": "videos/extension_lumbar_pelota.mp4",
   "thumb_path": "thumbs/extension_lumbar_pelota.webp"
  },
@@ -1349,6 +1465,7 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": "parto",
+  "tags": [],
   "video_path": "videos/mariposa.mp4",
   "thumb_path": "thumbs/mariposa.webp"
  },
@@ -1368,6 +1485,7 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": "parto",
+  "tags": [],
   "video_path": "videos/sentadilla_profunda_apoyada.mp4",
   "thumb_path": "thumbs/sentadilla_profunda_apoyada.webp"
  },
@@ -1386,6 +1504,9 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": "apto",
+  "tags": [
+   "calistenia"
+  ],
   "video_path": "videos/marcha_en_sitio.mp4",
   "thumb_path": "thumbs/marcha_en_sitio.webp"
  },
@@ -1405,6 +1526,7 @@
   "difficulty": 2,
   "unilateral": false,
   "pregnancy": null,
+  "tags": [],
   "video_path": "videos/peso_muerto_banda.mp4",
   "thumb_path": "thumbs/peso_muerto_banda.webp"
  },
@@ -1423,6 +1545,7 @@
   "difficulty": 2,
   "unilateral": false,
   "pregnancy": "apto",
+  "tags": [],
   "video_path": "videos/peso_muerto_rumano_banda.mp4",
   "thumb_path": "thumbs/peso_muerto_rumano_banda.webp"
  },
@@ -1441,6 +1564,7 @@
   "difficulty": 2,
   "unilateral": false,
   "pregnancy": "apto",
+  "tags": [],
   "video_path": "videos/remo_inclinado_banda.mp4",
   "thumb_path": "thumbs/remo_inclinado_banda.webp"
  },
@@ -1459,6 +1583,7 @@
   "difficulty": 2,
   "unilateral": false,
   "pregnancy": "apto",
+  "tags": [],
   "video_path": "videos/jalon_banda.mp4",
   "thumb_path": "thumbs/jalon_banda.webp"
  },
@@ -1477,6 +1602,7 @@
   "difficulty": 2,
   "unilateral": false,
   "pregnancy": "apto",
+  "tags": [],
   "video_path": "videos/press_militar_banda.mp4",
   "thumb_path": "thumbs/press_militar_banda.webp"
  },
@@ -1496,6 +1622,7 @@
   "difficulty": 3,
   "unilateral": false,
   "pregnancy": null,
+  "tags": [],
   "video_path": "videos/flexion_banda.mp4",
   "thumb_path": "thumbs/flexion_banda.webp"
  },
@@ -1514,6 +1641,7 @@
   "difficulty": 2,
   "unilateral": true,
   "pregnancy": "apto",
+  "tags": [],
   "video_path": "videos/pallof_press_banda.mp4",
   "thumb_path": "thumbs/pallof_press_banda.webp"
  },
@@ -1533,6 +1661,7 @@
   "difficulty": 2,
   "unilateral": true,
   "pregnancy": null,
+  "tags": [],
   "video_path": "videos/lenador_banda.mp4",
   "thumb_path": "thumbs/lenador_banda.webp"
  },
@@ -1551,6 +1680,7 @@
   "difficulty": 2,
   "unilateral": false,
   "pregnancy": "apto",
+  "tags": [],
   "video_path": "videos/sentadilla_frontal_banda.mp4",
   "thumb_path": "thumbs/sentadilla_frontal_banda.webp"
  },
@@ -1569,6 +1699,7 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": "apto",
+  "tags": [],
   "video_path": "videos/curl_banda_martillo.mp4",
   "thumb_path": "thumbs/curl_banda_martillo.webp"
  },
@@ -1586,6 +1717,7 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": "apto",
+  "tags": [],
   "video_path": "videos/extension_triceps_banda_puerta.mp4",
   "thumb_path": "thumbs/extension_triceps_banda_puerta.webp"
  },
@@ -1603,6 +1735,7 @@
   "difficulty": 3,
   "unilateral": false,
   "pregnancy": null,
+  "tags": [],
   "video_path": "videos/curl_nordico_sofa.mp4",
   "thumb_path": "thumbs/curl_nordico_sofa.webp"
  },
@@ -1621,6 +1754,9 @@
   "difficulty": 2,
   "unilateral": false,
   "pregnancy": null,
+  "tags": [
+   "calistenia"
+  ],
   "video_path": "videos/plancha_toque_hombro.mp4",
   "thumb_path": "thumbs/plancha_toque_hombro.webp"
  },
@@ -1639,6 +1775,7 @@
   "difficulty": 2,
   "unilateral": false,
   "pregnancy": null,
+  "tags": [],
   "video_path": "videos/cien_pilates.mp4",
   "thumb_path": "thumbs/cien_pilates.webp"
  },
@@ -1657,6 +1794,7 @@
   "difficulty": 2,
   "unilateral": false,
   "pregnancy": null,
+  "tags": [],
   "video_path": "videos/roll_up_pilates.mp4",
   "thumb_path": "thumbs/roll_up_pilates.webp"
  },
@@ -1675,6 +1813,7 @@
   "difficulty": 2,
   "unilateral": false,
   "pregnancy": null,
+  "tags": [],
   "video_path": "videos/estiramiento_pierna_pilates.mp4",
   "thumb_path": "thumbs/estiramiento_pierna_pilates.webp"
  },
@@ -1694,6 +1833,9 @@
   "difficulty": 1,
   "unilateral": false,
   "pregnancy": "parto",
+  "tags": [
+   "calistenia"
+  ],
   "video_path": "videos/sentadilla_sumo.mp4",
   "thumb_path": "thumbs/sentadilla_sumo.webp"
  },
@@ -1712,7 +1854,275 @@
   "difficulty": 1,
   "unilateral": true,
   "pregnancy": "apto",
+  "tags": [
+   "calistenia"
+  ],
   "video_path": "videos/zancada_inversa.mp4",
   "thumb_path": "thumbs/zancada_inversa.webp"
+ },
+ {
+  "slug": "hold_90_nivel_1",
+  "name": "Hold 90° · nivel 1 (rodillas)",
+  "description": "Manos en el suelo a la altura de la cadera, codos a 90° y pegados al cuerpo, cuerpo paralelo al suelo. Baja controlando y aguanta la posición respirando. Nivel 1: rodillas apoyadas y pies arriba.",
+  "muscle_groups": [
+   "hombros",
+   "triceps",
+   "pecho",
+   "core"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "fuerza",
+  "difficulty": 1,
+  "unilateral": false,
+  "pregnancy": null,
+  "tags": [
+   "calistenia"
+  ],
+  "video_path": "videos/hold_90_nivel_1.mp4",
+  "thumb_path": "thumbs/hold_90_nivel_1.webp"
+ },
+ {
+  "slug": "hold_90_nivel_2",
+  "name": "Hold 90° · nivel 2",
+  "description": "Manos en el suelo a la altura de la cadera, codos a 90° y pegados al cuerpo, cuerpo paralelo al suelo. Baja controlando y aguanta la posición respirando. Nivel 2: puntas de los pies en el suelo y cuerpo recto.",
+  "muscle_groups": [
+   "hombros",
+   "triceps",
+   "pecho",
+   "core"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "fuerza",
+  "difficulty": 2,
+  "unilateral": false,
+  "pregnancy": null,
+  "tags": [
+   "calistenia"
+  ],
+  "video_path": "videos/hold_90_nivel_2.mp4",
+  "thumb_path": "thumbs/hold_90_nivel_2.webp"
+ },
+ {
+  "slug": "hold_90_nivel_3",
+  "name": "Hold 90° · nivel 3 (inclinado)",
+  "description": "Manos en el suelo a la altura de la cadera, codos a 90° y pegados al cuerpo, cuerpo paralelo al suelo. Baja controlando y aguanta la posición respirando. Nivel 3: pies más atrás y peso más adelantado sobre las manos.",
+  "muscle_groups": [
+   "hombros",
+   "triceps",
+   "pecho",
+   "core"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "fuerza",
+  "difficulty": 2,
+  "unilateral": false,
+  "pregnancy": null,
+  "tags": [
+   "calistenia"
+  ],
+  "video_path": "videos/hold_90_nivel_3.mp4",
+  "thumb_path": "thumbs/hold_90_nivel_3.webp"
+ },
+ {
+  "slug": "hold_90_nivel_4",
+  "name": "Hold 90° · nivel 4 (una pierna)",
+  "description": "Manos en el suelo a la altura de la cadera, codos a 90° y pegados al cuerpo, cuerpo paralelo al suelo. Baja controlando y aguanta la posición respirando. Nivel 4: despega un pie con la rodilla doblada y aguanta sobre las manos.",
+  "muscle_groups": [
+   "hombros",
+   "triceps",
+   "pecho",
+   "core"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "fuerza",
+  "difficulty": 3,
+  "unilateral": false,
+  "pregnancy": null,
+  "tags": [
+   "calistenia"
+  ],
+  "video_path": "videos/hold_90_nivel_4.mp4",
+  "thumb_path": "thumbs/hold_90_nivel_4.webp"
+ },
+ {
+  "slug": "hold_90_nivel_5",
+  "name": "Hold 90° · nivel 5 (pies en el aire)",
+  "description": "Manos en el suelo a la altura de la cadera, codos a 90° y pegados al cuerpo, cuerpo paralelo al suelo. Baja controlando y aguanta la posición respirando. Nivel 5: piernas estiradas y pies despegados; todo el peso en las manos.",
+  "muscle_groups": [
+   "hombros",
+   "triceps",
+   "pecho",
+   "core"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "fuerza",
+  "difficulty": 3,
+  "unilateral": false,
+  "pregnancy": null,
+  "tags": [
+   "calistenia"
+  ],
+  "video_path": "videos/hold_90_nivel_5.mp4",
+  "thumb_path": "thumbs/hold_90_nivel_5.webp"
+ },
+ {
+  "slug": "hold_90_nivel_6",
+  "name": "Hold 90° · nivel 6 (completo)",
+  "description": "Manos en el suelo a la altura de la cadera, codos a 90° y pegados al cuerpo, cuerpo paralelo al suelo. Baja controlando y aguanta la posición respirando. Nivel 6: cuerpo totalmente horizontal sobre las manos, sin apoyar los pies.",
+  "muscle_groups": [
+   "hombros",
+   "triceps",
+   "pecho",
+   "core"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "fuerza",
+  "difficulty": 3,
+  "unilateral": false,
+  "pregnancy": null,
+  "tags": [
+   "calistenia"
+  ],
+  "video_path": "videos/hold_90_nivel_6.mp4",
+  "thumb_path": "thumbs/hold_90_nivel_6.webp"
+ },
+ {
+  "slug": "crunch_rodilla_brazos_arriba",
+  "name": "Crunch de rodilla con brazos arriba",
+  "description": "De pie con los brazos estirados arriba. Sube una rodilla y baja los brazos hacia ella contrayendo el abdomen; vuelve y cambia de pierna.",
+  "muscle_groups": [
+   "abdominales",
+   "core"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "core",
+  "difficulty": 1,
+  "unilateral": false,
+  "pregnancy": null,
+  "tags": [
+   "calistenia"
+  ],
+  "video_path": "videos/crunch_rodilla_brazos_arriba.mp4",
+  "thumb_path": "thumbs/crunch_rodilla_brazos_arriba.webp"
+ },
+ {
+  "slug": "rodilla_pecho_alterna",
+  "name": "Rodilla al pecho alterna",
+  "description": "De pie con las manos a la altura del pecho. Sube una rodilla hasta tocar las manos apretando el abdomen y alterna a ritmo constante.",
+  "muscle_groups": [
+   "abdominales",
+   "core"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "core",
+  "difficulty": 1,
+  "unilateral": false,
+  "pregnancy": "apto",
+  "tags": [
+   "calistenia"
+  ],
+  "video_path": "videos/rodilla_pecho_alterna.mp4",
+  "thumb_path": "thumbs/rodilla_pecho_alterna.webp"
+ },
+ {
+  "slug": "codo_rodilla_cruzado",
+  "name": "Codo a rodilla cruzado",
+  "description": "Manos tras la cabeza. Sube una rodilla hacia el centro y baja el codo contrario a su encuentro girando el tronco; alterna lados.",
+  "muscle_groups": [
+   "oblicuos",
+   "abdominales"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "core",
+  "difficulty": 1,
+  "unilateral": false,
+  "pregnancy": null,
+  "tags": [
+   "calistenia"
+  ],
+  "video_path": "videos/codo_rodilla_cruzado.mp4",
+  "thumb_path": "thumbs/codo_rodilla_cruzado.webp"
+ },
+ {
+  "slug": "sentadilla_crunch_lateral",
+  "name": "Sentadilla con crunch lateral",
+  "description": "Baja a sentadilla con las manos en las rodillas. Al subir, eleva una rodilla hacia el lado y acércale el codo del mismo lado; alterna.",
+  "muscle_groups": [
+   "oblicuos",
+   "piernas",
+   "gluteos"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "core",
+  "difficulty": 2,
+  "unilateral": false,
+  "pregnancy": null,
+  "tags": [
+   "calistenia"
+  ],
+  "video_path": "videos/sentadilla_crunch_lateral.mp4",
+  "thumb_path": "thumbs/sentadilla_crunch_lateral.webp"
+ },
+ {
+  "slug": "giro_torso_brazos",
+  "name": "Giro de torso con brazos",
+  "description": "De pie, rodillas algo flexionadas. Gira el tronco a un lado y al otro dejando que los brazos acompañen el movimiento, con el abdomen activo.",
+  "muscle_groups": [
+   "oblicuos",
+   "core"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "core",
+  "difficulty": 1,
+  "unilateral": false,
+  "pregnancy": null,
+  "tags": [
+   "calistenia"
+  ],
+  "video_path": "videos/giro_torso_brazos.mp4",
+  "thumb_path": "thumbs/giro_torso_brazos.webp"
+ },
+ {
+  "slug": "inclinacion_lateral_pie",
+  "name": "Inclinación lateral de pie",
+  "description": "De pie con las manos en la cintura. Inclina el tronco hacia un lado sin girarlo, vuelve al centro y repite hacia el otro lado.",
+  "muscle_groups": [
+   "oblicuos",
+   "core"
+  ],
+  "equipment": [
+   "ninguno"
+  ],
+  "type": "core",
+  "difficulty": 1,
+  "unilateral": false,
+  "pregnancy": "apto",
+  "tags": [
+   "calistenia"
+  ],
+  "video_path": "videos/inclinacion_lateral_pie.mp4",
+  "thumb_path": "thumbs/inclinacion_lateral_pie.webp"
  }
 ]

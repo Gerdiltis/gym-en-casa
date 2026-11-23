@@ -17,6 +17,8 @@ data class ExerciseDto(
     @SerialName("video_path") val videoPath: String? = null,
     @SerialName("thumb_path") val thumbPath: String? = null,
     val pregnancy: String? = null,
+    /** Free labels such as "calistenia". */
+    val tags: List<String> = emptyList(),
 )
 
 @Serializable

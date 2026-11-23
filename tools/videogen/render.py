@@ -31,7 +31,7 @@ STYLES = {
     "flat": dict(out=480, crf=30, thumb=240),
 }
 STYLE = "illustrated"
-META_KEYS = ("slug", "name", "description", "muscle_groups", "equipment", "type", "difficulty", "unilateral", "pregnancy")
+META_KEYS = ("slug", "name", "description", "muscle_groups", "equipment", "type", "difficulty", "unilateral", "pregnancy", "tags")
 
 
 def solve(exercise, u):

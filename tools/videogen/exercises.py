@@ -44,10 +44,10 @@ def S(**kw):
 
 
 def ex(slug, name, desc, muscles, equipment, type_, difficulty, pregnancy, keys, props=(), view="side",
-       unilateral=False, dur=4.0, ease="smooth", thumb=0.5):
+       unilateral=False, dur=4.0, ease="smooth", thumb=0.5, tags=()):
     return dict(slug=slug, name=name, description=desc, muscle_groups=muscles, equipment=equipment, type=type_,
                 difficulty=difficulty, pregnancy=pregnancy, unilateral=unilateral, keys=keys, props=list(props), view=view, dur=dur,
-                ease=ease, thumb=thumb)
+                ease=ease, thumb=thumb, tags=list(tags))
 
 
 squat_down = dict(hip=(-55, 82), torso=42, an=("fk", 95, 95), af=("fk", 92, 92))
@@ -649,6 +649,104 @@ EXERCISES += [
         (0.8, S(hip=(-4, 150), lf=("ik", -44, 34), ff=60, **HANDS_HIPS)),
         (1, S(**HANDS_HIPS))], unilateral=True),
 ]
+
+# ------------------------------------------------------------------ calistenia: 90° hold (6 niveles) y abdominales de pie
+# 90° hold: elbows at 90°, forearms vertical, upper arms horizontal, body parallel to the floor.
+HOLD_ARMS = dict(an=("ik", -58, 4), af=("ik", -62, 4), head=-12)
+
+
+def hold(legs, lean=0, up=False):
+    """legs: dict with ln/lf/fn/ff. lean: hands further back = more forward lean. up = entry position."""
+    hip_y = 62 if not up else 78
+    p = dict(hip=(-105, hip_y), torso=90 if not up else 82, an=("ik", -58 - lean, 4), af=("ik", -62 - lean, 4), head=-12)
+    p.update(legs)
+    return p
+
+
+def hold_keys(legs, lean=0):
+    return [(0, hold(legs, lean, up=True)), (0.3, hold(legs, lean)), (0.5, {**hold(legs, lean), "hip": (-105, 64)}),
+            (0.75, hold(legs, lean)), (1, hold(legs, lean, up=True))]
+
+
+L1 = dict(ln=("fk", -47.5, -150), lf=("fk", -49, -152), fn=-170, ff=-170)          # knees down, feet up
+L2 = dict(ln=("ik", -253, 8), lf=("ik", -257, 8), fn=10, ff=10)                     # feet on the floor
+L3 = dict(ln=("ik", -268, 8), lf=("ik", -272, 8), fn=10, ff=10)                     # feet further back
+L4 = dict(ln=("fk", -95, -40), lf=("fk", -92, -150), fn=-120, ff=-170)              # one knee bent up
+L5 = dict(ln=("fk", -100, -100), lf=("fk", -102, -102), fn=-180, ff=-180)           # legs straight, feet lifted
+L6 = dict(ln=("fk", -90, -90), lf=("fk", -91, -91), fn=-180, ff=-180)               # full horizontal
+
+HOLD_DESC = "Manos en el suelo a la altura de la cadera, codos a 90° y pegados al cuerpo, cuerpo paralelo al suelo. Baja controlando y aguanta la posición respirando."
+HOLD_MUSCLES = ["hombros", "triceps", "pecho", "core"]
+
+ST_F = dict(hip=(0, 155), lr=("fk", 5, 3), ll=("fk", 5, 3))
+HEAD_HANDS_F = dict(ar=("fk", 140, -150), al=("fk", 140, -150))
+HIPS_HANDS_F = dict(ar=("ikj", "hip_r", 12, 10, 1), al=("ikj", "hip_l", -12, 10, -1))
+
+EXERCISES += [
+    ex("hold_90_nivel_1", "Hold 90° · nivel 1 (rodillas)", HOLD_DESC + " Nivel 1: rodillas apoyadas y pies arriba.",
+       HOLD_MUSCLES, ["ninguno"], "fuerza", 1, None, hold_keys(L1), props=[MAT], tags=["calistenia"]),
+    ex("hold_90_nivel_2", "Hold 90° · nivel 2", HOLD_DESC + " Nivel 2: puntas de los pies en el suelo y cuerpo recto.",
+       HOLD_MUSCLES, ["ninguno"], "fuerza", 2, None, hold_keys(L2), props=[MAT], tags=["calistenia"]),
+    ex("hold_90_nivel_3", "Hold 90° · nivel 3 (inclinado)", HOLD_DESC + " Nivel 3: pies más atrás y peso más adelantado sobre las manos.",
+       HOLD_MUSCLES, ["ninguno"], "fuerza", 2, None, hold_keys(L3, lean=8), props=[MAT], tags=["calistenia"]),
+    ex("hold_90_nivel_4", "Hold 90° · nivel 4 (una pierna)", HOLD_DESC + " Nivel 4: despega un pie con la rodilla doblada y aguanta sobre las manos.",
+       HOLD_MUSCLES, ["ninguno"], "fuerza", 3, None, hold_keys(L4, lean=8), props=[MAT], tags=["calistenia"]),
+    ex("hold_90_nivel_5", "Hold 90° · nivel 5 (pies en el aire)", HOLD_DESC + " Nivel 5: piernas estiradas y pies despegados; todo el peso en las manos.",
+       HOLD_MUSCLES, ["ninguno"], "fuerza", 3, None, hold_keys(L5, lean=10), props=[MAT], tags=["calistenia"]),
+    ex("hold_90_nivel_6", "Hold 90° · nivel 6 (completo)", HOLD_DESC + " Nivel 6: cuerpo totalmente horizontal sobre las manos, sin apoyar los pies.",
+       HOLD_MUSCLES, ["ninguno"], "fuerza", 3, None, hold_keys(L6, lean=10), props=[MAT], tags=["calistenia"]),
+
+    ex("crunch_rodilla_brazos_arriba", "Crunch de rodilla con brazos arriba",
+       "De pie con los brazos estirados arriba. Sube una rodilla y baja los brazos hacia ella contrayendo el abdomen; vuelve y cambia de pierna.",
+       ["abdominales", "core"], ["ninguno"], "core", 1, None,
+       [(0, S(ln=("fk", 2, 0), lf=("fk", -2, 0), an=("fk", 172, 176), af=("fk", 168, 172))),
+        (0.25, S(hip=(0, 152), torso=18, curve=0.07, ln=("fk", 98, 6), lf=("fk", -2, 0), fn=60, an=("fk", 70, 55), af=("fk", 66, 52))),
+        (0.5, S(ln=("fk", 2, 0), lf=("fk", -2, 0), an=("fk", 172, 176), af=("fk", 168, 172))),
+        (0.75, S(hip=(0, 152), torso=18, curve=0.07, lf=("fk", 98, 6), ln=("fk", 2, 0), ff=60, an=("fk", 70, 55), af=("fk", 66, 52))),
+        (1, S(ln=("fk", 2, 0), lf=("fk", -2, 0), an=("fk", 172, 176), af=("fk", 168, 172)))], dur=3.0, tags=["calistenia"]),
+    ex("rodilla_pecho_alterna", "Rodilla al pecho alterna",
+       "De pie con las manos a la altura del pecho. Sube una rodilla hasta tocar las manos apretando el abdomen y alterna a ritmo constante.",
+       ["abdominales", "core"], ["ninguno"], "core", 1, "apto",
+       [(0, S(hip=(0, 157), ln=("fk", 96, 4), lf=("fk", -2, 0), fn=60, an=("ikj", "shoulder", 26, -28), af=("ikj", "shoulder", 22, -28))),
+        (0.5, S(hip=(0, 157), lf=("fk", 96, 4), ln=("fk", 2, 0), ff=60, an=("ikj", "shoulder", 26, -28), af=("ikj", "shoulder", 22, -28))),
+        (1, S(hip=(0, 157), ln=("fk", 96, 4), lf=("fk", -2, 0), fn=60, an=("ikj", "shoulder", 26, -28), af=("ikj", "shoulder", 22, -28)))],
+       dur=2.0, tags=["calistenia"]),
+    ex("codo_rodilla_cruzado", "Codo a rodilla cruzado",
+       "Manos tras la cabeza. Sube una rodilla hacia el centro y baja el codo contrario a su encuentro girando el tronco; alterna lados.",
+       ["oblicuos", "abdominales"], ["ninguno"], "core", 1, None,
+       [(0, {**ST_F, **HEAD_HANDS_F}),
+        (0.25, {**ST_F, "lean": -12, "lr": ("fk", -120, -20), "al": ("fk", 60, -150), "ar": ("fk", 150, -150)}),
+        (0.5, {**ST_F, **HEAD_HANDS_F}),
+        (0.75, {**ST_F, "lean": 12, "ll": ("fk", -120, -20), "ar": ("fk", 60, -150), "al": ("fk", 150, -150)}),
+        (1, {**ST_F, **HEAD_HANDS_F})], view="front", dur=3.0, tags=["calistenia"]),
+    ex("sentadilla_crunch_lateral", "Sentadilla con crunch lateral",
+       "Baja a sentadilla con las manos en las rodillas. Al subir, eleva una rodilla hacia el lado y acércale el codo del mismo lado; alterna.",
+       ["oblicuos", "piernas", "gluteos"], ["ninguno"], "core", 2, None,
+       [(0, dict(hip=(0, 118), lr=("fk", 32, -8), ll=("fk", 32, -8), ar=("fk", 22, 4), al=("fk", 22, 4))),
+        (0.25, dict(hip=(0, 155), lean=14, lr=("fk", 78, 5), ll=("fk", 4, 3), ar=("fk", 50, -100), al=("fk", 140, -150))),
+        (0.5, dict(hip=(0, 118), lr=("fk", 32, -8), ll=("fk", 32, -8), ar=("fk", 22, 4), al=("fk", 22, 4))),
+        (0.75, dict(hip=(0, 155), lean=-14, ll=("fk", 78, 5), lr=("fk", 4, 3), al=("fk", 50, -100), ar=("fk", 140, -150))),
+        (1, dict(hip=(0, 118), lr=("fk", 32, -8), ll=("fk", 32, -8), ar=("fk", 22, 4), al=("fk", 22, 4)))],
+       view="front", dur=3.5, tags=["calistenia"]),
+    ex("giro_torso_brazos", "Giro de torso con brazos",
+       "De pie, rodillas algo flexionadas. Gira el tronco a un lado y al otro dejando que los brazos acompañen el movimiento, con el abdomen activo.",
+       ["oblicuos", "core"], ["ninguno"], "core", 1, None,
+       [(0, {**ST_F, "lean": 4, "ar": ("fk", 95, 100), "al": ("fk", -50, -70)}),
+        (0.5, {**ST_F, "lean": -4, "al": ("fk", 95, 100), "ar": ("fk", -50, -70)}),
+        (1, {**ST_F, "lean": 4, "ar": ("fk", 95, 100), "al": ("fk", -50, -70)})],
+       view="front", dur=2.0, tags=["calistenia"]),
+    ex("inclinacion_lateral_pie", "Inclinación lateral de pie",
+       "De pie con las manos en la cintura. Inclina el tronco hacia un lado sin girarlo, vuelve al centro y repite hacia el otro lado.",
+       ["oblicuos", "core"], ["ninguno"], "core", 1, "apto",
+       [(0, {**ST_F, **HIPS_HANDS_F}), (0.25, {**ST_F, "lean": 18, **HIPS_HANDS_F}), (0.5, {**ST_F, **HIPS_HANDS_F}),
+        (0.75, {**ST_F, "lean": -18, **HIPS_HANDS_F}), (1, {**ST_F, **HIPS_HANDS_F})],
+       view="front", dur=3.0, tags=["calistenia"]),
+]
+
+# Calistenia: bodyweight strength, core and cardio work needs no equipment (and works anywhere).
+for _e in EXERCISES:
+    if _e["equipment"] == ["ninguno"] and _e["type"] in ("fuerza", "core", "cardio") and "calistenia" not in _e["tags"]:
+        _e["tags"].append("calistenia")
 
 BY_SLUG = {e["slug"]: e for e in EXERCISES}
 assert len(BY_SLUG) == len(EXERCISES), "duplicate slug"
