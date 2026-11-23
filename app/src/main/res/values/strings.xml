@@ -116,15 +116,24 @@
     <!-- Home -->
     <string name="home_greeting">Hola, %1$s</string>
     <string name="home_greeting_anon">¡A entrenar!</string>
-    <string name="home_how_long">¿Cuánto tiempo tienes hoy?</string>
+    <string name="home_greeting_morning">Buenos días</string>
+    <string name="home_greeting_afternoon">Buenas tardes</string>
+    <string name="home_greeting_evening">Buenas noches</string>
+    <string name="home_hero_title">Tu sesión de hoy</string>
+    <string name="home_week_label">SEMANA</string>
+    <string name="home_for_you">Para ti</string>
+    <string name="home_my_routines_desc">Repite tus favoritas</string>
+    <string name="home_library_desc">Vídeos y músculos</string>
+    <string name="minutes_compact">%1$d\'</string>
+    <string name="home_how_long">¿Cuánto tiempo tienes?</string>
     <string name="home_custom_minutes">Otro</string>
     <string name="home_custom_minutes_title">Minutos de entrenamiento</string>
     <string name="home_goal">Objetivo</string>
     <string name="home_focus">Zona</string>
     <string name="home_generate_ai">Generar con IA</string>
-    <string name="home_generate_ai_desc">La IA elige los ejercicios según tu objetivo</string>
-    <string name="home_choose_manual">Elegir manualmente</string>
-    <string name="home_choose_manual_desc">Te sugerimos ejercicios y tú decides</string>
+    <string name="home_generate_ai_desc">Sesión según tu objetivo</string>
+    <string name="home_choose_manual">Elegir a mano</string>
+    <string name="home_choose_manual_desc">Te sugerimos y tú decides</string>
     <string name="home_my_routines">Mis rutinas</string>
     <string name="home_available_count">%1$d ejercicios disponibles con tu material</string>
     <string name="home_ai_working">La IA está preparando tu sesión…</string>
@@ -157,6 +166,16 @@
     <string name="video_unavailable">Vídeo no disponible</string>
 
     <!-- Plan -->
+    <string name="plan_subtitle_ai">Generado con IA</string>
+    <string name="plan_subtitle_manual">Elegido por ti</string>
+    <string name="plan_today_at">Hoy · %1$s</string>
+    <string name="plan_request">%1$s · %2$d min · %3$s</string>
+    <string name="plan_answer_ready">Listo:</string>
+    <string name="plan_answer_summary">%1$d ejercicios, unos %2$d min con %3$d s de descanso entre series.</string>
+    <string name="plan_tap_hint">Toca un ejercicio para cambiar series, segundos u orden.</string>
+    <string name="plan_another">Otra propuesta</string>
+    <string name="plan_change">Cambiar ejercicios</string>
+    <string name="plan_save_routine_hint">Guardar como rutina…</string>
     <string name="plan_title">Plan del día</string>
     <string name="plan_total">Duración estimada: %1$d min (objetivo %2$d)</string>
     <string name="plan_rest">Descanso entre series: %1$d s</string>

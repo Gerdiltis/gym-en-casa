@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="gym_black">#FF0D0D0D</color>
+    <color name="gym_page">#FFF3F4F7</color>
     <color name="gym_red">#FFE53935</color>
 </resources>

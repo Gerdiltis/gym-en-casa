@@ -1,5 +1,8 @@
 package com.gymencasa.ui.equipment
 
+import com.gymencasa.ui.components.TopPillBar
+import com.gymencasa.ui.components.PillChip
+import com.gymencasa.ui.components.GradientButton
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -105,17 +108,7 @@ fun EquipmentPicker(selected: Set<String>, onToggle: (String) -> Unit) {
 
 @Composable
 private fun EquipmentChip(eq: Equipment, selected: Boolean, onClick: () -> Unit) {
-    FilterChip(
-        selected = selected,
-        onClick = onClick,
-        label = { Text(stringResource(eq.labelRes), modifier = Modifier.padding(vertical = 10.dp)) },
-        leadingIcon = { Icon(if (selected) Icons.Filled.Check else eq.icon, null, Modifier.size(20.dp)) },
-        colors = FilterChipDefaults.filterChipColors(
-            selectedContainerColor = MaterialTheme.colorScheme.primary,
-            selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
-            selectedLeadingIconColor = MaterialTheme.colorScheme.onPrimary,
-        ),
-    )
+    PillChip(stringResource(eq.labelRes), selected, icon = if (selected) Icons.Filled.Check else eq.icon, onClick = onClick)
 }
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -123,14 +116,7 @@ private fun EquipmentChip(eq: Equipment, selected: Boolean, onClick: () -> Unit)
 fun LevelPicker(selected: Level, onSelect: (Level) -> Unit) {
     FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         Level.entries.forEach { level ->
-            FilterChip(
-                selected = level == selected, onClick = { onSelect(level) },
-                label = { Text(stringResource(level.labelRes)) },
-                colors = FilterChipDefaults.filterChipColors(
-                    selectedContainerColor = MaterialTheme.colorScheme.primary,
-                    selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
-                ),
-            )
+            PillChip(stringResource(level.labelRes), level == selected) { onSelect(level) }
         }
     }
 }
@@ -149,7 +135,7 @@ fun OnboardingScreen(vm: EquipmentViewModel = hiltViewModel()) {
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 20.dp)) {
             ScreenHeader(stringResource(R.string.equipment_title), subtitle = stringResource(R.string.equipment_subtitle))
             SectionTitle(stringResource(R.string.onboarding_name))
-            OutlinedTextField(value = name, onValueChange = { name = it.take(30) }, singleLine = true, modifier = Modifier.fillMaxWidth())
+            OutlinedTextField(value = name, onValueChange = { name = it.take(30) }, singleLine = true, shape = androidx.compose.foundation.shape.RoundedCornerShape(18.dp), modifier = Modifier.fillMaxWidth())
             SectionTitle(stringResource(R.string.onboarding_level))
             LevelPicker(level) { level = it }
             Spacer(Modifier.height(12.dp))
@@ -157,10 +143,9 @@ fun OnboardingScreen(vm: EquipmentViewModel = hiltViewModel()) {
             EquipmentPicker(selected) { slug -> selected = if (slug in selected) selected - slug else selected + slug }
             Spacer(Modifier.height(24.dp))
         }
-        Button(
-            onClick = { vm.save(selected, name.trim(), level, finishOnboarding = true, pregnant = pregnant) },
-            modifier = Modifier.fillMaxWidth().padding(20.dp).height(56.dp),
-        ) { Text(stringResource(R.string.action_continue).uppercase()) }
+        GradientButton(stringResource(R.string.action_continue), modifier = Modifier.fillMaxWidth().padding(20.dp)) {
+            vm.save(selected, name.trim(), level, finishOnboarding = true, pregnant = pregnant)
+        }
     }
 }
 
@@ -171,13 +156,13 @@ fun EquipmentEditScreen(nav: Navigator, vm: EquipmentViewModel = hiltViewModel()
     var selected by rememberSaveable(initial) { mutableStateOf(initial) }
     Column(Modifier.fillMaxSize().safeDrawingPadding()) {
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 20.dp)) {
-            ScreenHeader(stringResource(R.string.equipment_title), subtitle = stringResource(R.string.equipment_subtitle))
+            TopPillBar(title = stringResource(R.string.equipment_title), onBack = { nav.back() }, modifier = Modifier.padding(vertical = 8.dp))
+            Text(stringResource(R.string.equipment_subtitle), color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 8.dp))
             EquipmentPicker(selected) { slug -> selected = if (slug in selected) selected - slug else selected + slug }
         }
-        Button(
-            onClick = { vm.save(selected) { nav.back() } },
-            modifier = Modifier.fillMaxWidth().navigationBarsPadding().padding(20.dp).height(56.dp),
-        ) { Text(stringResource(R.string.action_save).uppercase()) }
+        GradientButton(stringResource(R.string.action_save), modifier = Modifier.fillMaxWidth().navigationBarsPadding().padding(20.dp)) {
+            vm.save(selected) { nav.back() }
+        }
     }
 }
 

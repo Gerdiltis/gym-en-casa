@@ -1,5 +1,8 @@
 package com.gymencasa.ui.auth
 
+import androidx.compose.foundation.shape.RoundedCornerShape
+import com.gymencasa.ui.components.IconBadge
+import com.gymencasa.ui.components.GradientButton
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -82,17 +85,16 @@ fun AuthScreen(vm: AuthViewModel = hiltViewModel()) {
         verticalArrangement = Arrangement.Center,
     ) {
         Spacer(Modifier.height(48.dp))
-        Icon(Icons.Filled.FitnessCenter, null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(72.dp))
-        Text(stringResource(R.string.app_name).uppercase(), style = MaterialTheme.typography.displayMedium)
+        IconBadge(Icons.Filled.FitnessCenter, MaterialTheme.colorScheme.primary, size = 72.dp)
+        Spacer(Modifier.height(16.dp))
+        Text(stringResource(R.string.app_name), style = MaterialTheme.typography.displaySmall)
         Text(stringResource(R.string.auth_tagline), color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center)
         Spacer(Modifier.height(40.dp))
 
         if (!vm.isConfigured) {
             Text(stringResource(R.string.auth_not_configured), textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
             Spacer(Modifier.height(16.dp))
-            Button(onClick = vm::localMode, modifier = Modifier.fillMaxWidth().height(56.dp)) {
-                Text(stringResource(R.string.auth_local_mode).uppercase())
-            }
+            GradientButton(stringResource(R.string.auth_local_mode), modifier = Modifier.fillMaxWidth(), onClick = vm::localMode)
             return@Column
         }
 
@@ -100,6 +102,7 @@ fun AuthScreen(vm: AuthViewModel = hiltViewModel()) {
             value = email, onValueChange = { email = it }, singleLine = true,
             label = { Text(stringResource(R.string.auth_email)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+            shape = RoundedCornerShape(18.dp),
             modifier = Modifier.fillMaxWidth(),
         )
         Spacer(Modifier.height(12.dp))
@@ -109,19 +112,20 @@ fun AuthScreen(vm: AuthViewModel = hiltViewModel()) {
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             supportingText = { if (signUp && password.isNotEmpty() && !passwordOk) Text(stringResource(R.string.auth_password_too_short)) },
+            shape = RoundedCornerShape(18.dp),
             modifier = Modifier.fillMaxWidth(),
         )
         ui.error?.let {
             Text(stringResource(R.string.auth_error, it), color = MaterialTheme.colorScheme.error, modifier = Modifier.padding(vertical = 8.dp))
         }
         Spacer(Modifier.height(16.dp))
-        Button(
-            onClick = { vm.submit(email, password, signUp) },
-            enabled = !ui.loading && email.contains('@') && passwordOk,
-            modifier = Modifier.fillMaxWidth().height(56.dp),
-        ) {
-            if (ui.loading) CircularProgressIndicator(Modifier.size(22.dp), strokeWidth = 2.dp)
-            else Text(stringResource(if (signUp) R.string.auth_sign_up else R.string.auth_sign_in).uppercase())
+        if (ui.loading) {
+            CircularProgressIndicator(Modifier.size(40.dp).padding(8.dp), strokeWidth = 3.dp)
+        } else {
+            GradientButton(
+                stringResource(if (signUp) R.string.auth_sign_up else R.string.auth_sign_in),
+                enabled = email.contains('@') && passwordOk, modifier = Modifier.fillMaxWidth(),
+            ) { vm.submit(email, password, signUp) }
         }
         TextButton(onClick = { signUp = !signUp }) {
             Text(stringResource(if (signUp) R.string.auth_switch_to_sign_in else R.string.auth_switch_to_sign_up))

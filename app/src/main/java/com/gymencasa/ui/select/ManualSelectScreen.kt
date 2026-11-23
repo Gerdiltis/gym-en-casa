@@ -1,5 +1,8 @@
 package com.gymencasa.ui.select
 
+import com.gymencasa.ui.components.TopPillBar
+import com.gymencasa.ui.components.PillButton
+import com.gymencasa.ui.components.GradientButton
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,8 +24,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.ListItemDefaults
+import com.gymencasa.ui.components.CardListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -112,7 +114,7 @@ class ManualSelectViewModel @Inject constructor(
             val picks = d.selectedSlugs.mapNotNull(bySlug::get)
             if (picks.isEmpty()) return@launch
             val plan = PlanAlgorithm.build(picks, d.goal, s.level, s.restBetweenSetsSeconds, d.durationMin, WorkoutMode.MANUAL, title, allowDrop = false, pregnant = s.pregnant)
-            draftStore.update { it.copy(plan = plan, usedFallback = false) }
+            draftStore.update { it.copy(plan = plan, usedFallback = false, generatedAt = System.currentTimeMillis()) }
             onReady()
         }
     }
@@ -124,7 +126,7 @@ fun ManualSelectScreen(nav: Navigator, vm: ManualSelectViewModel = hiltViewModel
     val title = stringResource(R.string.manual_title)
     Column(Modifier.fillMaxSize().statusBarsPadding()) {
         Column(Modifier.padding(horizontal = 20.dp)) {
-            ScreenHeader(stringResource(R.string.select_title), subtitle = stringResource(R.string.select_suggested, ui.durationMin))
+            TopPillBar(title = stringResource(R.string.select_title), subtitle = stringResource(R.string.select_suggested, ui.durationMin), onBack = { nav.back() }, modifier = Modifier.padding(vertical = 8.dp))
             val over = ui.estimatedMin > ui.durationMin
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
@@ -142,14 +144,8 @@ fun ManualSelectScreen(nav: Navigator, vm: ManualSelectViewModel = hiltViewModel
                 modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
             )
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                OutlinedButton(onClick = vm::suggest, modifier = Modifier.weight(1f)) {
-                    Icon(Icons.Filled.Shuffle, null, Modifier.size(18.dp)); Spacer(Modifier.size(6.dp))
-                    Text(stringResource(R.string.select_reshuffle))
-                }
-                OutlinedButton(onClick = { nav.go(Route.LibraryPicker) }, modifier = Modifier.weight(1f)) {
-                    Icon(Icons.Filled.Add, null, Modifier.size(18.dp)); Spacer(Modifier.size(6.dp))
-                    Text(stringResource(R.string.select_add_more))
-                }
+                PillButton(stringResource(R.string.select_reshuffle), Modifier.weight(1f), icon = Icons.Filled.Shuffle, onClick = vm::suggest)
+                PillButton(stringResource(R.string.select_add_more), Modifier.weight(1f), icon = Icons.Filled.Add) { nav.go(Route.LibraryPicker) }
             }
         }
         LazyColumn(Modifier.weight(1f).padding(top = 8.dp)) {
@@ -158,22 +154,20 @@ fun ManualSelectScreen(nav: Navigator, vm: ManualSelectViewModel = hiltViewModel
             }
             items(ui.selected, key = { it.slug }) { ex ->
                 val dose = ui.doses[ex.slug]
-                ListItem(
+                CardListItem(
                     headlineContent = { Text(ex.name) },
                     supportingContent = { dose?.let { Text(stringResource(R.string.sets_by_seconds, it.first, it.second)) } },
                     leadingContent = { ExerciseThumb(ui.thumbs[ex.slug]) },
                     trailingContent = {
                         IconButton(onClick = { vm.remove(ex.slug) }) { Icon(Icons.Filled.Close, stringResource(R.string.plan_remove)) }
                     },
-                    colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.background),
-                    modifier = Modifier.padding(horizontal = 8.dp),
+                    modifier = Modifier
                 )
             }
         }
-        Button(
-            onClick = { vm.buildPlan(title) { nav.go(Route.Plan) } },
-            enabled = ui.selected.isNotEmpty(),
-            modifier = Modifier.fillMaxWidth().navigationBarsPadding().padding(20.dp).height(56.dp),
-        ) { Text(stringResource(R.string.select_continue).uppercase()) }
+        GradientButton(
+            stringResource(R.string.select_continue), enabled = ui.selected.isNotEmpty(),
+            modifier = Modifier.fillMaxWidth().navigationBarsPadding().padding(20.dp),
+        ) { vm.buildPlan(title) { nav.go(Route.Plan) } }
     }
 }

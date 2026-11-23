@@ -141,3 +141,15 @@ enum class MuscleFilter(@param:StringRes val label: Int, val slugs: Set<String>)
     CORE(R.string.muscle_core, setOf("core", "abdominales", "oblicuos")),
     CARDIO(R.string.muscle_cardio, setOf("cardio", "cuerpo_completo")),
 }
+
+/** Dot colour for a plan row, by the exercise's primary muscle group. */
+@Composable
+fun muscleDotColor(primary: String?): androidx.compose.ui.graphics.Color {
+    val x = com.gymencasa.ui.theme.LocalGymExtras.current
+    return when (primary) {
+        "piernas", "cuadriceps", "isquios", "gluteos", "gemelos", "aductores" -> x.dotLegs
+        "pecho", "espalda", "hombros", "brazos", "biceps", "triceps" -> x.dotUpper
+        "cardio", "cuerpo_completo" -> x.dotCardio
+        else -> x.dotCore
+    }
+}

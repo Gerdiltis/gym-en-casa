@@ -46,7 +46,7 @@ class SettingsRepository @Inject constructor(
 
     val settings: Flow<UserSettings> = context.dataStore.data.map { it.toSettings() }
 
-    val darkTheme: Flow<Boolean> = context.dataStore.data.map { it[Keys.darkTheme] ?: true }
+    val darkTheme: Flow<Boolean> = context.dataStore.data.map { it[Keys.darkTheme] ?: false }
 
     suspend fun current(): UserSettings = settings.first()
 

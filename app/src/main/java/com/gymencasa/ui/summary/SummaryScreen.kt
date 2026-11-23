@@ -1,5 +1,7 @@
 package com.gymencasa.ui.summary
 
+import com.gymencasa.ui.components.GymCard
+import com.gymencasa.ui.components.GradientButton
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -75,7 +77,7 @@ fun SummaryScreen(workoutId: String, nav: Navigator, vm: SummaryViewModel = hilt
         Spacer(Modifier.height(32.dp))
         Icon(Icons.Filled.EmojiEvents, null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(96.dp))
         Text(
-            stringResource(if (w?.completed != false) R.string.summary_title else R.string.summary_incomplete).uppercase(),
+            stringResource(if (w?.completed != false) R.string.summary_title else R.string.summary_incomplete),
             style = MaterialTheme.typography.displaySmall,
         )
         if (w != null) {
@@ -86,11 +88,11 @@ fun SummaryScreen(workoutId: String, nav: Navigator, vm: SummaryViewModel = hilt
         }
         Column(Modifier.fillMaxWidth()) {
             SectionTitle(stringResource(R.string.summary_exercises))
-            ui.exerciseLines.forEach { Text(it, Modifier.padding(vertical = 4.dp)) }
+            GymCard(Modifier.fillMaxWidth()) {
+                Column { ui.exerciseLines.forEach { Text(it, Modifier.padding(vertical = 5.dp)) } }
+            }
         }
         Spacer(Modifier.height(32.dp))
-        Button(onClick = { nav.resetTo(Route.Home) }, modifier = Modifier.fillMaxWidth().height(56.dp)) {
-            Text(stringResource(R.string.summary_done).uppercase())
-        }
+        GradientButton(stringResource(R.string.summary_done), modifier = Modifier.fillMaxWidth()) { nav.resetTo(Route.Home) }
     }
 }

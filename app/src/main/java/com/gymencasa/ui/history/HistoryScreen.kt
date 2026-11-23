@@ -12,8 +12,7 @@ import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.CloudOff
 import androidx.compose.material.icons.filled.TouchApp
 import androidx.compose.material3.Icon
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.ListItemDefaults
+import com.gymencasa.ui.components.CardListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -68,7 +67,7 @@ fun HistoryScreen(nav: Navigator, vm: HistoryViewModel = hiltViewModel()) {
             items(workouts, key = { it.id }) { w ->
                 val minutes = ((w.finishedAt - w.startedAt) / 60_000).toInt().coerceAtLeast(1)
                 val date = dateFormat.format(Instant.ofEpochMilli(w.startedAt).atZone(ZoneId.systemDefault()))
-                ListItem(
+                CardListItem(
                     headlineContent = { Text(w.title) },
                     supportingContent = {
                         Text("$date · ${stringResource(R.string.minutes_short, minutes)}" +
@@ -78,8 +77,7 @@ fun HistoryScreen(nav: Navigator, vm: HistoryViewModel = hiltViewModel()) {
                         Icon(if (w.mode == "ai") Icons.Filled.AutoAwesome else Icons.Filled.TouchApp, null, tint = MaterialTheme.colorScheme.primary)
                     },
                     trailingContent = { if (!w.synced) Icon(Icons.Filled.CloudOff, null, tint = MaterialTheme.colorScheme.onSurfaceVariant) },
-                    colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.background),
-                    modifier = Modifier.clickable { nav.go(Route.Summary(w.id)) }.padding(horizontal = 8.dp),
+                    modifier = Modifier.clickable { nav.go(Route.Summary(w.id)) }
                 )
             }
         }

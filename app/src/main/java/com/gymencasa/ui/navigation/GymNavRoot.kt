@@ -1,6 +1,19 @@
 package com.gymencasa.ui.navigation
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.size
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.unit.dp
+import com.gymencasa.ui.components.FloatingPill
+import com.gymencasa.ui.components.PillShape
+import com.gymencasa.ui.components.pageBackground
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -11,10 +24,6 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -89,31 +98,10 @@ private fun MainNav() {
     val current = backStack.lastOrNull()
     val showBar = current in topLevelRoutes
 
-    Scaffold(
-        containerColor = MaterialTheme.colorScheme.background,
-        bottomBar = {
-            if (showBar) {
-                NavigationBar(containerColor = MaterialTheme.colorScheme.surfaceContainerLow) {
-                    tabs.forEach { tab ->
-                        NavigationBarItem(
-                            selected = current == tab.route,
-                            onClick = { if (current != tab.route) nav.resetTo(tab.route) },
-                            icon = { Icon(tab.icon, null) },
-                            label = { Text(stringResource(tab.label)) },
-                            colors = NavigationBarItemDefaults.colors(
-                                selectedIconColor = MaterialTheme.colorScheme.onPrimary,
-                                indicatorColor = MaterialTheme.colorScheme.primary,
-                                selectedTextColor = MaterialTheme.colorScheme.primary,
-                            ),
-                        )
-                    }
-                }
-            }
-        },
-    ) { padding ->
+    Box(Modifier.fillMaxSize().pageBackground()) {
         NavDisplay(
             backStack = backStack,
-            modifier = Modifier.padding(bottom = if (showBar) padding.calculateBottomPadding() else androidx.compose.ui.unit.Dp.Hairline),
+            modifier = Modifier.fillMaxSize().then(if (showBar) Modifier.navigationBarsPadding().padding(bottom = 84.dp) else Modifier),
             onBack = { nav.back() },
             entryDecorators = listOf(
                 rememberSaveableStateHolderNavEntryDecorator(),
@@ -134,5 +122,42 @@ private fun MainNav() {
                 entry<Route.EquipmentEdit> { EquipmentEditScreen(nav) }
             },
         )
+        if (showBar) {
+            FloatingTabBar(
+                current = current,
+                onSelect = { route -> if (current != route) nav.resetTo(route) },
+                modifier = Modifier.align(Alignment.BottomCenter).navigationBarsPadding().padding(horizontal = 18.dp, vertical = 12.dp),
+            )
+        }
+    }
+}
+
+/** Floating white pill with the four sections; the active one is a red pill with its label. */
+@Composable
+private fun FloatingTabBar(current: NavKey?, onSelect: (Route) -> Unit, modifier: Modifier = Modifier) {
+    FloatingPill(modifier.fillMaxWidth()) {
+        tabs.forEach { tab ->
+            val selected = current == tab.route
+            Box(Modifier.weight(if (selected) 1.5f else 1f), contentAlignment = Alignment.Center) {
+                if (selected) {
+                    Row(
+                        Modifier.clip(PillShape).background(MaterialTheme.colorScheme.primary).padding(horizontal = 14.dp, vertical = 10.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Icon(tab.icon, null, tint = MaterialTheme.colorScheme.onPrimary, modifier = Modifier.size(20.dp))
+                        Spacer(Modifier.size(6.dp))
+                        Text(stringResource(tab.label), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onPrimary, maxLines = 1)
+                    }
+                } else {
+                    Column(
+                        Modifier.clip(PillShape).clickable { onSelect(tab.route) }.padding(horizontal = 8.dp, vertical = 4.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        Icon(tab.icon, stringResource(tab.label), tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(20.dp))
+                        Text(stringResource(tab.label), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1)
+                    }
+                }
+            }
+        }
     }
 }

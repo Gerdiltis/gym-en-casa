@@ -1,5 +1,7 @@
 package com.gymencasa.ui.library
 
+import com.gymencasa.ui.components.TopPillBar
+import com.gymencasa.ui.components.GradientButton
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,8 +25,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.ListItemDefaults
+import com.gymencasa.ui.components.CardListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Switch
@@ -124,11 +125,17 @@ fun LibraryScreen(nav: Navigator, pickerMode: Boolean, vm: LibraryViewModel = hi
 
     Column(Modifier.fillMaxSize().statusBarsPadding()) {
         Column(Modifier.padding(horizontal = 20.dp)) {
-            ScreenHeader(stringResource(R.string.library_title))
+            if (pickerMode) TopPillBar(title = stringResource(R.string.select_add_more), onBack = { nav.back() }, modifier = Modifier.padding(vertical = 8.dp))
+            else ScreenHeader(stringResource(R.string.library_title))
             OutlinedTextField(
                 value = query, onValueChange = { query = it }, singleLine = true,
                 leadingIcon = { Icon(Icons.Filled.Search, null) },
                 placeholder = { Text(stringResource(R.string.library_search)) },
+                shape = androidx.compose.foundation.shape.RoundedCornerShape(50),
+                colors = androidx.compose.material3.OutlinedTextFieldDefaults.colors(
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surface, focusedContainerColor = MaterialTheme.colorScheme.surface,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant,
+                ),
                 modifier = Modifier.fillMaxWidth(),
             )
         }
@@ -154,7 +161,7 @@ fun LibraryScreen(nav: Navigator, pickerMode: Boolean, vm: LibraryViewModel = hi
             items(filtered, key = { it.exercise.slug }) { item ->
                 val ex = item.exercise
                 val selected = ex.slug in ui.selected
-                ListItem(
+                CardListItem(
                     headlineContent = { Text(ex.name) },
                     supportingContent = {
                         Column {
@@ -165,7 +172,7 @@ fun LibraryScreen(nav: Navigator, pickerMode: Boolean, vm: LibraryViewModel = hi
                                     Text(stringResource(R.string.library_missing, names.joinToString()), color = MaterialTheme.colorScheme.error)
                                 }
                                 item.blockedByPregnancy -> Text(stringResource(R.string.library_not_for_pregnancy), color = MaterialTheme.colorScheme.error)
-                                ex.pregnancy == Pregnancy.PARTO -> Text(stringResource(R.string.pregnancy_badge_parto).uppercase(),
+                                ex.pregnancy == Pregnancy.PARTO -> Text(stringResource(R.string.pregnancy_badge_parto),
                                     style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.primary)
                             }
                         }
@@ -177,18 +184,15 @@ fun LibraryScreen(nav: Navigator, pickerMode: Boolean, vm: LibraryViewModel = hi
                                 colors = CheckboxDefaults.colors(checkedColor = MaterialTheme.colorScheme.primary))
                         }
                     } else null,
-                    colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.background),
                     modifier = Modifier
                         .alpha(if (item.available) 1f else 0.5f)
                         .clickable { if (pickerMode) vm.toggle(ex.slug) else nav.go(Route.ExerciseDetail(ex.slug)) }
-                        .padding(horizontal = 8.dp),
+                        
                 )
             }
         }
         if (pickerMode) {
-            Button(onClick = { nav.back() }, modifier = Modifier.fillMaxWidth().navigationBarsPadding().padding(20.dp).height(56.dp)) {
-                Text(stringResource(R.string.select_selected_count, ui.selected.size).uppercase())
-            }
+            GradientButton(stringResource(R.string.select_selected_count, ui.selected.size), modifier = Modifier.fillMaxWidth().navigationBarsPadding().padding(20.dp)) { nav.back() }
         }
     }
 }
@@ -197,8 +201,9 @@ fun LibraryScreen(nav: Navigator, pickerMode: Boolean, vm: LibraryViewModel = hi
 fun ExerciseDetailScreen(slug: String, nav: Navigator, vm: LibraryViewModel = hiltViewModel()) {
     val ui by vm.ui.collectAsStateWithLifecycle()
     val ex = ui.items.firstOrNull { it.exercise.slug == slug }?.exercise ?: return
-    Column(Modifier.fillMaxSize().statusBarsPadding().verticalScroll(rememberScrollState()).padding(20.dp)) {
-        ScreenHeader(ex.name)
+    Column(Modifier.fillMaxSize().statusBarsPadding().verticalScroll(rememberScrollState()).padding(horizontal = 20.dp)) {
+        TopPillBar(title = ex.name, subtitle = stringResource(ex.type.labelRes), onBack = { nav.back() }, modifier = Modifier.padding(vertical = 8.dp))
+        Spacer(Modifier.height(8.dp))
         ExerciseVideo(vm.videoUri(ex), vm.thumbUri(ex), Modifier.fillMaxWidth())
         Spacer(Modifier.height(16.dp))
         Text(ex.description, style = MaterialTheme.typography.bodyLarge)

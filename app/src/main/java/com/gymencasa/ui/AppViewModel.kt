@@ -31,7 +31,7 @@ class AppViewModel @Inject constructor(
     private val updater: GitHubUpdater,
 ) : ViewModel() {
 
-    val darkTheme: StateFlow<Boolean> = settings.darkTheme.stateIn(viewModelScope, SharingStarted.Eagerly, true)
+    val darkTheme: StateFlow<Boolean> = settings.darkTheme.stateIn(viewModelScope, SharingStarted.Eagerly, false)
 
     val gate: StateFlow<Gate> = combine(auth.state, settings.settings) { a, s ->
         when (a) {

@@ -64,11 +64,25 @@ Entorno: `export JAVA_HOME=/opt/homebrew/opt/openjdk@17 ANDROID_HOME=$HOME/Libra
 Configuración: `local.properties` (no versionado) o variables de entorno en CI: `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `GITHUB_REPO` (`owner/repo`), `KEYSTORE_PATH`, `KEYSTORE_PASSWORD`, `KEY_ALIAS`, `KEY_PASSWORD`, `VERSION_NAME`, `VERSION_CODE`.
 
 ## Guía visual
-- Paleta **rojo / negro / gris**. Tema oscuro por defecto y claro opcional.
-- Colores definidos **solo** en `ui/theme/Theme.kt` (`GymColors` + `ColorScheme`). No uses `Color(0x…)` fuera de `ui/theme`; usa `MaterialTheme.colorScheme`.
-- Titulares en mayúsculas con la fuente condensada del sistema (`Condensed`). Números del temporizador con `TimerStyle`.
-- Sesión: anillo rojo durante el trabajo, gris durante el descanso y pulso rojo en los últimos 3 s.
-- Vídeos: figura gris claro con camiseta roja sobre fondo `#1A1A1A`, 480×480.
+Estilo moderno, claro y redondeado, inspirado en apps de asistente. Paleta **rojo / negro / gris**. **Tema claro por defecto** y oscuro opcional en Ajustes.
+
+- **Tokens**: colores solo en `ui/theme/Theme.kt` (`GymColors`, `ColorScheme` y `LocalGymExtras`, que trae el degradado rojo, las sombras y los colores de los puntos musculares). No uses `Color(0x…)` fuera de `ui/theme`.
+- **Componentes** (`ui/components/Components.kt`), en lugar de los de Material directamente:
+  - `GymCard`: tarjeta blanca de 22 dp con sombra suave.
+  - `HeroCard`: tarjeta con degradado rojo.
+  - `PillChip`: píldora seleccionable; con `onHero`, para usar dentro de la tarjeta roja.
+  - `GradientButton`: CTA principal en píldora roja.
+  - `PillButton`: acción secundaria.
+  - `RoundIconButton`.
+  - `FloatingPill` y `TopPillBar`: barra superior flotante con atrás, título y acción.
+  - `CardListItem`: filas de lista como tarjetas.
+  - `SectionTitle`: etiqueta en mayúsculas espaciadas tipo "PARA TI".
+  - `ScreenHeader`: titular grande en *sentence case*.
+- **Navegación**: barra de pestañas flotante en píldora; la pestaña activa es una píldora roja con su texto.
+- **Tipografía**: sans del sistema en pesos ExtraBold para los titulares. Botones y títulos en *sentence case* (no en mayúsculas); las mayúsculas solo para etiquetas de sección.
+- **Plan del día**: estilo chat. La petición va en una burbuja roja y la respuesta es una tarjeta con la lista: punto de color por músculo principal y píldora "3 × 45 s". "Iniciar sesión" y "Otra propuesta" van en la barra flotante inferior.
+- **Sesión**: estilo "voice mode", con la píldora "EJERCICIO X DE N", el vídeo redondeado y el anillo con degradado rojo (gris durante el descanso y pulso rojo en los últimos 3 s). Los controles van en una píldora flotante: cerrar, pausa grande y saltar.
+- **Vídeos**: figura gris claro con camiseta roja sobre fondo `#1A1A1A`, 480×480.
 
 ## Reglas obligatorias
 - **Secretos**: nunca metas la clave de OpenRouter ni la `service_role` de Supabase en el APK ni en el repo.

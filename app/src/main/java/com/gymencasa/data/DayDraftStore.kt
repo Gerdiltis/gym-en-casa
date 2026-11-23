@@ -20,6 +20,8 @@ data class DayDraft(
     val usedFallback: Boolean = false,
     /** True once the goal has been aligned with the user's profile (e.g. labour prep in pregnancy mode). */
     val goalSynced: Boolean = false,
+    /** When the current plan was built (shown as the chat timestamp). */
+    val generatedAt: Long = 0L,
 )
 
 @Singleton

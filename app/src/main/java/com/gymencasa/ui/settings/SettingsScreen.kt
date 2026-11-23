@@ -1,5 +1,9 @@
 package com.gymencasa.ui.settings
 
+import androidx.compose.ui.draw.clip
+import androidx.compose.foundation.shape.RoundedCornerShape
+import com.gymencasa.ui.components.PillButton
+import com.gymencasa.ui.components.GymCard
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -71,7 +75,7 @@ class SettingsViewModel @Inject constructor(
     private val draftStore: com.gymencasa.data.DayDraftStore,
 ) : ViewModel() {
     val current: StateFlow<UserSettings?> = settings.settings.stateIn(viewModelScope, SharingStarted.Eagerly, null)
-    val dark: StateFlow<Boolean> = settings.darkTheme.stateIn(viewModelScope, SharingStarted.Eagerly, true)
+    val dark: StateFlow<Boolean> = settings.darkTheme.stateIn(viewModelScope, SharingStarted.Eagerly, false)
     val email: String? get() = auth.email
 
     fun update(f: (UserSettings) -> UserSettings) { viewModelScope.launch { settings.update(f) } }
@@ -100,6 +104,7 @@ fun SettingsScreen(nav: Navigator, vm: SettingsViewModel = hiltViewModel(), upda
         ScreenHeader(stringResource(R.string.settings_title))
 
         SectionTitle(stringResource(R.string.settings_training))
+        GymCard(Modifier.fillMaxWidth()) { Column {
         // Global rest between sets: applies to every workout.
         var rest by remember(settings.restBetweenSetsSeconds) { mutableFloatStateOf(settings.restBetweenSetsSeconds.toFloat()) }
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -124,25 +129,31 @@ fun SettingsScreen(nav: Navigator, vm: SettingsViewModel = hiltViewModel(), upda
         Text(stringResource(R.string.settings_level), style = MaterialTheme.typography.titleMedium)
         LevelPicker(settings.level) { level: Level -> vm.update { it.copy(level = level) } }
 
-        ListItem(
-            headlineContent = { Text(stringResource(R.string.settings_equipment)) },
-            supportingContent = { Text(stringResource(R.string.settings_equipment_count, settings.equipment.size)) },
-            trailingContent = { Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, null) },
-            colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.background),
-            modifier = Modifier.clickable { nav.go(Route.EquipmentEdit) },
-        )
+        Row(
+            Modifier.fillMaxWidth().padding(top = 8.dp).clip(RoundedCornerShape(16.dp)).clickable { nav.go(Route.EquipmentEdit) }.padding(vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Column(Modifier.weight(1f)) {
+                Text(stringResource(R.string.settings_equipment), style = MaterialTheme.typography.titleMedium)
+                Text(stringResource(R.string.settings_equipment_count, settings.equipment.size), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+            Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, null)
+        }
         SwitchRow(stringResource(R.string.settings_sound), settings.soundEnabled) { v -> vm.update { it.copy(soundEnabled = v) } }
         SwitchRow(stringResource(R.string.settings_vibration), settings.vibrationEnabled) { v -> vm.update { it.copy(vibrationEnabled = v) } }
+        } }
 
         SectionTitle(stringResource(R.string.settings_appearance))
-        SwitchRow(stringResource(R.string.settings_dark_theme), dark, vm::setDark)
+        GymCard(Modifier.fillMaxWidth()) { SwitchRow(stringResource(R.string.settings_dark_theme), dark, vm::setDark) }
 
         SectionTitle(stringResource(R.string.settings_account))
+        GymCard(Modifier.fillMaxWidth()) { Column {
         var name by remember { mutableStateOf(settings.displayName) }
         LaunchedEffect(settings.displayName) { if (name.isEmpty()) name = settings.displayName }
         OutlinedTextField(
             value = name, onValueChange = { name = it.take(30) }, singleLine = true,
             label = { Text(stringResource(R.string.settings_name)) },
+            shape = RoundedCornerShape(18.dp),
             modifier = Modifier.fillMaxWidth(),
             trailingIcon = {
                 if (name.trim() != settings.displayName) {
@@ -153,20 +164,21 @@ fun SettingsScreen(nav: Navigator, vm: SettingsViewModel = hiltViewModel(), upda
             },
         )
         Text(vm.email ?: stringResource(R.string.settings_local_mode), color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(vertical = 8.dp))
-        OutlinedButton(onClick = vm::signOut, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.settings_sign_out)) }
+        PillButton(stringResource(R.string.settings_sign_out), Modifier.fillMaxWidth(), onClick = vm::signOut)
+        } }
 
         SectionTitle(stringResource(R.string.settings_app))
+        GymCard(Modifier.fillMaxWidth()) { Column {
         Text(stringResource(R.string.settings_version, BuildConfig.VERSION_NAME), color = MaterialTheme.colorScheme.onSurfaceVariant)
-        OutlinedButton(onClick = updateVm::check, modifier = Modifier.fillMaxWidth().padding(top = 8.dp)) {
-            Text(stringResource(R.string.settings_check_update))
-        }
+        PillButton(stringResource(R.string.settings_check_update), Modifier.fillMaxWidth().padding(top = 8.dp), onClick = updateVm::check)
         when (updateStatus) {
             UpdateStatus.UpToDate -> Text(stringResource(R.string.settings_up_to_date), color = MaterialTheme.colorScheme.primary)
             UpdateStatus.NotConfigured -> Text(stringResource(R.string.settings_updates_not_configured), color = MaterialTheme.colorScheme.onSurfaceVariant)
             UpdateStatus.Checking -> Text(stringResource(R.string.loading))
             else -> Unit
         }
-        HorizontalDivider(Modifier.padding(vertical = 16.dp), color = MaterialTheme.colorScheme.outlineVariant)
+        } }
+        Spacer(Modifier.height(24.dp))
     }
     UpdateDialog(initial = null, onDismissInitial = {}, vm = updateVm)
 }

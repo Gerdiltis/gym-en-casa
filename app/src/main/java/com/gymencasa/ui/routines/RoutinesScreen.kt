@@ -1,5 +1,7 @@
 package com.gymencasa.ui.routines
 
+import com.gymencasa.ui.components.TopPillBar
+import com.gymencasa.ui.components.GradientButton
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,8 +14,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.ListItemDefaults
+import com.gymencasa.ui.components.CardListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -64,7 +65,7 @@ class RoutinesViewModel @Inject constructor(
             if (items.isEmpty()) return@launch
             val plan = DayPlan(saved.routine.name, Goal.fromSlug(saved.routine.goal), WorkoutMode.MANUAL,
                 saved.routine.durationTargetMin, settings.current().restBetweenSetsSeconds, items)
-            draftStore.update { it.copy(plan = plan, durationMin = plan.durationTargetMin, goal = plan.goal, usedFallback = false) }
+            draftStore.update { it.copy(plan = plan, durationMin = plan.durationTargetMin, goal = plan.goal, usedFallback = false, generatedAt = System.currentTimeMillis()) }
             onReady()
         }
     }
@@ -76,23 +77,22 @@ class RoutinesViewModel @Inject constructor(
 fun RoutinesScreen(nav: Navigator, vm: RoutinesViewModel = hiltViewModel()) {
     val routines by vm.routines.collectAsStateWithLifecycle()
     Column(Modifier.fillMaxSize().statusBarsPadding()) {
-        Column(Modifier.padding(horizontal = 20.dp)) { ScreenHeader(stringResource(R.string.routines_title)) }
+        TopPillBar(title = stringResource(R.string.routines_title), onBack = { nav.back() }, modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp))
         LazyColumn(Modifier.weight(1f)) {
             if (routines.isEmpty()) {
                 item { Text(stringResource(R.string.routines_empty), Modifier.padding(20.dp), color = MaterialTheme.colorScheme.onSurfaceVariant) }
             }
             items(routines, key = { it.id }) { r ->
-                ListItem(
+                CardListItem(
                     headlineContent = { Text(r.name) },
                     supportingContent = { Text(stringResource(R.string.minutes_short, r.durationTargetMin)) },
                     trailingContent = {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             IconButton(onClick = { vm.delete(r.id) }) { Icon(Icons.Filled.Delete, stringResource(R.string.action_delete)) }
-                            Button(onClick = { vm.use(r.id) { nav.go(Route.Plan) } }) { Text(stringResource(R.string.routines_use)) }
+                            GradientButton(stringResource(R.string.routines_use), height = 40.dp) { vm.use(r.id) { nav.go(Route.Plan) } }
                         }
                     },
-                    colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.background),
-                    modifier = Modifier.padding(horizontal = 8.dp),
+                    modifier = Modifier
                 )
             }
         }
