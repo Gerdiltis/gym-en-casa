@@ -17,9 +17,9 @@ from __future__ import annotations
 import math
 from PIL import Image, ImageDraw
 
-SIZE = 480          # output size (square)
+SIZE = 480          # layout space (square); poses and layout are authored in these units
 SS = 2              # supersampling factor
-FLOOR = 425         # floor line, screen px (output scale)
+FLOOR = 425         # floor line in layout space
 
 BG = (26, 26, 26)
 FLOOR_FILL = (20, 20, 20)
@@ -162,23 +162,46 @@ def pose_at(keys, u, defaults, ease="smooth"):
 # ---------------------------------------------------------------- drawing
 
 class Canvas:
-    def __init__(self, offx, scale):
-        self.img = Image.new("RGB", (SIZE * SS, SIZE * SS), BG)
+    """Drawing surface. Coordinates are authored in a 480-unit layout space; `out` is the output size in px."""
+
+    def __init__(self, offx, scale, out=SIZE, bg=BG, floor_fill=FLOOR_FILL, floor_line=FLOOR_LINE, ink=None, ink_w=0.0):
+        self.out = out
+        self.px = out / SIZE
+        self.img = Image.new("RGBA", (out * SS, out * SS), bg + (255,))
         self.dr = ImageDraw.Draw(self.img)
         self.offx = offx
         self.scale = scale
-        self.dr.rectangle([0, FLOOR * SS, SIZE * SS, SIZE * SS], fill=FLOOR_FILL)
-        self.dr.line([0, FLOOR * SS, SIZE * SS, FLOOR * SS], fill=FLOOR_LINE, width=2 * SS)
+        self.ink = ink          # outline colour for props (illustrated style), None = no outline
+        self.ink_w = ink_w      # outline width in layout units
+        fy = FLOOR * self.px * SS
+        self.dr.rectangle([0, fy, out * SS, out * SS], fill=floor_fill)
+        self.dr.line([0, fy, out * SS, fy], fill=floor_line, width=max(1, int(2 * self.px * SS)))
 
     def pt(self, p):
         x = SIZE / 2 + (p[0] + self.offx) * self.scale
         y = FLOOR - p[1] * self.scale
-        return (x * SS, y * SS)
+        return (x * self.px * SS, y * self.px * SS)
 
     def w(self, width):
-        return max(1, int(round(width * self.scale * SS)))
+        return max(1, int(round(width * self.scale * self.px * SS)))
+
+    def blend_poly(self, pts, color, alpha):
+        """Translucent polygon (muscle highlights) composited onto the canvas."""
+        xy = [self.pt(p) for p in pts]
+        x0 = int(max(0, min(x for x, _ in xy))); y0 = int(max(0, min(y for _, y in xy)))
+        x1 = int(min(self.img.width, max(x for x, _ in xy) + 1)); y1 = int(min(self.img.height, max(y for _, y in xy) + 1))
+        if x1 <= x0 or y1 <= y0:
+            return
+        tile = Image.new("RGBA", (x1 - x0, y1 - y0), (0, 0, 0, 0))
+        ImageDraw.Draw(tile).polygon([(x - x0, y - y0) for x, y in xy], fill=color + (int(255 * alpha),))
+        self.img.alpha_composite(tile, (x0, y0))
 
     def seg(self, a, b, width, color):
+        if self.ink is not None and color != self.ink:
+            self._seg(a, b, width + 2 * self.ink_w, self.ink)
+        self._seg(a, b, width, color)
+
+    def _seg(self, a, b, width, color):
         pa, pb = self.pt(a), self.pt(b)
         wpx = self.w(width)
         self.dr.line([pa, pb], fill=color, width=wpx)
@@ -191,22 +214,33 @@ class Canvas:
             self.seg(a, b, width, color)
 
     def circle(self, c, radius, color, outline=None, owidth=0):
+        """outline: None = automatic (props outline in illustrated style), False = none, colour = that colour."""
+        if outline is None and self.ink is not None and color != self.ink:
+            outline, owidth = self.ink, self.ink_w
+        if outline is False:
+            outline = None
         x, y = self.pt(c)
-        r = radius * self.scale * SS
+        r = radius * self.scale * self.px * SS
         self.dr.ellipse([x - r, y - r, x + r, y + r], fill=color, outline=outline, width=self.w(owidth) if outline else 0)
 
     def rect(self, x0, y0, x1, y1, color, radius=0):
         a, b = self.pt((x0, y1)), self.pt((x1, y0))
+        ol = dict(outline=self.ink, width=self.w(self.ink_w)) if self.ink is not None else {}
         if radius:
-            self.dr.rounded_rectangle([a, b], radius=radius * self.scale * SS, fill=color)
+            self.dr.rounded_rectangle([a, b], radius=radius * self.scale * self.px * SS, fill=color, **ol)
         else:
-            self.dr.rectangle([a, b], fill=color)
+            self.dr.rectangle([a, b], fill=color, **ol)
 
-    def polygon(self, pts, color):
-        self.dr.polygon([self.pt(p) for p in pts], fill=color)
+    def polygon(self, pts, color, outline=None, owidth=0.0):
+        if outline is None and self.ink is not None and color != self.ink:
+            outline, owidth = self.ink, self.ink_w
+        if outline is not None and outline is not False:
+            self.dr.polygon([self.pt(p) for p in pts], fill=color, outline=outline, width=self.w(owidth))
+        else:
+            self.dr.polygon([self.pt(p) for p in pts], fill=color)
 
     def result(self):
-        return self.img.resize((SIZE, SIZE), Image.LANCZOS)
+        return self.img.convert("RGB").resize((self.out, self.out), Image.LANCZOS)
 
 
 def torso_points(j, n=8):

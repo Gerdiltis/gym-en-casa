@@ -363,7 +363,7 @@ fun ExerciseVideo(
             .aspectRatio(1f)
             .softShadow(shape, 16.dp)
             .clip(shape)
-            .background(GymColors.Graphite),
+            .background(GymColors.Page),
         contentAlignment = Alignment.Center,
     ) {
         if (thumbUri != null) {
@@ -383,7 +383,7 @@ fun ExerciseVideo(
 @Composable
 fun ExerciseThumb(thumbUri: String?, modifier: Modifier = Modifier, size: Dp = 56.dp) {
     Box(
-        modifier.size(size).clip(RoundedCornerShape(16.dp)).background(GymColors.Graphite),
+        modifier.size(size).clip(RoundedCornerShape(16.dp)).background(GymColors.Page),
         contentAlignment = Alignment.Center,
     ) {
         if (thumbUri != null) {

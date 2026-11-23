@@ -15,7 +15,7 @@ from PIL import Image, ImageDraw  # noqa: E402
 from exercises import EXERCISES  # noqa: E402
 from render import layout, render_frame, solve, FPS  # noqa: E402
 
-CELL = 200
+CELL = 180
 PHASES = (0.0, 0.25, 0.5, 0.75)
 
 
@@ -28,7 +28,7 @@ def main(out, slugs):
         offx, scale = layout(e, [solve(e, i / n) for i in range(n)])
         dr.text((8, row * CELL + 8), e["slug"], fill=(255, 255, 255))
         for col, u in enumerate(PHASES):
-            img = render_frame(e, solve(e, u), offx, scale).resize((CELL, CELL))
+            img = render_frame(e, solve(e, u), offx, scale, u).resize((CELL, CELL))
             sheet.paste(img, (220 + col * CELL, row * CELL))
     path = Path(out)
     if not path.is_absolute():

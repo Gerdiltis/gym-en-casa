@@ -82,7 +82,7 @@ Estilo moderno, claro y redondeado, inspirado en apps de asistente. Paleta **roj
 - **Tipografía**: sans del sistema en pesos ExtraBold para los titulares. Botones y títulos en *sentence case* (no en mayúsculas); las mayúsculas solo para etiquetas de sección.
 - **Plan del día**: estilo chat. La petición va en una burbuja roja y la respuesta es una tarjeta con la lista: punto de color por músculo principal y píldora "3 × 45 s". "Iniciar sesión" y "Otra propuesta" van en la barra flotante inferior.
 - **Sesión**: estilo "voice mode", con la píldora "EJERCICIO X DE N", el vídeo redondeado y el anillo con degradado rojo (gris durante el descanso y pulso rojo en los últimos 3 s). Los controles van en una píldora flotante: cerrar, pausa grande y saltar.
-- **Vídeos**: figura gris claro con camiseta roja sobre fondo `#1A1A1A`, 480×480.
+- **Vídeos**: avatar ilustrado (cabeza real, ropa azul marino) sobre fondo gris claro `#F3F4F7`, 720×720, con los músculos en rojo.
 
 ## Reglas obligatorias
 - **Secretos**: nunca metas la clave de OpenRouter ni la `service_role` de Supabase en el APK ni en el repo.
@@ -117,14 +117,23 @@ Las migraciones son nuevas siempre (`supabase/migrations/AAAAMMDDHHMMSS_nombre.s
 Esqueleto 2D con keyframes, en `tools/videogen/skeleton.py`:
 - Por cada extremidad, ángulos (`fk`) u objetivos de IK (`ik`, `ikj`).
 - Interpolación suave y bucle sin saltos.
-- Render con Pillow a 2× y reducción a la mitad.
-- Codificación H.264 (CRF 30, 24 fps, sin audio) de unos 15–25 KB por vídeo.
+- Render a 2× y reducción a la mitad.
+
+Hay dos estilos en `render.py`:
+- **`illustrated`** (por defecto, desde la v0.4.0). Lo dibuja `illustrated.py`: avatar con la **cabeza real** recortada de la hoja de personaje del usuario (`assets/avatar_sheet.webp`, con `extract_avatar.py` → `assets/avatar_head_{side,front}.png`), cuerpo con formas anatómicas, contorno tipo cómic y la ropa de la referencia. Los **músculos trabajados se marcan en rojo sobre el cuerpo** (`muscles.py`):
+  - Principal intenso, con pulso.
+  - Secundarios más suaves.
+  - En `cardio` o `cuerpo_completo` se pone el contorno rojo.
+  - Formato: 720×720, 24 fps, CRF 26, miniaturas WebP de 360 px; unos 80 KB por vídeo.
+- **`--flat`**: el monigote original, en 480 px y CRF 30.
 
 Para añadir un ejercicio:
-1. Añade un `ex(...)` en `tools/videogen/exercises.py`: metadatos (slug, nombre, descripción, `muscle_groups`, `equipment`, `type`, dificultad, unilateral), keyframes y props (`chair`, `wall`, `step`, `sofa`, `mat`, `foam`, `post`, `towel`, `backpack`, `dumbbell`, `bottle`, `band`).
+1. Añade un `ex(...)` en `tools/videogen/exercises.py`: metadatos (slug, nombre, descripción, `muscle_groups` con el principal primero, `equipment`, `type`, dificultad, unilateral, `pregnancy`), keyframes y props (`chair`, `wall`, `step`, `sofa`, `mat`, `foam`, `ball`, `post`, `towel`, `backpack`, `dumbbell`, `bottle`, `band`).
 2. Revísalo con `sheet.py`.
 3. `render.py --to-app` y `upload.py` (más `--upload` si quieres el vídeo en Storage).
 4. `supabase db push --include-seed`.
+
+Si cambia la hoja del avatar, vuelve a ejecutar `extract_avatar.py`; las coordenadas del recorte están en ese script.
 
 Material válido: `ninguno, gomas, bandas_largas, esterilla, mancuerna, foam, pelota, silla, pared, escalon, sofa, toalla, mochila, botellas`.
 
