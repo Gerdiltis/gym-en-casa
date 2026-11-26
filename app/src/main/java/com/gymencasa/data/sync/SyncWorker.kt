@@ -38,6 +38,7 @@ class SyncWorker @AssistedInject constructor(
                     WorkoutSessionDto(
                         w.id, uid, w.title, w.mode, w.goal, w.durationTargetMin,
                         Instant.ofEpochMilli(w.startedAt).toString(), Instant.ofEpochMilli(w.finishedAt).toString(), w.completed,
+                        w.format, w.rounds,
                     ),
                 )
                 val sets = workoutDao.sets(w.id).map {
@@ -47,7 +48,7 @@ class SyncWorker @AssistedInject constructor(
                 workoutDao.markSynced(w.id)
             }
             for (r in routineDao.unsynced()) {
-                client.from("routines").upsert(RoutineDto(r.id, uid, r.name, r.goal, r.durationTargetMin))
+                client.from("routines").upsert(RoutineDto(r.id, uid, r.name, r.goal, r.durationTargetMin, r.format, r.rounds, r.roundRestSeconds))
                 val items = routineDao.items(r.id).map {
                     RoutineItemDto(r.id, uid, it.position, it.exerciseSlug, it.sets, it.workSeconds)
                 }

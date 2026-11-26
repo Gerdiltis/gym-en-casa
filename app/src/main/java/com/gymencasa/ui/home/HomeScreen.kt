@@ -60,6 +60,9 @@ import com.gymencasa.R
 import com.gymencasa.data.DayDraft
 import com.gymencasa.data.DayDraftStore
 import com.gymencasa.data.PlanGenerator
+import com.gymencasa.domain.PlanAlgorithm
+import com.gymencasa.domain.model.SessionFormat
+import com.gymencasa.ui.components.PillShape
 import com.gymencasa.data.repository.ExerciseRepository
 import com.gymencasa.data.repository.SettingsRepository
 import com.gymencasa.data.repository.WorkoutRepository
@@ -131,6 +134,11 @@ class HomeViewModel @Inject constructor(
     }
 
     fun setDuration(min: Int) = draftStore.update { it.copy(durationMin = min) }
+    fun setFormat(f: SessionFormat) = draftStore.update { it.copy(format = f) }
+    fun setRounds(n: Int) = draftStore.update { it.copy(rounds = n) }
+    fun setPerRound(n: Int) = draftStore.update { it.copy(exercisesPerRound = n) }
+    fun setCircuitWork(sec: Int) = draftStore.update { it.copy(circuitWorkSeconds = sec) }
+    fun setRoundRest(sec: Int) = draftStore.update { it.copy(roundRestSeconds = sec) }
     fun setGoal(goal: Goal) = draftStore.update { it.copy(goal = goal) }
     fun setFocus(focus: Focus) = draftStore.update { it.copy(focus = focus) }
 
@@ -153,6 +161,9 @@ class HomeViewModel @Inject constructor(
 }
 
 private val durations = listOf(10, 15, 20, 30, 45)
+private val roundOptions = listOf(2, 3, 4, 5)
+private val workOptions = listOf(20, 30, 40, 45, 60)
+private val roundRestOptions = listOf(30, 60, 90, 120)
 private val dateFormat = DateTimeFormatter.ofPattern("EEEE, d 'de' MMMM", Locale.forLanguageTag("es-ES"))
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -160,6 +171,7 @@ private val dateFormat = DateTimeFormatter.ofPattern("EEEE, d 'de' MMMM", Locale
 fun HomeScreen(nav: Navigator, vm: HomeViewModel = hiltViewModel()) {
     val ui by vm.ui.collectAsStateWithLifecycle()
     var customOpen by remember { mutableStateOf(false) }
+    var roundsOpen by remember { mutableStateOf(false) }
     val goalLabel = stringResource(ui.draft.goal.labelRes)
     val defaultTitle = stringResource(R.string.ai_title_default, goalLabel)
     val hour = LocalTime.now().hour
@@ -220,18 +232,61 @@ fun HomeScreen(nav: Navigator, vm: HomeViewModel = hiltViewModel()) {
                 Row(verticalAlignment = Alignment.Top) {
                     Column(Modifier.weight(1f)) {
                         Text(stringResource(R.string.home_hero_title), style = MaterialTheme.typography.titleLarge, color = Color.White)
-                        Text(stringResource(R.string.home_how_long), style = MaterialTheme.typography.labelMedium, color = Color.White.copy(alpha = 0.8f), modifier = Modifier.padding(top = 12.dp, bottom = 8.dp))
+                        // Session type: Series (current flow) or Circuit (rounds of one pass per exercise)
+                        Row(
+                            Modifier.padding(top = 10.dp).clip(PillShape).background(Color.White.copy(alpha = 0.16f)).padding(3.dp),
+                            horizontalArrangement = Arrangement.spacedBy(3.dp),
+                        ) {
+                            SessionFormat.entries.forEach { f ->
+                                PillChip(
+                                    stringResource(if (f == SessionFormat.SERIES) R.string.format_series else R.string.format_circuit),
+                                    ui.draft.format == f, onHero = true,
+                                ) { vm.setFormat(f) }
+                            }
+                        }
                     }
                     WeekRing(ui.weekSessions, WEEKLY_TARGET)
                 }
-                FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                    durations.forEach { min ->
-                        PillChip(stringResource(R.string.minutes_compact, min), ui.draft.durationMin == min, onHero = true) { vm.setDuration(min) }
+                val circuit = ui.draft.format == SessionFormat.CIRCUIT
+                if (!circuit) {
+                    HeroLabel(stringResource(R.string.home_how_long))
+                    FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                        durations.forEach { min ->
+                            PillChip(stringResource(R.string.minutes_compact, min), ui.draft.durationMin == min, onHero = true) { vm.setDuration(min) }
+                        }
+                        val custom = ui.draft.durationMin !in durations
+                        PillChip(if (custom) stringResource(R.string.minutes_compact, ui.draft.durationMin) else "+", custom, onHero = true) { customOpen = true }
                     }
-                    val custom = ui.draft.durationMin !in durations
-                    PillChip(if (custom) stringResource(R.string.minutes_compact, ui.draft.durationMin) else "+", custom, onHero = true) { customOpen = true }
+                } else {
+                    val maxRounds = if (ui.settings.pregnant) PlanAlgorithm.PREGNANCY_MAX_ROUNDS else PlanAlgorithm.MAX_ROUNDS
+                    HeroLabel(stringResource(R.string.circuit_rounds))
+                    FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                        roundOptions.filter { it <= maxRounds }.forEach { n -> PillChip("$n", ui.draft.rounds == n, onHero = true) { vm.setRounds(n) } }
+                        val custom = ui.draft.rounds !in roundOptions
+                        PillChip(if (custom) "${ui.draft.rounds}" else "+", custom, onHero = true) { roundsOpen = true }
+                    }
+                    HeroLabel(stringResource(R.string.circuit_per_round))
+                    FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                        (3..8).forEach { n -> PillChip("$n", ui.draft.exercisesPerRound == n, onHero = true) { vm.setPerRound(n) } }
+                    }
+                    HeroLabel(stringResource(R.string.circuit_work_seconds))
+                    FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                        workOptions.filter { !ui.settings.pregnant || it <= PlanAlgorithm.PREGNANCY_MAX_WORK_SECONDS }.forEach { sec ->
+                            PillChip(stringResource(R.string.seconds_short, sec), ui.draft.circuitWorkSeconds == sec, onHero = true) { vm.setCircuitWork(sec) }
+                        }
+                    }
+                    HeroLabel(stringResource(R.string.circuit_round_rest))
+                    FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                        roundRestOptions.forEach { sec ->
+                            PillChip(stringResource(R.string.seconds_short, sec), ui.draft.roundRestSeconds == sec, onHero = true) { vm.setRoundRest(sec) }
+                        }
+                    }
+                    Text(
+                        stringResource(R.string.circuit_estimate, PlanGenerator.estimateCircuitMinutes(ui.draft, ui.settings.restBetweenSetsSeconds), ui.settings.restBetweenSetsSeconds),
+                        style = MaterialTheme.typography.bodySmall, color = Color.White.copy(alpha = 0.9f), modifier = Modifier.padding(top = 10.dp),
+                    )
                 }
-                Text(stringResource(R.string.home_goal), style = MaterialTheme.typography.labelMedium, color = Color.White.copy(alpha = 0.8f), modifier = Modifier.padding(top = 14.dp, bottom = 8.dp))
+                HeroLabel(stringResource(R.string.home_goal))
                 FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                     Goal.available(ui.settings.pregnant).forEach { g ->
                         PillChip(stringResource(g.labelRes), ui.draft.goal == g, onHero = true) { vm.setGoal(g) }
@@ -277,6 +332,23 @@ fun HomeScreen(nav: Navigator, vm: HomeViewModel = hiltViewModel()) {
         Spacer(Modifier.height(24.dp))
     }
 
+    if (roundsOpen) {
+        val maxR = if (ui.settings.pregnant) PlanAlgorithm.PREGNANCY_MAX_ROUNDS else PlanAlgorithm.MAX_ROUNDS
+        var value by remember { mutableFloatStateOf(ui.draft.rounds.toFloat().coerceIn(1f, maxR.toFloat())) }
+        AlertDialog(
+            onDismissRequest = { roundsOpen = false },
+            title = { Text(stringResource(R.string.circuit_rounds)) },
+            text = {
+                Column {
+                    Text("${value.roundToInt()}", style = MaterialTheme.typography.headlineMedium)
+                    Slider(value = value, onValueChange = { value = it }, valueRange = 1f..maxR.toFloat(), steps = maxR - 2)
+                }
+            },
+            confirmButton = { TextButton(onClick = { vm.setRounds(value.roundToInt()); roundsOpen = false }) { Text(stringResource(R.string.action_save)) } },
+            dismissButton = { TextButton(onClick = { roundsOpen = false }) { Text(stringResource(R.string.action_cancel)) } },
+        )
+    }
+
     if (customOpen) {
         var value by remember { mutableFloatStateOf(ui.draft.durationMin.toFloat().coerceIn(5f, 90f)) }
         AlertDialog(
@@ -292,6 +364,11 @@ fun HomeScreen(nav: Navigator, vm: HomeViewModel = hiltViewModel()) {
             dismissButton = { TextButton(onClick = { customOpen = false }) { Text(stringResource(R.string.action_cancel)) } },
         )
     }
+}
+
+@Composable
+private fun HeroLabel(text: String) {
+    Text(text, style = MaterialTheme.typography.labelMedium, color = Color.White.copy(alpha = 0.8f), modifier = Modifier.padding(top = 14.dp, bottom = 8.dp))
 }
 
 /** Kept for other screens that still use it. */

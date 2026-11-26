@@ -10,6 +10,9 @@ App Android privada (se instala por APK, sin Play Store) para entrenar en casa c
 - **IA**: la Edge Function `generate-routine` (OpenRouter) elige y ordena los ejercicios.
 - **Manual**: `SuggestionEngine` propone ejercicios que caben en la duración y el usuario los ajusta.
 - **Series y segundos** los asigna siempre `PlanAlgorithm` (determinista). El **descanso entre series es global**: sale del perfil del usuario.
+- **Dos formatos** (`SessionFormat`), elegidos en Hoy con el selector Series | Circuito:
+  - **Series**: todas las series de un ejercicio seguidas; el usuario pulsa "Empezar siguiente ejercicio".
+  - **Circuito**: el usuario elige vueltas (1–10), ejercicios por vuelta (3–8), segundos por ejercicio (20–60) y descanso entre vueltas. Se hace una pasada de cada ejercicio por vuelta (`sets = 1`, unilaterales ×2), con paso automático: descanso global entre ejercicios y `roundRestSeconds` entre vueltas. Lo construye `PlanAlgorithm.buildCircuit`; la IA recibe `count` en lugar de la duración.
 - **Sesión**:
   1. Preview de 10 s con el vídeo en bucle.
   2. Series con temporizador y pitido al terminar cada una.
@@ -27,8 +30,9 @@ app/src/main/java/com/gymencasa/
     PlanAlgorithm    series × segundos por objetivo/nivel + ajuste a la duración
     SuggestionEngine propuesta equilibrada que cabe en la duración (y fallback de la IA)
     session/SessionStateMachine  PREVIEW → WORK → REST → … → AWAIT_NEXT → FINISHED
+                     (circuito: WORK → REST → WORK siguiente … → ROUND_REST → … → FINISHED, sin AWAIT_NEXT)
   data/
-    local/           Room (v3, listas en JSON): exercises, workouts, workout_sets, routines, routine_items
+    local/           Room (v4, listas en JSON): exercises, workouts, workout_sets, routines, routine_items
     remote/          SupabaseProvider (cliente nulo si la build no tiene URL/key) + DTOs
     repository/      Auth, Settings (DataStore + profiles), Exercise, Workout, AiRoutine
     sync/SyncWorker  sube sesiones y rutinas pendientes (offline-first)
@@ -89,7 +93,7 @@ Estilo moderno, claro y redondeado, inspirado en apps de asistente. Paleta **roj
   - La de OpenRouter solo va en `supabase secrets`.
   - La anon key sí puede ir en el APK: la protege RLS.
 - **RLS**: toda tabla nueva lleva RLS y políticas `user_id = (select auth.uid())`, o de solo lectura si es catálogo.
-- **Descanso**: el descanso entre series sale siempre de `UserSettings.restBetweenSetsSeconds`. No lo guardes por rutina ni lo decida la IA.
+- **Descanso**: el descanso entre series (y entre ejercicios en circuito) sale siempre de `UserSettings.restBetweenSetsSeconds`. No lo guardes por rutina ni lo decida la IA. Solo el descanso entre vueltas del circuito se elige y se guarda con la rutina.
 - **Material**: todo ejercicio declara su `equipment[]` (lista completa) y solo se muestra o sugiere si el usuario lo tiene todo (`ExerciseFilter`).
   - `ninguno` siempre está disponible.
   - Un elemento puede tener alternativas separadas por `|` (por ejemplo `gomas|bandas_largas`).
@@ -109,8 +113,8 @@ Estilo moderno, claro y redondeado, inspirado en apps de asistente. Paleta **roj
 ## Esquema de datos (resumen)
 - `equipment(slug, name)` y `exercises(slug, name, description, muscle_groups[], equipment[], type, difficulty, unilateral, video_path, thumb_path, pregnancy, tags[])`: catálogo de solo lectura.
 - `profiles(id = auth.uid, display_name, level, goal (incluye `parto`), equipment[], rest_between_sets_s, pregnant)`. Se crea con un trigger al registrarse.
-- `workout_sessions(id, user_id, title, mode ai|manual, goal, duration_target_min, started_at, finished_at, completed)` y `session_sets(session_id, position, exercise_slug, set_index, planned_s, skipped)`.
-- `routines(id, user_id, name, goal, duration_target_min)` y `routine_items(routine_id, position, exercise_slug, sets, work_s)`.
+- `workout_sessions(id, user_id, title, mode ai|manual, goal, duration_target_min, started_at, finished_at, completed, format series|circuit, rounds)` y `session_sets(session_id, position, exercise_slug, set_index, planned_s, skipped)`. En circuito, `set_index` es el número de vuelta.
+- `routines(id, user_id, name, goal, duration_target_min, format, rounds, round_rest_s)` y `routine_items(routine_id, position, exercise_slug, sets, work_s)`.
 
 Las migraciones son nuevas siempre (`supabase/migrations/AAAAMMDDHHMMSS_nombre.sql`); nunca edites una ya aplicada.
 

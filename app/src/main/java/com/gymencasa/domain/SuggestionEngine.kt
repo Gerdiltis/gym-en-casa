@@ -23,18 +23,15 @@ object SuggestionEngine {
         Goal.PARTO -> setOf(ExerciseType.MOVILIDAD, ExerciseType.FUERZA, ExerciseType.CORE)
     }
 
-    fun suggest(
+    /** Candidates in preferred order: goal types, focus, not done last time, balanced by muscle group. */
+    fun rank(
         available: List<Exercise>,
         goal: Goal,
-        level: Level,
-        restSeconds: Int,
-        durationMin: Int,
         focus: Focus = Focus.CUERPO_COMPLETO,
         recentSlugs: Set<String> = emptySet(),
         random: Random = Random.Default,
         pregnant: Boolean = false,
     ): List<Exercise> {
-        val budget = durationMin * 60
         val types = preferredTypes(goal)
         var pool = available.filter { it.type in types }
         if (focus != Focus.CUERPO_COMPLETO) {
@@ -52,7 +49,23 @@ object SuggestionEngine {
         var ordered = roundRobin(fresh) + roundRobin(repeated)
         // Labour preparation (and pregnancy mode in general): about 2 of every 3 picks are labour-prep exercises.
         if (goal == Goal.PARTO || pregnant) ordered = prioritizeLabourPrep(ordered)
+        return ordered
+    }
 
+    fun suggest(
+        available: List<Exercise>,
+        goal: Goal,
+        level: Level,
+        restSeconds: Int,
+        durationMin: Int,
+        focus: Focus = Focus.CUERPO_COMPLETO,
+        recentSlugs: Set<String> = emptySet(),
+        random: Random = Random.Default,
+        pregnant: Boolean = false,
+    ): List<Exercise> {
+        val budget = durationMin * 60
+        val ordered = rank(available, goal, focus, recentSlugs, random, pregnant)
+        if (ordered.isEmpty()) return emptyList()
         val chosen = mutableListOf<Exercise>()
         for (ex in ordered) {
             val candidate = chosen + ex
@@ -63,6 +76,17 @@ object SuggestionEngine {
         if (chosen.isEmpty()) chosen += ordered.first()
         return chosen
     }
+
+    /** Circuit: exactly [count] exercises (or all available if fewer), balanced the same way. */
+    fun suggestCount(
+        available: List<Exercise>,
+        goal: Goal,
+        count: Int,
+        focus: Focus = Focus.CUERPO_COMPLETO,
+        recentSlugs: Set<String> = emptySet(),
+        random: Random = Random.Default,
+        pregnant: Boolean = false,
+    ): List<Exercise> = rank(available, goal, focus, recentSlugs, random, pregnant).take(count.coerceAtLeast(1))
 
     private fun prioritizeLabourPrep(exercises: List<Exercise>): List<Exercise> {
         val prep = ArrayDeque(exercises.filter { it.pregnancy == Pregnancy.PARTO })

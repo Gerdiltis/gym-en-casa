@@ -32,6 +32,8 @@ type Body = {
   available_slugs?: string[];
   recent_slugs?: string[];
   pregnant?: boolean;
+  /** Circuit: exact number of exercises to pick. */
+  count?: number;
 };
 
 const PREFERRED_TYPES: Record<string, string[]> = {
@@ -190,7 +192,10 @@ Deno.serve(async (req) => {
   const pregnant = Boolean(profile?.pregnant || body.pregnant);
   const pool = candidates((exercises ?? []) as Exercise[], owned, body, pregnant);
   if (!pool.length) return json({ title: "", exercise_slugs: [], source: "empty" });
-  const count = Math.min(targetCount(duration), pool.length);
+  const wanted = Number.isFinite(Number(body.count)) && Number(body.count) > 0
+    ? Math.min(12, Math.max(2, Math.round(Number(body.count))))
+    : targetCount(duration);
+  const count = Math.min(wanted, pool.length);
 
   try {
     const { title, slugs } = await askModel(pool, body, count, pregnant);

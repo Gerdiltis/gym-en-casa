@@ -118,6 +118,19 @@ class PlanViewModel @Inject constructor(
     }
 
     fun changeSets(i: Int, delta: Int) = edit { it[i] = it[i].copy(sets = (it[i].sets + delta).coerceIn(1, PlanAlgorithm.MAX_SETS)) }
+    /** Circuit only: number of rounds and rest between rounds. */
+    fun changeRounds(delta: Int) = draftStore.update { d ->
+        val plan = d.plan ?: return@update d
+        val p = plan.copy(rounds = (plan.rounds + delta).coerceIn(1, PlanAlgorithm.MAX_ROUNDS))
+        d.copy(plan = p.copy(durationTargetMin = (PlanAlgorithm.planSeconds(p) + 59) / 60), rounds = p.rounds)
+    }
+
+    fun changeRoundRest(delta: Int) = draftStore.update { d ->
+        val plan = d.plan ?: return@update d
+        val p = plan.copy(roundRestSeconds = (plan.roundRestSeconds + delta).coerceIn(0, 300))
+        d.copy(plan = p.copy(durationTargetMin = (PlanAlgorithm.planSeconds(p) + 59) / 60), roundRestSeconds = p.roundRestSeconds)
+    }
+
     fun changeSeconds(i: Int, delta: Int) = edit { it[i] = it[i].copy(workSeconds = (it[i].workSeconds + delta).coerceIn(10, 300)) }
     fun remove(i: Int) = edit { it.removeAt(i) }
     fun move(i: Int, delta: Int) = edit {
@@ -153,7 +166,8 @@ fun PlanScreen(nav: Navigator, vm: PlanViewModel = hiltViewModel()) {
     val snackbar = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     val savedMsg = stringResource(R.string.plan_routine_saved)
-    val totalMin = (PlanAlgorithm.totalSeconds(plan.items, plan.restSeconds) + 59) / 60
+    val totalMin = (PlanAlgorithm.planSeconds(plan) + 59) / 60
+    val circuit = plan.isCircuit
     val isAi = plan.mode == WorkoutMode.AI
     val goalLabel = stringResource(plan.goal.labelRes)
     val defaultTitle = stringResource(R.string.ai_title_default, goalLabel)
@@ -178,7 +192,8 @@ fun PlanScreen(nav: Navigator, vm: PlanViewModel = hiltViewModel()) {
                 // User's request as a red bubble
                 Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
                     Text(
-                        stringResource(R.string.plan_request, goalLabel, plan.durationTargetMin, stringResource(draft.focus.labelRes)),
+                        if (circuit) stringResource(R.string.circuit_request, plan.rounds, plan.items.firstOrNull()?.let { if (it.exercise.unilateral) it.workSeconds / 2 else it.workSeconds } ?: 0, goalLabel)
+                        else stringResource(R.string.plan_request, goalLabel, plan.durationTargetMin, stringResource(draft.focus.labelRes)),
                         color = Color.White, style = MaterialTheme.typography.bodyMedium,
                         modifier = Modifier.widthIn(max = 300.dp)
                             .clip(RoundedCornerShape(20.dp, 20.dp, 6.dp, 20.dp))
@@ -201,7 +216,9 @@ fun PlanScreen(nav: Navigator, vm: PlanViewModel = hiltViewModel()) {
                             buildAnnotatedString {
                                 append(stringResource(R.string.plan_answer_ready) + " ")
                                 withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append(plan.title) }
-                                append(". " + stringResource(R.string.plan_answer_summary, plan.items.size, totalMin, plan.restSeconds))
+                                append(". " + if (circuit) {
+                                    stringResource(R.string.circuit_answer_summary, plan.items.size, plan.rounds, totalMin, plan.restSeconds, plan.roundRestSeconds)
+                                } else stringResource(R.string.plan_answer_summary, plan.items.size, totalMin, plan.restSeconds))
                             },
                             style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface,
                         )
@@ -209,7 +226,7 @@ fun PlanScreen(nav: Navigator, vm: PlanViewModel = hiltViewModel()) {
                             Text(stringResource(R.string.home_ai_fallback), style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 6.dp))
                         }
-                        if (totalMin > plan.durationTargetMin) {
+                        if (!circuit && totalMin > plan.durationTargetMin) {
                             Text(stringResource(R.string.plan_over_time, totalMin - plan.durationTargetMin), style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.error, modifier = Modifier.padding(top = 6.dp))
                         }
@@ -221,14 +238,21 @@ fun PlanScreen(nav: Navigator, vm: PlanViewModel = hiltViewModel()) {
                             plan.items.forEachIndexed { i, item ->
                                 val key = item.exercise.slug
                                 PlanRow(
-                                    item = item, expanded = expanded == key, last = i == plan.items.lastIndex, first = i == 0,
+                                    item = item, circuit = circuit, expanded = expanded == key, last = i == plan.items.lastIndex, first = i == 0,
                                     onToggle = { expanded = if (expanded == key) null else key },
                                     onSets = { vm.changeSets(i, it) }, onSeconds = { vm.changeSeconds(i, it) },
                                     onMove = { vm.move(i, it) }, onRemove = { vm.remove(i); expanded = null },
                                 )
                             }
                         }
-                        Text(stringResource(R.string.plan_tap_hint), style = MaterialTheme.typography.bodySmall,
+                        if (circuit) {
+                            Row(Modifier.fillMaxWidth().padding(top = 10.dp), horizontalArrangement = Arrangement.SpaceEvenly) {
+                                Stepper(stringResource(R.string.circuit_rounds), "${plan.rounds}", { vm.changeRounds(-1) }, { vm.changeRounds(1) })
+                                Stepper(stringResource(R.string.circuit_round_rest), stringResource(R.string.seconds_short, plan.roundRestSeconds),
+                                    { vm.changeRoundRest(-15) }, { vm.changeRoundRest(15) })
+                            }
+                        }
+                        Text(stringResource(if (circuit) R.string.circuit_tap_hint else R.string.plan_tap_hint), style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 8.dp))
                     }
                 }
@@ -270,7 +294,7 @@ fun PlanScreen(nav: Navigator, vm: PlanViewModel = hiltViewModel()) {
 
 @Composable
 private fun PlanRow(
-    item: PlannedExercise, expanded: Boolean, first: Boolean, last: Boolean,
+    item: PlannedExercise, circuit: Boolean, expanded: Boolean, first: Boolean, last: Boolean,
     onToggle: () -> Unit, onSets: (Int) -> Unit, onSeconds: (Int) -> Unit, onMove: (Int) -> Unit, onRemove: () -> Unit,
 ) {
     Column(Modifier.fillMaxWidth()) {
@@ -282,7 +306,7 @@ private fun PlanRow(
                 Text(muscleList(item.exercise.muscleGroups), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1)
             }
             Text(
-                stringResource(R.string.sets_by_seconds, item.sets, item.workSeconds),
+                if (circuit) stringResource(R.string.seconds_short, item.workSeconds) else stringResource(R.string.sets_by_seconds, item.sets, item.workSeconds),
                 style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.clip(RoundedCornerShape(10.dp)).background(MaterialTheme.colorScheme.surface)
                     .border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(10.dp)).padding(horizontal = 8.dp, vertical = 4.dp),
@@ -291,7 +315,7 @@ private fun PlanRow(
         AnimatedVisibility(expanded) {
             Column(Modifier.fillMaxWidth().padding(bottom = 10.dp)) {
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-                    Stepper(stringResource(R.string.plan_sets), "${item.sets}", { onSets(-1) }, { onSets(1) })
+                    if (!circuit) Stepper(stringResource(R.string.plan_sets), "${item.sets}", { onSets(-1) }, { onSets(1) })
                     Stepper(stringResource(R.string.plan_seconds), stringResource(R.string.seconds_short, item.workSeconds), { onSeconds(-5) }, { onSeconds(5) })
                 }
                 Row(Modifier.fillMaxWidth().padding(top = 6.dp), horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)) {

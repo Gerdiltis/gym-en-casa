@@ -103,7 +103,23 @@ data class DayPlan(
     /** Global rest between sets, always taken from the user's settings. */
     val restSeconds: Int,
     val items: List<PlannedExercise>,
-)
+    /** SERIES: all sets of an exercise in a row. CIRCUIT: one pass of every exercise per round. */
+    val format: SessionFormat = SessionFormat.SERIES,
+    /** Circuit only: how many times the whole list is repeated. */
+    val rounds: Int = 1,
+    /** Circuit only: rest after each round (the rest between exercises is [restSeconds]). */
+    val roundRestSeconds: Int = 0,
+) {
+    val isCircuit: Boolean get() = format == SessionFormat.CIRCUIT
+}
+
+enum class SessionFormat(val slug: String) {
+    SERIES("series"), CIRCUIT("circuit");
+
+    companion object {
+        fun fromSlug(slug: String?): SessionFormat = entries.firstOrNull { it.slug == slug } ?: SERIES
+    }
+}
 
 enum class WorkoutMode(val slug: String) { AI("ai"), MANUAL("manual") }
 

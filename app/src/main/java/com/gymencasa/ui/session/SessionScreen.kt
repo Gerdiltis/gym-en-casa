@@ -198,7 +198,8 @@ fun SessionScreen(nav: Navigator, vm: SessionViewModel = hiltViewModel()) {
         ) {
             // "VOICE MODE"-style pill with the progress through the session
             Text(
-                stringResource(R.string.session_exercise_of, state.exerciseIndex + 1, total).uppercase(),
+                (if (state.isCircuit) stringResource(R.string.circuit_header, state.round + 1, state.plan.rounds, state.exerciseIndex + 1, total)
+                else stringResource(R.string.session_exercise_of, state.exerciseIndex + 1, total)).uppercase(),
                 style = SectionStyle, color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(top = 16.dp).softShadow(PillShape, 8.dp).clip(PillShape)
                     .background(MaterialTheme.colorScheme.surface).padding(horizontal = 18.dp, vertical = 9.dp),
@@ -220,8 +221,8 @@ fun SessionScreen(nav: Navigator, vm: SessionViewModel = hiltViewModel()) {
             )
 
             when (state.phase) {
-                Phase.PREVIEW, Phase.WORK, Phase.REST -> {
-                    val rest = state.phase == Phase.REST
+                Phase.PREVIEW, Phase.WORK, Phase.REST, Phase.ROUND_REST -> {
+                    val rest = state.phase == Phase.REST || state.phase == Phase.ROUND_REST
                     Spacer(Modifier.height(20.dp))
                     TimerRing(
                         progress = state.progress(ui.nowMs), rest = rest,
@@ -229,7 +230,13 @@ fun SessionScreen(nav: Navigator, vm: SessionViewModel = hiltViewModel()) {
                     ) {
                         Text("$secondsLeft", style = TimerStyle, color = MaterialTheme.colorScheme.onBackground)
                     }
-                    val status = when (state.phase) {
+                    val status = if (state.isCircuit) when (state.phase) {
+                        Phase.PREVIEW -> stringResource(R.string.session_get_ready)
+                        Phase.WORK -> stringResource(R.string.session_work) + " · " + stringResource(R.string.circuit_round_of, state.round + 1, state.plan.rounds)
+                        Phase.ROUND_REST -> stringResource(R.string.circuit_round_rest_phase) + " · " +
+                            stringResource(R.string.circuit_next_round, state.round + 1, state.plan.rounds)
+                        else -> stringResource(R.string.session_rest)
+                    } else when (state.phase) {
                         Phase.PREVIEW -> stringResource(R.string.session_get_ready)
                         Phase.WORK -> stringResource(R.string.session_work) + " · " + stringResource(R.string.session_set_of, state.setIndex + 1, state.current.sets)
                         else -> stringResource(R.string.session_rest) + " · " + stringResource(R.string.session_next_set, state.setIndex + 2, state.current.sets)
@@ -240,7 +247,8 @@ fun SessionScreen(nav: Navigator, vm: SessionViewModel = hiltViewModel()) {
                         color = if (rest) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.primary,
                         modifier = Modifier.padding(top = 14.dp),
                     )
-                    Text(showing.name, style = MaterialTheme.typography.headlineMedium, textAlign = TextAlign.Center, modifier = Modifier.padding(top = 4.dp))
+                    val upcoming = state.isCircuit && rest
+                    Text(if (upcoming) stringResource(R.string.circuit_next, showing.name) else showing.name, style = MaterialTheme.typography.headlineMedium, textAlign = TextAlign.Center, modifier = Modifier.padding(top = 4.dp))
                     Text(muscleList(showing.muscleGroups), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center)
                 }
 

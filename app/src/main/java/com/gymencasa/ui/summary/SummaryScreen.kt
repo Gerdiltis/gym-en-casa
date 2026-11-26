@@ -41,7 +41,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-data class SummaryUi(val workout: WorkoutEntity? = null, val doneSets: Int = 0, val exerciseLines: List<String> = emptyList())
+/** One summary row: exercise name with done / planned sets (rounds in a circuit). */
+data class SummaryLine(val name: String, val done: Int, val total: Int)
+
+data class SummaryUi(val workout: WorkoutEntity? = null, val doneSets: Int = 0, val exerciseLines: List<SummaryLine> = emptyList())
 
 @HiltViewModel
 class SummaryViewModel @Inject constructor(
@@ -58,7 +61,7 @@ class SummaryViewModel @Inject constructor(
             val sets = workouts.workoutSets(id)
             val names = exercises.all().associate { it.slug to it.name }
             val lines = sets.groupBy { it.exerciseSlug }.map { (slug, s) ->
-                "${names[slug] ?: slug} · ${s.count { !it.skipped }}/${s.size}"
+                SummaryLine(names[slug] ?: slug, s.count { !it.skipped }, s.size)
             }
             _ui.value = SummaryUi(w, sets.count { !it.skipped }, lines)
         }
@@ -83,13 +86,21 @@ fun SummaryScreen(workoutId: String, nav: Navigator, vm: SummaryViewModel = hilt
         if (w != null) {
             val minutes = ((w.finishedAt - w.startedAt) / 60_000).toInt().coerceAtLeast(1)
             Text(w.title, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            if (w.format == "circuit") {
+                Text(stringResource(R.string.circuit_summary, w.rounds), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
             Spacer(Modifier.height(8.dp))
             Text(stringResource(R.string.summary_stats, ui.doneSets, minutes), style = MaterialTheme.typography.headlineSmall, color = MaterialTheme.colorScheme.primary)
         }
         Column(Modifier.fillMaxWidth()) {
             SectionTitle(stringResource(R.string.summary_exercises))
             GymCard(Modifier.fillMaxWidth()) {
-                Column { ui.exerciseLines.forEach { Text(it, Modifier.padding(vertical = 5.dp)) } }
+                Column {
+                    ui.exerciseLines.forEach { l ->
+                        val count = if (w?.format == "circuit") stringResource(R.string.circuit_rounds_done, l.done, w.rounds) else "${l.done}/${l.total}"
+                        Text("${l.name} · $count", Modifier.padding(vertical = 5.dp))
+                    }
+                }
             }
         }
         Spacer(Modifier.height(32.dp))

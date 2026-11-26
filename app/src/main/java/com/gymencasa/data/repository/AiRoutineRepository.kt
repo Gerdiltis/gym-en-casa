@@ -29,12 +29,13 @@ class AiRoutineRepository @Inject constructor(
         availableSlugs: List<String>,
         recentSlugs: List<String>,
         pregnant: Boolean = false,
+        count: Int? = null,
     ): GenerateRoutineResponse {
         val client = supabase.client ?: error("IA no disponible: Supabase no configurado")
         val response = withTimeout(45_000) {
             client.functions.invoke(
                 function = "generate-routine",
-                body = GenerateRoutineRequest(goal.slug, durationMin, focus.slug, level.slug, availableSlugs, recentSlugs, pregnant),
+                body = GenerateRoutineRequest(goal.slug, durationMin, focus.slug, level.slug, availableSlugs, recentSlugs, pregnant, count),
             )
         }
         val parsed = json.decodeFromString<GenerateRoutineResponse>(response.bodyAsText())

@@ -48,6 +48,8 @@ import com.gymencasa.domain.PlanAlgorithm
 import com.gymencasa.domain.SuggestionEngine
 import com.gymencasa.domain.model.Exercise
 import com.gymencasa.domain.model.WorkoutMode
+import com.gymencasa.domain.model.SessionFormat
+import com.gymencasa.data.PlanGenerator
 import com.gymencasa.ui.components.ExerciseThumb
 import com.gymencasa.ui.components.ScreenHeader
 import com.gymencasa.ui.navigation.Navigator
@@ -79,11 +81,18 @@ class ManualSelectViewModel @Inject constructor(
     val ui: StateFlow<SelectUi> = combine(draftStore.draft, exercises.exercises, settings.settings) { d, all, s ->
         val bySlug = all.associateBy { it.slug }
         val selected = d.selectedSlugs.mapNotNull(bySlug::get)
-        val planned = selected.map { PlanAlgorithm.assign(it, d.goal, s.level, s.pregnant) }
+        val circuit = d.format == SessionFormat.CIRCUIT
+        val planned = if (circuit) {
+            PlanAlgorithm.buildCircuit(selected, d.goal, d.circuitWorkSeconds, d.rounds, s.restBetweenSetsSeconds,
+                d.roundRestSeconds, WorkoutMode.MANUAL, "", s.pregnant).let { p -> p.items.map { it.copy(sets = p.rounds) } }
+        } else selected.map { PlanAlgorithm.assign(it, d.goal, s.level, s.pregnant) }
+        val estimatedSec = if (circuit) {
+            PlanAlgorithm.circuitSeconds(planned.map { it.copy(sets = 1) }, s.restBetweenSetsSeconds, d.rounds, d.roundRestSeconds)
+        } else PlanAlgorithm.totalSeconds(planned, s.restBetweenSetsSeconds)
         SelectUi(
             selected = selected,
-            durationMin = d.durationMin,
-            estimatedMin = (PlanAlgorithm.totalSeconds(planned, s.restBetweenSetsSeconds) + 59) / 60,
+            durationMin = if (circuit) PlanGenerator.estimateCircuitMinutes(d, s.restBetweenSetsSeconds) else d.durationMin,
+            estimatedMin = (estimatedSec + 59) / 60,
             thumbs = selected.associate { it.slug to exercises.thumbUri(it) },
             doses = planned.associate { it.exercise.slug to (it.sets to it.workSeconds) },
         )
@@ -99,7 +108,11 @@ class ManualSelectViewModel @Inject constructor(
             val d = draftStore.draft.value
             val available = ExerciseFilter.available(exercises.all(), s)
             val recent = workouts.lastWorkoutSlugs()
-            val picks = SuggestionEngine.suggest(available, d.goal, s.level, s.restBetweenSetsSeconds, d.durationMin, d.focus, recent, pregnant = s.pregnant)
+            val picks = if (d.format == SessionFormat.CIRCUIT) {
+                SuggestionEngine.suggestCount(available, d.goal, d.exercisesPerRound, d.focus, recent, pregnant = s.pregnant)
+            } else {
+                SuggestionEngine.suggest(available, d.goal, s.level, s.restBetweenSetsSeconds, d.durationMin, d.focus, recent, pregnant = s.pregnant)
+            }
             draftStore.update { it.copy(selectedSlugs = picks.map(Exercise::slug)) }
         }
     }
@@ -113,7 +126,12 @@ class ManualSelectViewModel @Inject constructor(
             val bySlug = exercises.all().associateBy { it.slug }
             val picks = d.selectedSlugs.mapNotNull(bySlug::get)
             if (picks.isEmpty()) return@launch
-            val plan = PlanAlgorithm.build(picks, d.goal, s.level, s.restBetweenSetsSeconds, d.durationMin, WorkoutMode.MANUAL, title, allowDrop = false, pregnant = s.pregnant)
+            val plan = if (d.format == SessionFormat.CIRCUIT) {
+                PlanAlgorithm.buildCircuit(picks, d.goal, d.circuitWorkSeconds, d.rounds, s.restBetweenSetsSeconds,
+                    d.roundRestSeconds, WorkoutMode.MANUAL, title, pregnant = s.pregnant)
+            } else {
+                PlanAlgorithm.build(picks, d.goal, s.level, s.restBetweenSetsSeconds, d.durationMin, WorkoutMode.MANUAL, title, allowDrop = false, pregnant = s.pregnant)
+            }
             draftStore.update { it.copy(plan = plan, usedFallback = false, generatedAt = System.currentTimeMillis()) }
             onReady()
         }

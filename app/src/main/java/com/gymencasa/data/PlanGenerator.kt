@@ -8,6 +8,7 @@ import com.gymencasa.data.repository.WorkoutRepository
 import com.gymencasa.domain.ExerciseFilter
 import com.gymencasa.domain.PlanAlgorithm
 import com.gymencasa.domain.SuggestionEngine
+import com.gymencasa.domain.model.SessionFormat
 import com.gymencasa.domain.model.WorkoutMode
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -32,19 +33,38 @@ class PlanGenerator @Inject constructor(
 
         var title = defaultTitle
         var fallback = false
+        val circuit = d.format == SessionFormat.CIRCUIT
+        val count = if (circuit) d.exercisesPerRound else null
+        val aiMinutes = if (circuit) estimateCircuitMinutes(d, s.restBetweenSetsSeconds) else d.durationMin
         val chosen = runCatching {
-            ai.generate(d.goal, d.durationMin, d.focus, s.level, available.map { it.slug }, recent.toList(), s.pregnant)
+            ai.generate(d.goal, aiMinutes, d.focus, s.level, available.map { it.slug }, recent.toList(), s.pregnant, count)
         }.onFailure { Log.w(TAG, "AI failed", it) }.getOrNull()?.let { resp ->
             if (resp.title.isNotBlank()) title = resp.title
             resp.exerciseSlugs.mapNotNull(bySlug::get)
         }.orEmpty().ifEmpty {
             fallback = true
-            SuggestionEngine.suggest(available, d.goal, s.level, s.restBetweenSetsSeconds, d.durationMin, d.focus, recent, pregnant = s.pregnant)
+            if (circuit) SuggestionEngine.suggestCount(available, d.goal, d.exercisesPerRound, d.focus, recent, pregnant = s.pregnant)
+            else SuggestionEngine.suggest(available, d.goal, s.level, s.restBetweenSetsSeconds, d.durationMin, d.focus, recent, pregnant = s.pregnant)
         }
-        val plan = PlanAlgorithm.build(chosen, d.goal, s.level, s.restBetweenSetsSeconds, d.durationMin, WorkoutMode.AI, title, pregnant = s.pregnant)
+        val plan = if (circuit) {
+            PlanAlgorithm.buildCircuit(chosen.take(d.exercisesPerRound), d.goal, d.circuitWorkSeconds, d.rounds,
+                s.restBetweenSetsSeconds, d.roundRestSeconds, WorkoutMode.AI, title, pregnant = s.pregnant)
+        } else {
+            PlanAlgorithm.build(chosen, d.goal, s.level, s.restBetweenSetsSeconds, d.durationMin, WorkoutMode.AI, title, pregnant = s.pregnant)
+        }
         draftStore.update { it.copy(plan = plan, usedFallback = fallback, generatedAt = System.currentTimeMillis()) }
         return true
     }
 
-    private companion object { const val TAG = "PlanGenerator" }
+    companion object {
+        private const val TAG = "PlanGenerator"
+
+        /** Estimated circuit length from the draft settings (before exercises are chosen). */
+        fun estimateCircuitMinutes(d: DayDraft, restSeconds: Int): Int {
+            val n = d.exercisesPerRound
+            val perRound = n * d.circuitWorkSeconds + (n - 1) * restSeconds
+            val total = PlanAlgorithm.PREVIEW_SECONDS + d.rounds * perRound + (d.rounds - 1) * d.roundRestSeconds
+            return ((total + 59) / 60).coerceIn(5, 120)
+        }
+    }
 }

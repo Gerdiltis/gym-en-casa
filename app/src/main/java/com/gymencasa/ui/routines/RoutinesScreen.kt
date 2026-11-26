@@ -63,8 +63,10 @@ class RoutinesViewModel @Inject constructor(
             val bySlug = exercises.all().associateBy { it.slug }
             val items = saved.items.mapNotNull { i -> bySlug[i.exerciseSlug]?.let { PlannedExercise(it, i.sets, i.workSeconds) } }
             if (items.isEmpty()) return@launch
-            val plan = DayPlan(saved.routine.name, Goal.fromSlug(saved.routine.goal), WorkoutMode.MANUAL,
-                saved.routine.durationTargetMin, settings.current().restBetweenSetsSeconds, items)
+            val r = saved.routine
+            val plan = DayPlan(r.name, Goal.fromSlug(r.goal), WorkoutMode.MANUAL, r.durationTargetMin,
+                settings.current().restBetweenSetsSeconds, items,
+                com.gymencasa.domain.model.SessionFormat.fromSlug(r.format), r.rounds, r.roundRestSeconds)
             draftStore.update { it.copy(plan = plan, durationMin = plan.durationTargetMin, goal = plan.goal, usedFallback = false, generatedAt = System.currentTimeMillis()) }
             onReady()
         }

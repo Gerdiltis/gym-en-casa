@@ -6,6 +6,7 @@ import com.gymencasa.domain.model.ExerciseType
 import com.gymencasa.domain.model.Goal
 import com.gymencasa.domain.model.Level
 import com.gymencasa.domain.model.PlannedExercise
+import com.gymencasa.domain.model.SessionFormat
 import com.gymencasa.domain.model.WorkoutMode
 
 /**
@@ -81,6 +82,45 @@ object PlanAlgorithm {
         fit(items, restSeconds, durationMin * 60, allowDrop)
         return DayPlan(title, goal, mode, durationMin, restSeconds, items)
     }
+
+    // ---------------------------------------------------------------- circuit
+
+    const val MAX_ROUNDS = 10
+    const val PREGNANCY_MAX_ROUNDS = 5
+
+    /** Circuit: one pass of each exercise per round, [workSeconds] each (unilateral doubled). */
+    fun buildCircuit(
+        exercises: List<Exercise>,
+        goal: Goal,
+        workSeconds: Int,
+        rounds: Int,
+        restSeconds: Int,
+        roundRestSeconds: Int,
+        mode: WorkoutMode,
+        title: String,
+        pregnant: Boolean = false,
+    ): DayPlan {
+        var work = workSeconds.coerceAtLeast(10)
+        var r = rounds.coerceIn(1, MAX_ROUNDS)
+        if (pregnant) {
+            work = work.coerceAtMost(PREGNANCY_MAX_WORK_SECONDS)
+            r = r.coerceAtMost(PREGNANCY_MAX_ROUNDS)
+        }
+        val items = exercises.map { PlannedExercise(it, 1, if (it.unilateral) work * 2 else work) }
+        val plan = DayPlan(title, goal, mode, 0, restSeconds, items, SessionFormat.CIRCUIT, r, roundRestSeconds)
+        return plan.copy(durationTargetMin = (planSeconds(plan) + 59) / 60)
+    }
+
+    fun circuitSeconds(items: List<PlannedExercise>, restSeconds: Int, rounds: Int, roundRestSeconds: Int): Int {
+        if (items.isEmpty()) return 0
+        val perRound = items.sumOf { it.workSeconds } + restSeconds * (items.size - 1)
+        return PREVIEW_SECONDS + rounds * perRound + (rounds - 1) * roundRestSeconds
+    }
+
+    /** Estimated duration of any plan, series or circuit. */
+    fun planSeconds(plan: DayPlan): Int =
+        if (plan.isCircuit) circuitSeconds(plan.items, plan.restSeconds, plan.rounds, plan.roundRestSeconds)
+        else totalSeconds(plan.items, plan.restSeconds)
 
     /** Re-fits an already built (possibly user-edited) plan into its duration target. */
     fun refit(plan: DayPlan, allowDrop: Boolean): DayPlan {

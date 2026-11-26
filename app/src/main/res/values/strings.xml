@@ -68,6 +68,26 @@
     <string name="goal_movilidad">Movilidad</string>
     <string name="goal_parto">Preparación al parto</string>
 
+    <!-- Circuit -->
+    <string name="format_series">Series</string>
+    <string name="format_circuit">Circuito</string>
+    <string name="circuit_rounds">Vueltas al circuito</string>
+    <string name="circuit_per_round">Ejercicios por vuelta</string>
+    <string name="circuit_work_seconds">Tiempo por ejercicio</string>
+    <string name="circuit_round_rest">Descanso entre vueltas</string>
+    <string name="circuit_estimate">≈ %1$d min · %2$d s de descanso entre ejercicios</string>
+    <string name="circuit_request">Circuito · %1$d vueltas · %2$d s · %3$s</string>
+    <string name="circuit_answer_summary">%1$d ejercicios × %2$d vueltas, unos %3$d min, con %4$d s entre ejercicios y %5$d s entre vueltas.</string>
+    <string name="circuit_tap_hint">Toca un ejercicio para cambiar sus segundos u orden.</string>
+    <string name="circuit_round_of">Vuelta %1$d de %2$d</string>
+    <string name="circuit_header">Vuelta %1$d de %2$d · ejercicio %3$d de %4$d</string>
+    <string name="circuit_round_rest_phase">Descanso entre vueltas</string>
+    <string name="circuit_next_round">Vuelta %1$d de %2$d a continuación</string>
+    <string name="circuit_next">Siguiente: %1$s</string>
+    <string name="circuit_summary">Circuito · %1$d vueltas</string>
+    <string name="circuit_rounds_done">%1$d/%2$d vueltas</string>
+    <string name="circuit_rounds_short">%1$d vueltas</string>
+
     <!-- Muscles -->
     <string name="muscle_pecho">Pecho</string>
     <string name="muscle_espalda">Espalda</string>

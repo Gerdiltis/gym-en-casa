@@ -43,6 +43,8 @@ data class WorkoutSessionDto(
     @SerialName("started_at") val startedAt: String,
     @SerialName("finished_at") val finishedAt: String,
     val completed: Boolean,
+    val format: String = "series",
+    val rounds: Int = 1,
 )
 
 @Serializable
@@ -63,6 +65,9 @@ data class RoutineDto(
     val name: String,
     val goal: String,
     @SerialName("duration_target_min") val durationTargetMin: Int,
+    val format: String = "series",
+    val rounds: Int = 1,
+    @SerialName("round_rest_s") val roundRestSeconds: Int = 0,
 )
 
 @Serializable
@@ -85,6 +90,8 @@ data class GenerateRoutineRequest(
     @SerialName("available_slugs") val availableSlugs: List<String>,
     @SerialName("recent_slugs") val recentSlugs: List<String> = emptyList(),
     val pregnant: Boolean = false,
+    /** Circuit: exact number of exercises to pick (overrides the duration-based count). */
+    val count: Int? = null,
 )
 
 @Serializable

@@ -3,6 +3,7 @@ package com.gymencasa.data
 import com.gymencasa.domain.model.DayPlan
 import com.gymencasa.domain.model.Focus
 import com.gymencasa.domain.model.Goal
+import com.gymencasa.domain.model.SessionFormat
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -22,6 +23,12 @@ data class DayDraft(
     val goalSynced: Boolean = false,
     /** When the current plan was built (shown as the chat timestamp). */
     val generatedAt: Long = 0L,
+    // ---- circuit
+    val format: SessionFormat = SessionFormat.SERIES,
+    val rounds: Int = 3,
+    val exercisesPerRound: Int = 5,
+    val circuitWorkSeconds: Int = 40,
+    val roundRestSeconds: Int = 60,
 )
 
 @Singleton

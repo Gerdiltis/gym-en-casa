@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Loop
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.CloudOff
 import androidx.compose.material.icons.filled.TouchApp
@@ -71,10 +72,11 @@ fun HistoryScreen(nav: Navigator, vm: HistoryViewModel = hiltViewModel()) {
                     headlineContent = { Text(w.title) },
                     supportingContent = {
                         Text("$date · ${stringResource(R.string.minutes_short, minutes)}" +
+                            (if (w.format == "circuit") " · ${stringResource(R.string.circuit_rounds_short, w.rounds)}" else "") +
                             if (!w.synced) " · ${stringResource(R.string.history_pending_sync)}" else "")
                     },
                     leadingContent = {
-                        Icon(if (w.mode == "ai") Icons.Filled.AutoAwesome else Icons.Filled.TouchApp, null, tint = MaterialTheme.colorScheme.primary)
+                        Icon(when { w.format == "circuit" -> Icons.Filled.Loop; w.mode == "ai" -> Icons.Filled.AutoAwesome; else -> Icons.Filled.TouchApp }, null, tint = MaterialTheme.colorScheme.primary)
                     },
                     trailingContent = { if (!w.synced) Icon(Icons.Filled.CloudOff, null, tint = MaterialTheme.colorScheme.onSurfaceVariant) },
                     modifier = Modifier.clickable { nav.go(Route.Summary(w.id)) }

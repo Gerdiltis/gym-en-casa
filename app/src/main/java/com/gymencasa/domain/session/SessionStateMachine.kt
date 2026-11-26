@@ -4,7 +4,8 @@ import com.gymencasa.domain.PlanAlgorithm
 import com.gymencasa.domain.model.DayPlan
 import com.gymencasa.domain.model.PlannedExercise
 
-enum class Phase { PREVIEW, WORK, REST, AWAIT_NEXT, FINISHED }
+/** ROUND_REST: circuit only, the longer rest between rounds. */
+enum class Phase { PREVIEW, WORK, REST, ROUND_REST, AWAIT_NEXT, FINISHED }
 
 data class CompletedSet(
     val exerciseSlug: String,
@@ -32,6 +33,8 @@ data class SessionState(
     val plan: DayPlan,
     val exerciseIndex: Int = 0,
     val setIndex: Int = 0,
+    /** Circuit only: current round, 0-based. In a circuit, during REST / ROUND_REST [current] is the exercise coming next. */
+    val round: Int = 0,
     val phase: Phase = Phase.PREVIEW,
     val phaseStartMs: Long,
     val phaseDurationMs: Long,
@@ -43,7 +46,8 @@ data class SessionState(
     val current: PlannedExercise get() = plan.items[exerciseIndex]
     val next: PlannedExercise? get() = plan.items.getOrNull(exerciseIndex + 1)
     val isPaused: Boolean get() = pausedAtMs != null
-    val isTimed: Boolean get() = phase == Phase.PREVIEW || phase == Phase.WORK || phase == Phase.REST
+    val isTimed: Boolean get() = phase == Phase.PREVIEW || phase == Phase.WORK || phase == Phase.REST || phase == Phase.ROUND_REST
+    val isCircuit: Boolean get() = plan.isCircuit
 
     fun remainingMs(nowMs: Long): Long {
         if (!isTimed) return 0
@@ -84,7 +88,8 @@ object SessionStateMachine {
             s = t.state
             effects += t.effects
         }
-        if (s.phase == Phase.WORK || s.phase == Phase.PREVIEW) {
+        // Countdown beeps before a timed effort ends; in a circuit also before the next exercise starts on its own.
+        if (s.phase == Phase.WORK || s.phase == Phase.PREVIEW || (s.isCircuit && (s.phase == Phase.REST || s.phase == Phase.ROUND_REST))) {
             val secondsLeft = ((s.remainingMs(nowMs) + 999) / 1000).toInt()
             if (secondsLeft in 1..COUNTDOWN_FROM && s.lastCountdownSecond != secondsLeft) {
                 effects += SessionEffect.CountdownTick(secondsLeft)
@@ -134,7 +139,7 @@ object SessionStateMachine {
             listOf(SessionEffect.WorkStarted),
         )
 
-        Phase.WORK -> {
+        Phase.WORK -> if (s.isCircuit) completeCircuitWork(s, endMs, skipped) else {
             val done = s.completed + CompletedSet(s.current.exercise.slug, s.setIndex, s.current.workSeconds, skipped)
             val effects = mutableListOf<SessionEffect>(SessionEffect.SetFinished)
             val next = when {
@@ -155,12 +160,38 @@ object SessionStateMachine {
             Transition(next, effects)
         }
 
-        Phase.REST -> Transition(
+        Phase.REST, Phase.ROUND_REST -> if (s.isCircuit) Transition(
+            s.copy(phase = Phase.WORK, phaseStartMs = endMs, phaseDurationMs = s.current.workSeconds * 1000L, lastCountdownSecond = null),
+            listOf(SessionEffect.WorkStarted),
+        ) else Transition(
             s.copy(phase = Phase.WORK, setIndex = s.setIndex + 1, phaseStartMs = endMs,
                 phaseDurationMs = s.current.workSeconds * 1000L, lastCountdownSecond = null),
             listOf(SessionEffect.WorkStarted),
         )
 
         Phase.AWAIT_NEXT, Phase.FINISHED -> Transition(s)
+    }
+
+    /** Circuit: next exercise of the round after the short rest; after the last one, the round rest; then done. */
+    private fun completeCircuitWork(s: SessionState, endMs: Long, skipped: Boolean): Transition {
+        val done = s.completed + CompletedSet(s.current.exercise.slug, s.round, s.current.workSeconds, skipped)
+        val lastOfRound = s.exerciseIndex >= s.plan.items.lastIndex
+        val lastRound = s.round >= s.plan.rounds - 1
+        return when {
+            !lastOfRound -> Transition(
+                s.copy(phase = Phase.REST, exerciseIndex = s.exerciseIndex + 1, phaseStartMs = endMs,
+                    phaseDurationMs = s.plan.restSeconds * 1000L, completed = done, lastCountdownSecond = null),
+                listOf(SessionEffect.SetFinished),
+            )
+            !lastRound -> Transition(
+                s.copy(phase = Phase.ROUND_REST, exerciseIndex = 0, round = s.round + 1, phaseStartMs = endMs,
+                    phaseDurationMs = s.plan.roundRestSeconds.coerceAtLeast(5) * 1000L, completed = done, lastCountdownSecond = null),
+                listOf(SessionEffect.SetFinished),
+            )
+            else -> Transition(
+                s.copy(phase = Phase.FINISHED, phaseStartMs = endMs, phaseDurationMs = 0, completed = done),
+                listOf(SessionEffect.SetFinished, SessionEffect.SessionFinished),
+            )
+        }
     }
 }

@@ -53,6 +53,9 @@ data class WorkoutEntity(
     val finishedAt: Long,
     val completed: Boolean,
     val synced: Boolean = false,
+    /** "series" or "circuit". */
+    val format: String = "series",
+    val rounds: Int = 1,
 )
 
 @Entity(tableName = "workout_sets", primaryKeys = ["workoutId", "position"], indices = [Index("workoutId")])
@@ -74,6 +77,9 @@ data class RoutineEntity(
     val durationTargetMin: Int,
     val createdAt: Long,
     val synced: Boolean = false,
+    val format: String = "series",
+    val rounds: Int = 1,
+    val roundRestSeconds: Int = 0,
 )
 
 @Entity(tableName = "routine_items", primaryKeys = ["routineId", "position"], indices = [Index("routineId")])
@@ -174,7 +180,7 @@ interface RoutineDao {
 
 @Database(
     entities = [ExerciseEntity::class, WorkoutEntity::class, WorkoutSetEntity::class, RoutineEntity::class, RoutineItemEntity::class],
-    version = 3,
+    version = 4,
     exportSchema = false,
 )
 @TypeConverters(Converters::class)
@@ -190,6 +196,17 @@ abstract class AppDatabase : RoomDatabase() {
         }
 
         /** v3: free tags per exercise (e.g. "calistenia"). */
+        /** v4: circuit sessions and routines. */
+        val MIGRATION_3_4 = object : androidx.room.migration.Migration(3, 4) {
+            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE workouts ADD COLUMN format TEXT NOT NULL DEFAULT 'series'")
+                db.execSQL("ALTER TABLE workouts ADD COLUMN rounds INTEGER NOT NULL DEFAULT 1")
+                db.execSQL("ALTER TABLE routines ADD COLUMN format TEXT NOT NULL DEFAULT 'series'")
+                db.execSQL("ALTER TABLE routines ADD COLUMN rounds INTEGER NOT NULL DEFAULT 1")
+                db.execSQL("ALTER TABLE routines ADD COLUMN roundRestSeconds INTEGER NOT NULL DEFAULT 0")
+            }
+        }
+
         val MIGRATION_2_3 = object : androidx.room.migration.Migration(2, 3) {
             override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
                 db.execSQL("ALTER TABLE exercises ADD COLUMN tags TEXT NOT NULL DEFAULT '[]'")

@@ -7,7 +7,10 @@ import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.functions.Functions
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.storage.Storage
+import io.github.jan.supabase.annotations.SupabaseInternal
+import io.ktor.client.plugins.HttpTimeout
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.seconds
 import javax.inject.Singleton
 
 /**
@@ -18,9 +21,13 @@ import javax.inject.Singleton
 class SupabaseProvider @Inject constructor() {
     val isConfigured: Boolean = BuildConfig.SUPABASE_URL.isNotBlank() && BuildConfig.SUPABASE_ANON_KEY.isNotBlank()
 
+    @OptIn(SupabaseInternal::class)
     val client: SupabaseClient? by lazy {
         if (!isConfigured) null
         else createSupabaseClient(BuildConfig.SUPABASE_URL, BuildConfig.SUPABASE_ANON_KEY) {
+            // The AI function can take 15–30 s; the default 10 s timeout made it fall back too often.
+            requestTimeout = 40.seconds
+            httpConfig { install(HttpTimeout) { socketTimeoutMillis = 40_000 } }
             install(Auth)
             install(Postgrest)
             install(Storage)

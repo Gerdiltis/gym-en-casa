@@ -51,6 +51,7 @@ class WorkoutRepository @Inject constructor(
                 id = id, userId = auth.userId, title = plan.title, mode = plan.mode.slug, goal = plan.goal.slug,
                 durationTargetMin = plan.durationTargetMin, restSeconds = plan.restSeconds,
                 startedAt = startedAtEpochMs, finishedAt = finishedAtEpochMs, completed = completed,
+                format = plan.format.slug, rounds = plan.rounds,
             ),
             sets.mapIndexed { i, s -> WorkoutSetEntity(id, i, s.exerciseSlug, s.setIndex, s.plannedSeconds, s.skipped) },
         )
@@ -68,7 +69,10 @@ class WorkoutRepository @Inject constructor(
     suspend fun saveRoutine(name: String, plan: DayPlan): String {
         val id = UUID.randomUUID().toString()
         routineDao.insert(
-            RoutineEntity(id, auth.userId, name, plan.goal.slug, plan.durationTargetMin, System.currentTimeMillis()),
+            RoutineEntity(
+                id, auth.userId, name, plan.goal.slug, plan.durationTargetMin, System.currentTimeMillis(),
+                format = plan.format.slug, rounds = plan.rounds, roundRestSeconds = plan.roundRestSeconds,
+            ),
             plan.items.mapIndexed { i, p -> RoutineItemEntity(id, i, p.exercise.slug, p.sets, p.workSeconds) },
         )
         requestSync()
