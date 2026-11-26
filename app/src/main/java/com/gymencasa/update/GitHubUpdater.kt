@@ -60,7 +60,7 @@ class GitHubUpdater @Inject constructor(
             val apk = release.assets.firstOrNull { it.name.endsWith(".apk") } ?: return@withContext null
             val remote = release.tagName.removePrefix("v")
             if (isNewer(remote, BuildConfig.VERSION_NAME)) {
-                AvailableUpdate(remote, release.body.orEmpty(), apk.url, apk.size)
+                AvailableUpdate(remote, cleanNotes(release.body.orEmpty()), apk.url, apk.size)
             } else null
         }
     }
@@ -109,6 +109,12 @@ class GitHubUpdater @Inject constructor(
     }
 
     companion object {
+        /** Release notes as plain text: no markdown marks nor GitHub's "Full Changelog" link. */
+        fun cleanNotes(body: String): String = body.lines()
+            .filterNot { it.contains("Full Changelog", ignoreCase = true) || it.trimStart().startsWith("## ") || it.startsWith("Co-Authored-By") }
+            .joinToString("\n") { it.replace("**", "").replace("`", "").trimEnd().replace(Regex("^\\s*[-*] "), "• ") }
+            .trim()
+
         fun isNewer(remote: String, local: String): Boolean {
             fun parts(v: String) = v.split('.', '-').mapNotNull { it.toIntOrNull() }
             val r = parts(remote); val l = parts(local)

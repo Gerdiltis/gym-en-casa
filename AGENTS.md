@@ -38,7 +38,9 @@ app/src/main/java/com/gymencasa/
     sync/SyncWorker  sube sesiones y rutinas pendientes (offline-first)
     DayDraftStore    estado compartido del día (duración, objetivo, selección, plan)
   ui/                pantallas Compose + ViewModels (una carpeta por pantalla), theme/
-  update/GitHubUpdater  auto-actualización desde GitHub Releases
+  update/GitHubUpdater  auto-actualización desde GitHub Releases. Se comprueba cada vez que la app pasa a primer plano
+                     (`UpdateCheckPolicy`, máx. 1 llamada/min) y se avisa con `UpdateDialog` en cualquier pantalla.
+                     Las "Novedades" son el mensaje del commit etiquetado (release.yml), así que escríbelo pensando en el usuario.
 supabase/            migraciones SQL (RLS), seed.sql generado, Edge Function generate-routine
 tools/videogen/      generador de vídeos de ejercicios (Python + Pillow + ffmpeg)
 .github/workflows/   ci.yml, release.yml (tag → APK firmado), keepalive.yml (Supabase)

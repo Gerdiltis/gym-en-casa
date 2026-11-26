@@ -56,11 +56,17 @@ import com.gymencasa.ui.session.SessionScreen
 import com.gymencasa.ui.settings.SettingsScreen
 import com.gymencasa.ui.summary.SummaryScreen
 import com.gymencasa.ui.update.UpdateDialog
+import com.gymencasa.ui.update.UpdateViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 
 @Composable
 fun GymNavRoot(appViewModel: AppViewModel) {
     val gate by appViewModel.gate.collectAsStateWithLifecycle()
-    val update by appViewModel.update.collectAsStateWithLifecycle()
+    // Checks GitHub for a new release every time the app is opened (comes to the foreground).
+    val updateVm: UpdateViewModel = hiltViewModel()
+    LifecycleEventEffect(Lifecycle.Event.ON_START) { updateVm.onAppForeground() }
     when (gate) {
         Gate.LOADING -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
@@ -69,9 +75,9 @@ fun GymNavRoot(appViewModel: AppViewModel) {
         Gate.ONBOARDING -> OnboardingScreen()
         Gate.APP -> {
             MainNav()
-            UpdateDialog(initial = update, onDismissInitial = appViewModel::dismissUpdate)
         }
     }
+    if (gate != Gate.LOADING) UpdateDialog(updateVm)
 }
 
 private data class Tab(val route: Route, val label: Int, val icon: ImageVector)

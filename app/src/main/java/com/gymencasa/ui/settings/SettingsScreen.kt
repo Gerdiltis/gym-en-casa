@@ -180,7 +180,7 @@ fun SettingsScreen(nav: Navigator, vm: SettingsViewModel = hiltViewModel(), upda
         } }
         Spacer(Modifier.height(24.dp))
     }
-    UpdateDialog(initial = null, onDismissInitial = {}, vm = updateVm)
+    UpdateDialog(updateVm)
 }
 
 @Composable

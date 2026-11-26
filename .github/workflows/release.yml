@@ -63,4 +63,6 @@ jobs:
         run: |
           APK="gym-en-casa-${{ steps.version.outputs.name }}.apk"
           cp app/build/outputs/apk/release/app-release.apk "$APK"
-          gh release create "$GITHUB_REF_NAME" "$APK" --title "Gym en Casa ${{ steps.version.outputs.name }}" --generate-notes
+          # The tagged commit's message is what the app shows under "Novedades".
+          git log -1 --format=%B HEAD | grep -v '^Co-Authored-By' > "$RUNNER_TEMP/notes.md"
+          gh release create "$GITHUB_REF_NAME" "$APK" --title "Gym en Casa ${{ steps.version.outputs.name }}" --notes-file "$RUNNER_TEMP/notes.md"

@@ -7,10 +7,7 @@ import com.gymencasa.data.repository.AuthState
 import com.gymencasa.data.repository.ExerciseRepository
 import com.gymencasa.data.repository.SettingsRepository
 import com.gymencasa.data.repository.WorkoutRepository
-import com.gymencasa.update.AvailableUpdate
-import com.gymencasa.update.GitHubUpdater
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -28,7 +25,6 @@ class AppViewModel @Inject constructor(
     private val settings: SettingsRepository,
     private val exercises: ExerciseRepository,
     private val workouts: WorkoutRepository,
-    private val updater: GitHubUpdater,
 ) : ViewModel() {
 
     val darkTheme: StateFlow<Boolean> = settings.darkTheme.stateIn(viewModelScope, SharingStarted.Eagerly, false)
@@ -40,9 +36,6 @@ class AppViewModel @Inject constructor(
             AuthState.SIGNED_IN -> if (s.onboarded) Gate.APP else Gate.ONBOARDING
         }
     }.stateIn(viewModelScope, SharingStarted.Eagerly, Gate.LOADING)
-
-    private val _update = MutableStateFlow<AvailableUpdate?>(null)
-    val update: StateFlow<AvailableUpdate?> = _update
 
     init {
         viewModelScope.launch {
@@ -56,8 +49,5 @@ class AppViewModel @Inject constructor(
                 workouts.requestSync()
             }
         }
-        viewModelScope.launch { _update.value = runCatching { updater.check() }.getOrNull() }
     }
-
-    fun dismissUpdate() { _update.value = null }
 }

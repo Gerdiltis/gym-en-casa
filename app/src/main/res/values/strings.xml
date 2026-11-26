@@ -279,11 +279,14 @@
     <string name="settings_updates_not_configured">Actualizaciones no configuradas en esta versión</string>
 
     <!-- Updates -->
-    <string name="update_available_title">Nueva versión %1$s</string>
+    <string name="update_available_title">Nueva versión %1$s disponible</string>
+    <string name="update_current_version">Tienes la versión %1$s</string>
+    <string name="update_whats_new">Novedades</string>
+    <string name="update_error_title">Actualización</string>
     <string name="update_available_text">Hay una actualización disponible. Se descargará e instalará encima, sin perder tus datos.</string>
     <string name="update_now">Actualizar</string>
     <string name="update_later">Más tarde</string>
     <string name="update_downloading">Descargando… %1$d%%</string>
-    <string name="update_permission">Permite instalar apps desde Gym en Casa y vuelve a pulsar Actualizar.</string>
+    <string name="update_permission">Permite instalar apps desde Gym en Casa. Al volver, la descarga seguirá sola.</string>
     <string name="update_error">No se pudo descargar: %1$s</string>
 </resources>
