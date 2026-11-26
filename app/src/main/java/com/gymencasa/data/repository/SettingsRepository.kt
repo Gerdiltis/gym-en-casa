@@ -39,6 +39,7 @@ class SettingsRepository @Inject constructor(
         val rest = intPreferencesKey("rest_between_sets_s")
         val sound = booleanPreferencesKey("sound")
         val vibration = booleanPreferencesKey("vibration")
+        val voice = booleanPreferencesKey("voice")
         val onboarded = booleanPreferencesKey("onboarded")
         val darkTheme = booleanPreferencesKey("dark_theme")
         val pregnant = booleanPreferencesKey("pregnant")
@@ -60,6 +61,7 @@ class SettingsRepository @Inject constructor(
             p[Keys.rest] = updated.restBetweenSetsSeconds.coerceIn(UserSettings.MIN_REST_SECONDS, UserSettings.MAX_REST_SECONDS)
             p[Keys.sound] = updated.soundEnabled
             p[Keys.vibration] = updated.vibrationEnabled
+            p[Keys.voice] = updated.voiceEnabled
             p[Keys.onboarded] = updated.onboarded
             p[Keys.pregnant] = updated.pregnant
         }
@@ -109,6 +111,7 @@ class SettingsRepository @Inject constructor(
         restBetweenSetsSeconds = this[Keys.rest] ?: UserSettings.DEFAULT_REST_SECONDS,
         soundEnabled = this[Keys.sound] ?: true,
         vibrationEnabled = this[Keys.vibration] ?: true,
+        voiceEnabled = this[Keys.voice] ?: true,
         onboarded = this[Keys.onboarded] ?: false,
         pregnant = this[Keys.pregnant] ?: false,
     )

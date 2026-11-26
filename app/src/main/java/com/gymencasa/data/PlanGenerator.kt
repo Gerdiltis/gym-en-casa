@@ -24,8 +24,8 @@ class PlanGenerator @Inject constructor(
 ) {
     /** Returns false when no exercise is available with the user's equipment / mode. */
     suspend fun generateAi(defaultTitle: String, avoid: Set<String> = emptySet()): Boolean {
-        val s = settings.current()
         val d = draftStore.draft.value
+        val s = ExerciseFilter.forSession(settings.current(), d.sessionEquipment)
         val available = ExerciseFilter.available(exercises.all(), s)
         if (available.isEmpty()) return false
         val recent = workouts.lastWorkoutSlugs() + avoid

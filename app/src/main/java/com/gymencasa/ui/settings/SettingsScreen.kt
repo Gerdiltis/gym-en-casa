@@ -141,6 +141,7 @@ fun SettingsScreen(nav: Navigator, vm: SettingsViewModel = hiltViewModel(), upda
         }
         SwitchRow(stringResource(R.string.settings_sound), settings.soundEnabled) { v -> vm.update { it.copy(soundEnabled = v) } }
         SwitchRow(stringResource(R.string.settings_vibration), settings.vibrationEnabled) { v -> vm.update { it.copy(vibrationEnabled = v) } }
+        SwitchRow(stringResource(R.string.settings_voice), settings.voiceEnabled) { v -> vm.update { it.copy(voiceEnabled = v) } }
         } }
 
         SectionTitle(stringResource(R.string.settings_appearance))

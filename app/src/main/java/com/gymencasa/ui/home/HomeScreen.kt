@@ -311,12 +311,18 @@ fun HomeScreen(nav: Navigator, vm: HomeViewModel = hiltViewModel()) {
                 stringResource(R.string.home_generate_ai),
                 if (ui.aiLoading) stringResource(R.string.home_ai_working) else stringResource(R.string.home_generate_ai_desc),
                 loading = ui.aiLoading, enabled = canStart,
-            ) { vm.generateWithAi(defaultTitle) { nav.go(Route.Plan) } }
+            ) {
+                // With equipment in the profile, first ask which of it to use today.
+                if (ui.settings.equipment.isNotEmpty()) nav.go(Route.SessionEquipment(ai = true))
+                else vm.generateWithAi(defaultTitle) { nav.go(Route.Plan) }
+            }
             ActionTile(
                 Modifier.weight(1f), Icons.Filled.TouchApp, MaterialTheme.colorScheme.secondary,
                 stringResource(R.string.home_choose_manual), stringResource(R.string.home_choose_manual_desc), enabled = canStart,
                 iconTint = MaterialTheme.colorScheme.onSecondary,
-            ) { vm.startManual { nav.go(Route.ManualSelect) } }
+            ) {
+                vm.startManual { nav.go(if (ui.settings.equipment.isNotEmpty()) Route.SessionEquipment(ai = false) else Route.ManualSelect) }
+            }
         }
         Spacer(Modifier.height(12.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {

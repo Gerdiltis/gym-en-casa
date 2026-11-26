@@ -18,6 +18,8 @@ sealed interface Route : NavKey {
     @Serializable data class Summary(val workoutId: String) : Route
     @Serializable data object Routines : Route
     @Serializable data object EquipmentEdit : Route
+    /** "Material de hoy": pick the equipment for this session before the AI plan ([ai]) or the manual selection. */
+    @Serializable data class SessionEquipment(val ai: Boolean) : Route
 }
 
 val topLevelRoutes: List<Route> = listOf(Route.Home, Route.Library, Route.History, Route.Settings)

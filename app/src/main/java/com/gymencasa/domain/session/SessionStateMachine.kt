@@ -23,6 +23,11 @@ sealed interface SessionEffect {
     /** A timed phase has just started (work after preview / rest). */
     data object WorkStarted : SessionEffect
     data object SessionFinished : SessionEffect
+
+    /** Voice cues (pre-recorded audio): "Descansa", "Siguiente serie", "Siguiente tipo de ejercicio". */
+    data object VoiceRest : SessionEffect
+    data object VoiceNextSet : SessionEffect
+    data object VoiceNextExercise : SessionEffect
 }
 
 /**
@@ -65,6 +70,8 @@ data class Transition(val state: SessionState, val effects: List<SessionEffect> 
 object SessionStateMachine {
     const val PREVIEW_MS = PlanAlgorithm.PREVIEW_SECONDS * 1000L
     private const val COUNTDOWN_FROM = 3
+    /** Rests beep for longer, so the user is ready when the next set starts. */
+    const val REST_COUNTDOWN_FROM = 5
 
     fun start(plan: DayPlan, nowMs: Long): SessionState {
         require(plan.items.isNotEmpty()) { "Plan without exercises" }
@@ -88,10 +95,11 @@ object SessionStateMachine {
             s = t.state
             effects += t.effects
         }
-        // Countdown beeps before a timed effort ends; in a circuit also before the next exercise starts on its own.
-        if (s.phase == Phase.WORK || s.phase == Phase.PREVIEW || (s.isCircuit && (s.phase == Phase.REST || s.phase == Phase.ROUND_REST))) {
+        // Countdown beeps: last 3 s of preview/work, last 5 s of any rest.
+        if (s.isTimed) {
+            val from = if (s.phase == Phase.REST || s.phase == Phase.ROUND_REST) REST_COUNTDOWN_FROM else COUNTDOWN_FROM
             val secondsLeft = ((s.remainingMs(nowMs) + 999) / 1000).toInt()
-            if (secondsLeft in 1..COUNTDOWN_FROM && s.lastCountdownSecond != secondsLeft) {
+            if (secondsLeft in 1..from && s.lastCountdownSecond != secondsLeft) {
                 effects += SessionEffect.CountdownTick(secondsLeft)
                 s = s.copy(lastCountdownSecond = secondsLeft)
             }
@@ -111,6 +119,7 @@ object SessionStateMachine {
                 phaseDurationMs = PREVIEW_MS,
                 lastCountdownSecond = null,
             ),
+            listOf(SessionEffect.VoiceNextExercise),
         )
     }
 
@@ -146,7 +155,7 @@ object SessionStateMachine {
                 s.setIndex < s.current.sets - 1 -> s.copy(
                     phase = Phase.REST, phaseStartMs = endMs,
                     phaseDurationMs = s.plan.restSeconds * 1000L, completed = done, lastCountdownSecond = null,
-                )
+                ).also { effects += SessionEffect.VoiceRest }
 
                 s.exerciseIndex < s.plan.items.lastIndex -> s.copy(
                     phase = Phase.AWAIT_NEXT, phaseStartMs = endMs, phaseDurationMs = 0, completed = done,
@@ -162,11 +171,12 @@ object SessionStateMachine {
 
         Phase.REST, Phase.ROUND_REST -> if (s.isCircuit) Transition(
             s.copy(phase = Phase.WORK, phaseStartMs = endMs, phaseDurationMs = s.current.workSeconds * 1000L, lastCountdownSecond = null),
-            listOf(SessionEffect.WorkStarted),
+            // A one-exercise circuit repeats the same exercise: that is just another set.
+            listOf(SessionEffect.WorkStarted, if (s.plan.items.size > 1) SessionEffect.VoiceNextExercise else SessionEffect.VoiceNextSet),
         ) else Transition(
             s.copy(phase = Phase.WORK, setIndex = s.setIndex + 1, phaseStartMs = endMs,
                 phaseDurationMs = s.current.workSeconds * 1000L, lastCountdownSecond = null),
-            listOf(SessionEffect.WorkStarted),
+            listOf(SessionEffect.WorkStarted, SessionEffect.VoiceNextSet),
         )
 
         Phase.AWAIT_NEXT, Phase.FINISHED -> Transition(s)
@@ -181,12 +191,12 @@ object SessionStateMachine {
             !lastOfRound -> Transition(
                 s.copy(phase = Phase.REST, exerciseIndex = s.exerciseIndex + 1, phaseStartMs = endMs,
                     phaseDurationMs = s.plan.restSeconds * 1000L, completed = done, lastCountdownSecond = null),
-                listOf(SessionEffect.SetFinished),
+                listOf(SessionEffect.SetFinished, SessionEffect.VoiceRest),
             )
             !lastRound -> Transition(
                 s.copy(phase = Phase.ROUND_REST, exerciseIndex = 0, round = s.round + 1, phaseStartMs = endMs,
                     phaseDurationMs = s.plan.roundRestSeconds.coerceAtLeast(5) * 1000L, completed = done, lastCountdownSecond = null),
-                listOf(SessionEffect.SetFinished),
+                listOf(SessionEffect.SetFinished, SessionEffect.VoiceRest),
             )
             else -> Transition(
                 s.copy(phase = Phase.FINISHED, phaseStartMs = endMs, phaseDurationMs = 0, completed = done),

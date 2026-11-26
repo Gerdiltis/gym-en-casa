@@ -92,4 +92,28 @@ class SessionStateMachineTest {
         }
         assertEquals(listOf(3, 2, 1), ticks)
     }
+
+    @Test
+    fun `series voice cues and five second rest countdown`() {
+        var s = SM.start(plan, 0)
+        val events = mutableListOf<String>()
+        var now = 0L
+        while (s.phase != Phase.FINISHED) {
+            now += 100
+            val t = if (s.phase == Phase.AWAIT_NEXT) SM.startNext(s, now) else SM.tick(s, now)
+            s = t.state
+            t.effects.forEach { e ->
+                when (e) {
+                    SessionEffect.VoiceRest -> events += "rest"
+                    SessionEffect.VoiceNextSet -> events += "set"
+                    SessionEffect.VoiceNextExercise -> events += "exercise"
+                    is SessionEffect.CountdownTick -> if (s.phase == Phase.REST) events += "tick${e.secondsLeft}"
+                    else -> Unit
+                }
+            }
+        }
+        // a: work → rest (Descansa, beeps 5…1) → Siguiente serie; then "Siguiente tipo de ejercicio" for b; same for b.
+        val restBlock = listOf("rest", "tick5", "tick4", "tick3", "tick2", "tick1", "set")
+        assertEquals(restBlock + "exercise" + restBlock, events)
+    }
 }

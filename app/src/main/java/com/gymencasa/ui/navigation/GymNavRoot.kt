@@ -56,6 +56,7 @@ import com.gymencasa.ui.session.SessionScreen
 import com.gymencasa.ui.settings.SettingsScreen
 import com.gymencasa.ui.summary.SummaryScreen
 import com.gymencasa.ui.update.UpdateDialog
+import com.gymencasa.ui.equipment.SessionEquipmentScreen
 import com.gymencasa.ui.update.UpdateViewModel
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
@@ -126,6 +127,7 @@ private fun MainNav() {
                 entry<Route.Summary> { key -> SummaryScreen(key.workoutId, nav) }
                 entry<Route.Routines> { RoutinesScreen(nav) }
                 entry<Route.EquipmentEdit> { EquipmentEditScreen(nav) }
+                entry<Route.SessionEquipment> { SessionEquipmentScreen(it.ai, nav) }
             },
         )
         if (showBar) {

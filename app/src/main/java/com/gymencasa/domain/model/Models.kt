@@ -131,6 +131,8 @@ data class UserSettings(
     val restBetweenSetsSeconds: Int = DEFAULT_REST_SECONDS,
     val soundEnabled: Boolean = true,
     val vibrationEnabled: Boolean = true,
+    /** Pre-recorded voice cues during the session ("Descansa", "Siguiente serie"…). Local only. */
+    val voiceEnabled: Boolean = true,
     val onboarded: Boolean = false,
     val pregnant: Boolean = false,
 ) {

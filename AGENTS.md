@@ -5,7 +5,9 @@ Guía para agentes de IA (Claude Code, Codex, Gemini…) que trabajen en este re
 ## Producto
 App Android privada (se instala por APK, sin Play Store) para entrenar en casa con el material que cada usuario tiene. Flujo principal:
 
-**Mi material → ¿cuánto tiempo tienes hoy? → IA o manual → Plan del día → Sesión → Resumen**
+**Mi material → ¿cuánto tiempo tienes hoy? → IA o manual → Material de hoy → Plan del día → Sesión → Resumen**
+
+- **Material de hoy** (`ui/equipment/SessionEquipmentScreen.kt`): antes de la IA o de la selección manual, el usuario elige qué parte de su material usará en esta sesión (`DayDraft.sessionEquipment`). Toda búsqueda de ejercicios para el plan pasa por `ExerciseFilter.forSession` (perfil ∩ material de hoy). Si el perfil no tiene material, se salta.
 
 - **IA**: la Edge Function `generate-routine` (OpenRouter) elige y ordena los ejercicios.
 - **Manual**: `SuggestionEngine` propone ejercicios que caben en la duración y el usuario los ajusta.
@@ -15,8 +17,8 @@ App Android privada (se instala por APK, sin Play Store) para entrenar en casa c
   - **Circuito**: el usuario elige vueltas (1–10), ejercicios por vuelta (3–8), segundos por ejercicio (20–60) y descanso entre vueltas. Se hace una pasada de cada ejercicio por vuelta (`sets = 1`, unilaterales ×2), con paso automático: descanso global entre ejercicios y `roundRestSeconds` entre vueltas. Lo construye `PlanAlgorithm.buildCircuit`; la IA recibe `count` en lugar de la duración.
 - **Sesión**:
   1. Preview de 10 s con el vídeo en bucle.
-  2. Series con temporizador y pitido al terminar cada una.
-  3. Descanso.
+  2. Series con temporizador y pitido al terminar cada una (cuenta atrás con pitidos en los últimos 3 s).
+  3. Descanso, con pitidos en sus últimos 5 s.
   4. Al acabar el ejercicio, el usuario pulsa "Empezar siguiente ejercicio".
 
 ## Arquitectura
@@ -88,6 +90,7 @@ Estilo moderno, claro y redondeado, inspirado en apps de asistente. Paleta **roj
 - **Tipografía**: sans del sistema en pesos ExtraBold para los titulares. Botones y títulos en *sentence case* (no en mayúsculas); las mayúsculas solo para etiquetas de sección.
 - **Plan del día**: estilo chat. La petición va en una burbuja roja y la respuesta es una tarjeta con la lista: punto de color por músculo principal y píldora "3 × 45 s". "Iniciar sesión" y "Otra propuesta" van en la barra flotante inferior.
 - **Sesión**: estilo "voice mode", con la píldora "EJERCICIO X DE N", el vídeo redondeado y el anillo con degradado rojo (gris durante el descanso y pulso rojo en los últimos 3 s). Los controles van en una píldora flotante: cerrar, pausa grande y saltar.
+- **Voz**: indicaciones pregrabadas (voz "Mónica", es_ES) en `res/raw/voz_*.m4a`, generadas una sola vez con `tools/voice/generate.sh` (no se sintetiza nada en la app). La máquina de estados emite `VoiceRest` ("Descansa"), `VoiceNextSet` ("Siguiente serie") y `VoiceNextExercise` ("Siguiente tipo de ejercicio"); `Beeper` las reproduce con `SoundPool` justo después del pitido. Interruptor `UserSettings.voiceEnabled` en Ajustes (solo local).
 - **Vídeos**: avatar ilustrado (cabeza real, ropa azul marino) sobre fondo gris claro `#F3F4F7`, 720×720, con los músculos en rojo.
 
 ## Reglas obligatorias

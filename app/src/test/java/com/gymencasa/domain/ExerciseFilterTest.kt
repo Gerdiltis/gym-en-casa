@@ -70,3 +70,15 @@ class ConvertersTest {
         assertEquals(emptyList<String>(), c.toList(c.fromList(emptyList())))
     }
 }
+
+class ExerciseFilterSessionTest {
+    private val s = com.gymencasa.domain.model.UserSettings(equipment = setOf("silla", "esterilla", "gomas"))
+
+    @org.junit.Test fun nullKeepsTheWholeProfile() = org.junit.Assert.assertEquals(s, ExerciseFilter.forSession(s, null))
+
+    @org.junit.Test fun onlyChosenAndOwnedEquipment() =
+        org.junit.Assert.assertEquals(setOf("silla"), ExerciseFilter.forSession(s, setOf("silla", "mancuerna")).equipment)
+
+    @org.junit.Test fun nothingChosenLeavesBodyweightOnly() =
+        org.junit.Assert.assertEquals(emptySet<String>(), ExerciseFilter.forSession(s, emptySet()).equipment)
+}

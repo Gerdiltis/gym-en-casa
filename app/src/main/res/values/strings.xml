@@ -266,6 +266,14 @@
     <string name="settings_equipment_count">%1$d elementos</string>
     <string name="settings_sound">Pitido al terminar cada serie</string>
     <string name="settings_vibration">Vibración</string>
+    <string name="session_equipment_title">Material de hoy</string>
+    <string name="session_equipment_header">¿Qué material usarás hoy?</string>
+    <string name="session_equipment_subtitle">Desmarca lo que no quieras usar en esta sesión. Los ejercicios sin material siempre están disponibles.</string>
+    <string name="session_equipment_count">%1$d ejercicios disponibles con esta selección</string>
+    <string name="session_equipment_all">Todo</string>
+    <string name="session_equipment_none">Nada</string>
+    <string name="session_equipment_manual">Elegir ejercicios</string>
+    <string name="settings_voice">Indicaciones de voz (\"Descansa\", \"Siguiente serie\")</string>
     <string name="settings_appearance">Apariencia</string>
     <string name="settings_dark_theme">Tema oscuro</string>
     <string name="settings_account">Cuenta</string>

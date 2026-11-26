@@ -23,6 +23,8 @@ data class DayDraft(
     val goalSynced: Boolean = false,
     /** When the current plan was built (shown as the chat timestamp). */
     val generatedAt: Long = 0L,
+    /** Equipment chosen for today's session (subset of the profile); null = all of it. */
+    val sessionEquipment: Set<String>? = null,
     // ---- circuit
     val format: SessionFormat = SessionFormat.SERIES,
     val rounds: Int = 3,

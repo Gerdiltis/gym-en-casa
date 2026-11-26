@@ -93,16 +93,31 @@ class CircuitTest {
     }
 
     @Test
-    fun `countdown also beeps before the next exercise starts`() {
+    fun `rest before the next exercise beeps in its last five seconds`() {
         var s = SM.tick(SM.tick(SM.start(plan, 0), 10_000).state, 40_000).state  // rest before b, ends at 50 s
         val ticks = mutableListOf<Int>()
-        var now = 46_000L
+        var now = 44_000L
         while (now < 50_000) {
             val t = SM.tick(s, now); s = t.state
             t.effects.filterIsInstance<SessionEffect.CountdownTick>().forEach { ticks += it.secondsLeft }
             now += 100
         }
-        assertEquals(listOf(3, 2, 1), ticks)
+        assertEquals(listOf(5, 4, 3, 2, 1), ticks)
+    }
+
+    @Test
+    fun `voice cues in a circuit`() {
+        // a, b × 3 rounds: work a → rest (Descansa) → work b (Siguiente tipo) → round rest (Descansa) → work a (Siguiente tipo)…
+        var s = SM.start(plan, 0)
+        val voices = mutableListOf<SessionEffect>()
+        var now = 0L
+        while (s.phase != Phase.FINISHED) {
+            now += 500
+            val t = SM.tick(s, now); s = t.state
+            voices += t.effects.filter { it is SessionEffect.VoiceRest || it is SessionEffect.VoiceNextSet || it is SessionEffect.VoiceNextExercise }
+        }
+        // 3 rounds of a, b: 3 rests between exercises + 2 between rounds, each followed by a different exercise.
+        assertEquals(List(5) { listOf(SessionEffect.VoiceRest, SessionEffect.VoiceNextExercise) }.flatten(), voices)
     }
 
     @Test

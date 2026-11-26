@@ -104,8 +104,8 @@ class ManualSelectViewModel @Inject constructor(
 
     fun suggest() {
         viewModelScope.launch {
-            val s = settings.current()
             val d = draftStore.draft.value
+            val s = ExerciseFilter.forSession(settings.current(), d.sessionEquipment)
             val available = ExerciseFilter.available(exercises.all(), s)
             val recent = workouts.lastWorkoutSlugs()
             val picks = if (d.format == SessionFormat.CIRCUIT) {

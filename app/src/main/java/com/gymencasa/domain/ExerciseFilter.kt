@@ -30,6 +30,13 @@ object ExerciseFilter {
     fun isAvailable(exercise: Exercise, settings: UserSettings): Boolean =
         hasEquipment(exercise, settings.equipment) && (!settings.pregnant || suitableForPregnancy(exercise))
 
+    /**
+     * Settings for today's session: only the equipment the user chose to use today ([selected]),
+     * never more than what the profile owns. null = everything in the profile.
+     */
+    fun forSession(settings: UserSettings, selected: Set<String>?): UserSettings =
+        if (selected == null) settings else settings.copy(equipment = settings.equipment intersect selected)
+
     fun available(exercises: List<Exercise>, settings: UserSettings): List<Exercise> =
         exercises.filter { isAvailable(it, settings) }
 

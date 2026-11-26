@@ -75,6 +75,7 @@ import com.gymencasa.data.repository.WorkoutRepository
 import com.gymencasa.domain.model.Exercise
 import com.gymencasa.domain.model.UserSettings
 import com.gymencasa.domain.session.Phase
+import com.gymencasa.domain.session.SessionEffect
 import com.gymencasa.domain.session.SessionState
 import com.gymencasa.domain.session.SessionStateMachine
 import com.gymencasa.ui.components.ExerciseVideo
@@ -116,7 +117,7 @@ class SessionViewModel @Inject constructor(
                 val s = _ui.value.state ?: break
                 if (s.phase == Phase.FINISHED) { save(s, completed = true); break }
                 val t = SessionStateMachine.tick(s, now())
-                t.effects.forEach { beeper.play(it, userSettings.value.soundEnabled, userSettings.value.vibrationEnabled) }
+                play(t.effects)
                 _ui.value = _ui.value.copy(state = t.state, nowMs = now())
                 delay(100)
             }
@@ -136,10 +137,19 @@ class SessionViewModel @Inject constructor(
     fun togglePause() = mutate { if (it.isPaused) SessionStateMachine.resume(it, now()) else SessionStateMachine.pause(it, now()) }
     fun skip() = mutate { s ->
         val t = SessionStateMachine.skip(s, now())
-        t.effects.forEach { beeper.play(it, userSettings.value.soundEnabled, userSettings.value.vibrationEnabled) }
+        play(t.effects)
         t.state
     }
-    fun startNext() = mutate { SessionStateMachine.startNext(it, now()).state }
+    fun startNext() = mutate { s ->
+        val t = SessionStateMachine.startNext(s, now())
+        play(t.effects)
+        t.state
+    }
+
+    private fun play(effects: List<SessionEffect>) {
+        val u = userSettings.value
+        effects.forEach { beeper.play(it, u.soundEnabled, u.vibrationEnabled, u.voiceEnabled) }
+    }
 
     fun quit() {
         val s = _ui.value.state ?: return
